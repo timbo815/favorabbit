@@ -1,6 +1,7 @@
 var React = require('react'),
-    SessionStore = require('../stores/session_store.js');
-
+    SessionStore = require('../stores/session_store.js'),
+    ErrorStore = require('../stores/error_store.js'),
+    SessionApiUtil = require('../util/session_api_util.js');
 
 var LoginForm = React.createClass({
 
@@ -16,7 +17,13 @@ var LoginForm = React.createClass({
   },
 
   componentDidMount: function () {
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
     this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+  },
+
+  componentWillUnmount: function () {
+    this.sessionListener.remove();
+    this.errorListener.remove();
   },
 
   redirectIfLoggedIn: function () {
@@ -49,14 +56,28 @@ var LoginForm = React.createClass({
     this.context.router.push("signup");
   },
 
+  fieldErrors: function (field) {
+    var errors = ErrorStore.formErrors("login");
+    if (!errors[field]) { return; }
+
+    var messages = errors[field].map(function(error, i) {
+      return <li key={i}>{error}</li>;
+    });
+
+    return <ul>{ messages }</ul>;
+  },
+
   render: function () {
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
+          { this.fieldErrors("base") }
+
           <label for="username">Username</label>
           <input type="text" value={this.state.username} onChange={this.usernameChange} id="username"/>
           <br/><br/>
           <label for="password">Password</label>
+
           <input type="password" value={this.state.password} onChange={this.passwordChange} id="password"/>
           <br/><br/>
           <input type="submit" value="Sign In"/>
