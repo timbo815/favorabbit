@@ -7,7 +7,7 @@ var UserApiUtil = {
       url: "api/user",
       type: "POST",
       data: {user: formData},
-      success: function (user) {
+      success: function (currentUser) {
         SessionActions.receiveCurrentUser(currentUser);
       },
       error: function (xhr) {

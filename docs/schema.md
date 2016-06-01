@@ -9,8 +9,8 @@ description | text      | not null
 date        | date      | not null
 time        | datetime  | not null
 location    | string    | not null
-category_id | integer   | not null, foreign key (references categories), indexed
-doer_id     | integer   | not null, foreign key (references users), indexed
+category_id | integer   | foreign key (references categories), indexed
+doer_id     | integer   | foreign key (references users), indexed
 asker_id    | integer   | not null, foreign key (references users), indexed
 completed   | boolean   | not null, default: false
 

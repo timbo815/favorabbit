@@ -1,0 +1,106 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+
+ html, body, button, input, div, form, label, p {
+   margin: 0;
+   border: 0;
+   padding: 0;
+   font: inherit;
+   text-align: inherit;
+   text-decoration: inherit;
+   color: inherit;
+   background: transparent;
+ }
+
+.login-page, .signup-page {
+  font-family: sans-serif;
+  background-image: asset-url("helping-hikers.jpg");
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+}
+.login-form, .signup-form {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: 30px;
+  display: block;
+  width: 500px;
+  height: 350px;
+  background: white;
+  color:#828a8b;
+  border-radius: 10px;
+}
+
+.login-form > p {
+  position: absolute;
+  left:300px;
+  top: 260px;
+}
+
+.submit-button {
+  border: solid 1px #cfd2d3;
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  margin-left: 40px;
+  cursor: pointer;
+  background: #1da3bf;
+  color: white;
+}
+
+.signup-button {
+  position: absolute;
+  top: 300px;
+  left: 380px;
+  border: 1px solid #cfd2d3;
+  width: 100px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  background: #1da3bf;
+  color: white;
+  padding: 5px;
+}
+
+.username, .password {
+  height: 44px;
+  border: solid 1px #cfd2d3;;
+  margin-left: 40px;
+  width: 400px;
+  border-radius: 4px;
+  text-indent: 15px;
+}
+
+.username-label {
+  position: absolute;
+  top: 16px;
+  left: 40px;
+}
+
+.password-label {
+  position: absolute;
+  top: 102px;
+  left: 40px;
+}

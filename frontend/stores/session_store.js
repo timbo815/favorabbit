@@ -17,7 +17,7 @@ var _logout = function (currentUser) {
   _currentUserHasBeenFetched = true;
 };
 
-var currentUserHasBeenFetched = function () {
+SessionStore.currentUserHasBeenFetched = function () {
   return _currentUserHasBeenFetched;
 };
 

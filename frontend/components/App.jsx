@@ -3,7 +3,7 @@ var React = require('react');
 var App = React.createClass({
   render: function() {
     return(
-      <div>App Goes Here
+      <div>
         {this.props.children}
       </div>
     );

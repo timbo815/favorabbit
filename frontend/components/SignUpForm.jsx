@@ -64,17 +64,19 @@ var React = require('react'),
 
       render: function () {
         return(
-          <div>
-            <form onSubmit={this.handleSubmit}>
-              <label for="username">Username</label>
+          <div className="signup-page">
+            <form onSubmit={this.handleSubmit} className="signup-form">
+              {this.fieldErrors("base")}
+
+              <label for="username" className="username-label">Username</label><br/><br/>
               {this.fieldErrors("username")}
-              <input type="text" value={this.state.username} onChange={this.usernameChange} id="username"/>
+              <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
               <br/><br/>
-              <label for="password">Password</label>
+              <label for="password" className="password-label">Password</label><br/><br/>
               {this.fieldErrors("password")}
-              <input type="password" value={this.state.password} onChange={this.state.passwordChange} id="password"/>
+              <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
               <br/><br/>
-              <input type="submit" value="Sign Up"/>
+              <input type="submit" value="Sign Up" className="submit-button"/>
             </form>
           </div>
         );

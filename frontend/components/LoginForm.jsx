@@ -69,22 +69,24 @@ var LoginForm = React.createClass({
 
   render: function () {
     return(
-      <div>
-        <form onSubmit={this.handleSubmit}>
+      <div className="login-page">
+        <form onSubmit={this.handleSubmit} className="login-form">
           { this.fieldErrors("base") }
 
-          <label for="username">Username</label>
-          <input type="text" value={this.state.username} onChange={this.usernameChange} id="username"/>
+          <label for="username" className="username-label">Username</label><br/><br/>
+          {this.fieldErrors("username")}
+          <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
           <br/><br/>
-          <label for="password">Password</label>
-
-          <input type="password" value={this.state.password} onChange={this.passwordChange} id="password"/>
+          <label for="password" className="password-label">Password</label><br/><br/>
+          {this.fieldErrors("password")}
+          <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
           <br/><br/>
-          <input type="submit" value="Sign In"/>
+          <input type="submit" value="Sign In" className="submit-button"/>
+          <br/><br/><br/>
+          <p>Not a user? Sign up here</p><br/>
+          <button onClick={this.renderSignUp} className="signup-button">Sign Up</button>
         </form>
-        <p>Not a user? Sign up here
-          <button onClick={this.renderSignUp}>Sign Up</button>
-        </p>
+
       </div>
     );
   }
