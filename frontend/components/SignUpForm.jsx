@@ -28,7 +28,7 @@ var React = require('react'),
 
       redirectIfLoggedIn: function () {
         if (SessionStore.isUserLoggedIn()) {
-          this.context.router.push("/");
+          this.context.router.push("home");
         }
       },
 
@@ -56,10 +56,10 @@ var React = require('react'),
         if (!errors[field]) { return; }
 
         var messages = errors[field].map(function(error, i) {
-          return <li key={i}>{error}</li>;
+          return (<li key={i}>{error}</li>);
         });
 
-        return <ul>{ messages }</ul>;
+        return (<ul className="signup-errors">{ messages }</ul>);
       },
 
       renderLogIn: function (e) {
@@ -79,14 +79,15 @@ var React = require('react'),
               <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
               <br/><br/>
               <label for="password" className="password-label">Password</label><br/><br/>
-              {this.fieldErrors("password")}
               <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
               <br/><br/>
+              {this.fieldErrors("password")}
               <input type="submit" value="Sign Up" className="submit-button"/>
               <br/><br/><br/>
               <p>Already a user?</p><br/>
               <button onClick={this.renderLogIn} className="signup-button">Log In</button>
             </form>
+            <section className="errors">{this.fieldErrors("base")}</section>
           </div>
         );
       }

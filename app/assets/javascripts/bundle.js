@@ -55,14 +55,16 @@
 	    SessionStore = __webpack_require__(238),
 	    App = __webpack_require__(256),
 	    LoginForm = __webpack_require__(257),
-	    SignUpForm = __webpack_require__(259);
+	    SignUpForm = __webpack_require__(259),
+	    Home = __webpack_require__(264);
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: LoginForm }),
 	  React.createElement(Route, { path: '/signup', component: SignUpForm }),
-	  React.createElement(Route, { path: '/login', component: LoginForm })
+	  React.createElement(Route, { path: '/login', component: LoginForm }),
+	  React.createElement(Route, { path: 'home', component: Home })
 	);
 	
 	function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
@@ -26335,6 +26337,10 @@
 	  return _currentUserHasBeenFetched;
 	};
 	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
 	SessionStore.isUserLoggedIn = function () {
 	  return !!_currentUser.id;
 	};
@@ -32854,7 +32860,7 @@
 	
 	  redirectIfLoggedIn: function () {
 	    if (SessionStore.isUserLoggedIn()) {
-	      this.context.router.push("/");
+	      this.context.router.push("home");
 	    }
 	  },
 	
@@ -32891,7 +32897,7 @@
 	    var messages = errors[field].map(function (error, i) {
 	      return React.createElement(
 	        'li',
-	        { key: i },
+	        { key: i, className: 'errors' },
 	        error
 	      );
 	    });
@@ -32922,7 +32928,6 @@
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        this.fieldErrors("username"),
 	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange, className: 'username' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
@@ -32933,7 +32938,6 @@
 	        ),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        this.fieldErrors("password"),
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange, className: 'password' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
@@ -32953,7 +32957,11 @@
 	          'Sign Up'
 	        )
 	      ),
-	      this.fieldErrors("base")
+	      React.createElement(
+	        'section',
+	        { className: 'errors' },
+	        this.fieldErrors("base")
+	      )
 	    );
 	  }
 	});
@@ -33041,7 +33049,7 @@
 	
 	  redirectIfLoggedIn: function () {
 	    if (SessionStore.isUserLoggedIn()) {
-	      this.context.router.push("/");
+	      this.context.router.push("home");
 	    }
 	  },
 	
@@ -33080,7 +33088,7 @@
 	
 	    return React.createElement(
 	      'ul',
-	      null,
+	      { className: 'signup-errors' },
 	      messages
 	    );
 	  },
@@ -33121,10 +33129,10 @@
 	        ),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        this.fieldErrors("password"),
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange, className: 'password' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
+	        this.fieldErrors("password"),
 	        React.createElement('input', { type: 'submit', value: 'Sign Up', className: 'submit-button' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
@@ -33140,6 +33148,11 @@
 	          { onClick: this.renderLogIn, className: 'signup-button' },
 	          'Log In'
 	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'errors' },
+	        this.fieldErrors("base")
 	      )
 	    );
 	  }
@@ -33173,6 +33186,276 @@
 	};
 	
 	module.exports = UserApiUtil;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(262);
+	
+	var FavorApiUtil = {
+	  fetchFavors: function () {
+	    $.ajax({
+	      url: "api/favors",
+	      success: function (favors) {
+	        ServerActions.receiveAllFavors(favors);
+	      }
+	    });
+	  },
+	
+	  createFavor: function (favorData) {
+	    $.ajax({
+	      type: "POST",
+	      url: "api/favors",
+	      data: { favor: favorData },
+	      success: function (favor) {
+	        ServerActions.receiveSingleFavor(favor);
+	      }
+	    });
+	  },
+	
+	  updateFavor: function (favorData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/favors" + favorData.id,
+	      data: { favor: favorData },
+	      success: function (favor) {
+	        ServerActions.receiveSingleFavor(favor);
+	      }
+	    });
+	  },
+	
+	  deleteFavor: function (id) {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "api/favors" + id,
+	      sucess: function (favor) {
+	        ServerActions.removeFavor(favor);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = FavorApiUtil;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(231);
+	var FavorConstants = __webpack_require__(263);
+	
+	var ServerActions = {
+	  receiveSingleFavor: function (favor) {
+	    AppDispatcher.dispatch({
+	      actionType: FavorConstants.RECEIVE_SINGLE_FAVOR,
+	      favor: favor
+	    });
+	  },
+	
+	  receiveAllFavors: function (favors) {
+	    AppDispatcher.dispatch({
+	      actionType: FavorConstants.RECEIVE_ALL_FAVORS,
+	      favors: favors
+	    });
+	  },
+	
+	  removeFavor: function (favor) {
+	    AppDispatcher.dispatch({
+	      actionType: FavorConstants.REMOVE_FAVOR,
+	      favor: favor
+	    });
+	  }
+	};
+	
+	module.exports = ServerActions;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports) {
+
+	var FavorConstants = {
+	  RECEIVE_SINGLE_FAVOR: "RECIEVE_SINGLE_FAVOR",
+	  RECEIVE_ALL_FAVORS: "RECEIVE_ALL_FAVORS",
+	  REMOVE_FAVOR: "REMOVE_FAVOR"
+	};
+	
+	module.exports = FavorConstants;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    SessionStore = __webpack_require__(238),
+	    FavorsIndex = __webpack_require__(265);
+	
+	var Home = React.createClass({
+	  displayName: 'Home',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Welcome ',
+	        SessionStore.currentUser().username,
+	        '!'
+	      ),
+	      React.createElement(FavorsIndex, null)
+	    );
+	  }
+	});
+	
+	module.exports = Home;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    FavorStore = __webpack_require__(266),
+	    ClientActions = __webpack_require__(267),
+	    FavorDetail = __webpack_require__(268);
+	
+	var FavorsIndex = React.createClass({
+	  displayName: 'FavorsIndex',
+	
+	  getInitialState: function () {
+	    return { favors: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    FavorStore.addListener(this.handleChange);
+	    ClientActions.fetchFavors();
+	  },
+	
+	  handleChange: function () {
+	    this.setState({ favors: FavorStore.all() });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'section',
+	      { className: 'favors-index' },
+	      React.createElement(
+	        'ul',
+	        null,
+	        this.state.favors.map(function (favor, i) {
+	          return React.createElement(FavorDetail, { key: i, favor: favor });
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = FavorsIndex;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(231),
+	    Store = __webpack_require__(239).Store,
+	    FavorConstants = __webpack_require__(263),
+	    FavorStore = new Store(AppDispatcher);
+	
+	var _favors = {};
+	
+	var _addFavor = function (favor) {
+	  _favors[favor.id] = favor;
+	};
+	
+	var _resetFavors = function (favors) {
+	  _favors = {};
+	  favors.forEach(function (favor) {
+	    _favors[favor.id] = favor;
+	  });
+	};
+	
+	FavorStore.all = function () {
+	  return Object.keys(_favors).map(function (id) {
+	    return _favors[id];
+	  });
+	};
+	
+	FavorStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case FavorConstants.RECEIVE_SINGLE_FAVOR:
+	      _addFavor(payload.favor);
+	      break;
+	
+	    case FavorConstants.RECEIVE_ALL_FAVORS:
+	      _resetFavors(payload.favors);
+	      break;
+	
+	    case FavorConstants.REMOVE_FAVOR:
+	      _removeFavor(payload.favor);
+	      break;
+	  }
+	  this.__emitChange();
+	};
+	
+	module.exports = FavorStore;
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var FavorApiUtil = __webpack_require__(261);
+	
+	var ClientActions = {
+	  fetchFavors: function () {
+	    FavorApiUtil.fetchFavors();
+	  }
+	};
+	
+	module.exports = ClientActions;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var FavorDetail = React.createClass({
+	  displayName: "FavorDetail",
+	
+	  render: function () {
+	    return React.createElement(
+	      "section",
+	      { className: "favor-detail" },
+	      React.createElement(
+	        "ul",
+	        null,
+	        React.createElement(
+	          "li",
+	          null,
+	          this.props.favor.title
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          this.props.favor.description
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          this.props.favor.location
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          this.props.favor.date
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = FavorDetail;
 
 /***/ }
 /******/ ]);

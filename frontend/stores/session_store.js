@@ -21,6 +21,10 @@ SessionStore.currentUserHasBeenFetched = function () {
   return _currentUserHasBeenFetched;
 };
 
+SessionStore.currentUser = function () {
+  return _currentUser;
+};
+
 SessionStore.isUserLoggedIn = function () {
   return !!_currentUser.id;
 };

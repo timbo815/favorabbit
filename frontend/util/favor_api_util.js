@@ -1,4 +1,4 @@
-var ServerActions = require('../actions/server_actions');
+var ServerActions = require('../actions/server_actions.js');
 
 
 var FavorApiUtil = {

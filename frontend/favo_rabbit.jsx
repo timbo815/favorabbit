@@ -9,7 +9,8 @@ var React = require('react'),
     SessionStore = require('./stores/session_store.js'),
     App = require('./components/App.jsx'),
     LoginForm = require('./components/LoginForm.jsx'),
-    SignUpForm = require('./components/SignUpForm.jsx');
+    SignUpForm = require('./components/SignUpForm.jsx'),
+    Home = require('./components/Home.jsx');
 
 
 var routes = (
@@ -17,6 +18,7 @@ var routes = (
   <IndexRoute component={LoginForm}/>
   <Route path="/signup" component={SignUpForm} />
   <Route path="/login" component={LoginForm} />
+  <Route path="home" component={Home} />
   </Route>
 );
 

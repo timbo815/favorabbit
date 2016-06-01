@@ -28,7 +28,7 @@ var LoginForm = React.createClass({
 
   redirectIfLoggedIn: function () {
     if (SessionStore.isUserLoggedIn()) {
-      this.context.router.push("/");
+      this.context.router.push("home");
     }
   },
 
@@ -61,7 +61,7 @@ var LoginForm = React.createClass({
     if (!errors[field]) { return; }
 
     var messages = errors[field].map(function(error, i) {
-      return <li key={i}>{error}</li>;
+      return <li key={i} className="errors">{error}</li>;
     });
 
     return <ul>{ messages }</ul>;
@@ -73,11 +73,9 @@ var LoginForm = React.createClass({
         <form onSubmit={this.handleSubmit} className="login-form">
           <img src={logo_url} className="logo"/><br/><br/><br/>
           <label for="username" className="username-label">Username</label><br/><br/><br/>
-          {this.fieldErrors("username")}
           <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
           <br/><br/>
           <label for="password" className="password-label">Password</label><br/><br/>
-          {this.fieldErrors("password")}
           <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
           <br/><br/>
           <input type="submit" value="Sign In" className="submit-button"/>
@@ -85,8 +83,7 @@ var LoginForm = React.createClass({
           <p>Not a user?</p><br/>
           <button onClick={this.renderSignUp} className="signup-button">Sign Up</button>
         </form>
-
-        { this.fieldErrors("base") }
+        <section className="errors">{this.fieldErrors("base")}</section>
       </div>
     );
   }

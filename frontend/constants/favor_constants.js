@@ -3,3 +3,5 @@ var FavorConstants = {
   RECEIVE_ALL_FAVORS: "RECEIVE_ALL_FAVORS",
   REMOVE_FAVOR: "REMOVE_FAVOR"
 };
+
+module.exports = FavorConstants;

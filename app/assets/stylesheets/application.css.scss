@@ -15,7 +15,7 @@
  */
 
 
- html, body, button, input, div, form, label, p {
+ html, body, button, input, div, form, label, p, section, li, ul {
    margin: 0;
    border: 0;
    padding: 0;
@@ -24,6 +24,7 @@
    text-decoration: inherit;
    color: inherit;
    background: transparent;
+   list-style: none;
  }
 
 .login-page, .signup-page {
@@ -100,7 +101,7 @@
 
 .username, .password {
   height: 44px;
-  border: solid 1px #cfd2d3;;
+  border: solid 1px #cfd2d3;
   margin-left: 40px;
   width: 400px;
   border-radius: 4px;
@@ -117,4 +118,33 @@
   position: absolute;
   top: 184px;
   left: 40px;
+}
+
+.errors {
+  position: absolute;
+  left: 325px;
+  top: 200px;
+  width: 350px;
+  color: #FF2F2F;
+}
+
+.signup-errors {
+  color: #FF2F2F;
+  position: absolute;
+  top: 206px;
+  left: 438px;
+  width: 170px;
+}
+
+.favor-detail {
+  border: solid 1px #cfd2d3;
+  width: 600px;
+  background: orange;
+  margin: 0 auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.favors-index {
+  background: blue;
 }

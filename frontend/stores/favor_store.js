@@ -1,6 +1,6 @@
 var AppDispatcher = require('../dispatcher/dispatcher.js'),
     Store = require('flux/utils').Store,
-    FavorConstants = require('../constants/session_constants'),
+    FavorConstants = require('../constants/favor_constants'),
     FavorStore = new Store(AppDispatcher);
 
 
@@ -14,6 +14,12 @@ var _resetFavors = function (favors) {
   _favors = {};
   favors.forEach(function (favor) {
     _favors[favor.id] = favor;
+  });
+};
+
+FavorStore.all = function () {
+  return Object.keys(_favors).map(function (id) {
+    return _favors[id];
   });
 };
 
