@@ -56,13 +56,13 @@
 	    App = __webpack_require__(256),
 	    LoginForm = __webpack_require__(257),
 	    SignUpForm = __webpack_require__(259);
-	__webpack_require__(261);
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(IndexRoute, { component: LoginForm }),
-	  React.createElement(Route, { path: '/signup', component: SignUpForm })
+	  React.createElement(Route, { path: '/signup', component: SignUpForm }),
+	  React.createElement(Route, { path: '/login', component: LoginForm })
 	);
 	
 	function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
@@ -80,7 +80,7 @@
 	    asyncDoneCallback();
 	  }
 	}
-	window.FavorApiUtil = __webpack_require__(261);
+	
 	document.addEventListener("DOMContentLoaded", function () {
 	  ReactDOM.render(React.createElement(Router, { history: hashHistory, routes: routes }), document.getElementById('content'));
 	});
@@ -32914,7 +32914,6 @@
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        this.fieldErrors("base"),
 	        React.createElement(
 	          'label',
 	          { 'for': 'username', className: 'username-label' },
@@ -32945,7 +32944,7 @@
 	        React.createElement(
 	          'p',
 	          null,
-	          'Not a user? Sign up here'
+	          'Not a user?'
 	        ),
 	        React.createElement('br', null),
 	        React.createElement(
@@ -32953,7 +32952,8 @@
 	          { onClick: this.renderSignUp, className: 'signup-button' },
 	          'Sign Up'
 	        )
-	      )
+	      ),
+	      this.fieldErrors("base")
 	    );
 	  }
 	});
@@ -33085,6 +33085,11 @@
 	    );
 	  },
 	
+	  renderLogIn: function (e) {
+	    e.preventDefault();
+	    this.context.router.push("login");
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -33120,7 +33125,21 @@
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange, className: 'password' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        React.createElement('input', { type: 'submit', value: 'Sign Up', className: 'submit-button' })
+	        React.createElement('input', { type: 'submit', value: 'Sign Up', className: 'submit-button' }),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'p',
+	          null,
+	          'Already a user?'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'button',
+	          { onClick: this.renderLogIn, className: 'signup-button' },
+	          'Log In'
+	        )
 	      )
 	    );
 	  }
@@ -33154,53 +33173,6 @@
 	};
 	
 	module.exports = UserApiUtil;
-
-/***/ },
-/* 261 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ServerActions = __webpack_require__(262);
-	
-	var FavorApiUtil = {
-	  createFavor: function (favorData) {
-	    $.ajax({
-	      type: "POST",
-	      url: "api/favors",
-	      data: { favor: favorData },
-	      success: function (favor) {
-	        ServerActions.receiveSingleFavor(favor);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = FavorApiUtil;
-
-/***/ },
-/* 262 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(231);
-	var FavorConstants = __webpack_require__(263);
-	
-	var ServerActions = {
-	  receiveSingleFavor: function (favor) {
-	    AppDispatcher.dispatch({
-	      actionType: FavorConstants.RECEIVE_SINGLE_FAVOR,
-	      favor: favor
-	    });
-	  }
-	};
-	
-	module.exports = ServerActions;
-
-/***/ },
-/* 263 */
-/***/ function(module, exports) {
-
-	var FavorConstants = {
-	  RECEIVE_SINGLE_FAVOR: "RECIEVE_SINGLE_FAVOR"
-	};
 
 /***/ }
 /******/ ]);

@@ -62,13 +62,18 @@ var React = require('react'),
         return <ul>{ messages }</ul>;
       },
 
+      renderLogIn: function (e) {
+        e.preventDefault();
+        this.context.router.push("login");
+      },
+
       render: function () {
         return(
           <div className="signup-page">
             <form onSubmit={this.handleSubmit} className="signup-form">
               <img src={logo_url} className="logo"/><br/><br/><br/>
-              {this.fieldErrors("base")}
 
+              {this.fieldErrors("base")}
               <label for="username" className="username-label">Username</label><br/><br/><br/>
               {this.fieldErrors("username")}
               <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
@@ -78,6 +83,9 @@ var React = require('react'),
               <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
               <br/><br/>
               <input type="submit" value="Sign Up" className="submit-button"/>
+              <br/><br/><br/>
+              <p>Already a user?</p><br/>
+              <button onClick={this.renderLogIn} className="signup-button">Log In</button>
             </form>
           </div>
         );

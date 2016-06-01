@@ -10,10 +10,26 @@ var _addFavor = function (favor) {
   _favors[favor.id] = favor;
 };
 
+var _resetFavors = function (favors) {
+  _favors = {};
+  favors.forEach(function (favor) {
+    _favors[favor.id] = favor;
+  });
+};
+
 FavorStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case FavorConstants.RECEIVE_SINGLE_FAVOR:
     _addFavor(payload.favor);
+    break;
+
+    case FavorConstants.RECEIVE_ALL_FAVORS:
+    _resetFavors(payload.favors);
+    break;
+
+    case FavorConstants.REMOVE_FAVOR:
+    _removeFavor(payload.favor);
+    break;
   }
   this.__emitChange();
 };

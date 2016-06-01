@@ -72,7 +72,6 @@ var LoginForm = React.createClass({
       <div className="login-page">
         <form onSubmit={this.handleSubmit} className="login-form">
           <img src={logo_url} className="logo"/><br/><br/><br/>
-          { this.fieldErrors("base") }
           <label for="username" className="username-label">Username</label><br/><br/><br/>
           {this.fieldErrors("username")}
           <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
@@ -83,10 +82,11 @@ var LoginForm = React.createClass({
           <br/><br/>
           <input type="submit" value="Sign In" className="submit-button"/>
           <br/><br/><br/>
-          <p>Not a user? Sign up here</p><br/>
+          <p>Not a user?</p><br/>
           <button onClick={this.renderSignUp} className="signup-button">Sign Up</button>
         </form>
 
+        { this.fieldErrors("base") }
       </div>
     );
   }
