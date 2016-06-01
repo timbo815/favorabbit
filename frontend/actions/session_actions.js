@@ -10,5 +10,14 @@ var SessionActions = {
       actionType: SessionConstants.LOGIN,
       currentUser: currentUser
     });
+  },
+
+  removeCurrentUser: function (currentUser) {
+    AppDispatcher.dispatch({
+      actionType: SessionContants.LOGOUT,
+      currentUser: currentUser
+    });
   }
 };
+
+module.exports = SessionActions;
