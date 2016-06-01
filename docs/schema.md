@@ -12,7 +12,7 @@ location    | string    | not null
 category_id | integer   | foreign key (references categories), indexed
 doer_id     | integer   | foreign key (references users), indexed
 asker_id    | integer   | not null, foreign key (references users), indexed
-completed   | boolean   | not null, default: false
+completed   | boolean   | default: false
 
 
 ## users

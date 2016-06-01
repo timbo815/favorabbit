@@ -46,16 +46,24 @@
   top: 30px;
   display: block;
   width: 500px;
-  height: 350px;
+  height: 362px;
   background: white;
   color:#828a8b;
   border-radius: 10px;
+  border: solid 1px #cfd2d3;
 }
 
 .login-form > p {
   position: absolute;
-  left:300px;
-  top: 260px;
+  left:208px;
+  top: 337px;
+}
+
+.logo {
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 82px;
 }
 
 .submit-button {
@@ -72,8 +80,8 @@
 
 .signup-button {
   position: absolute;
-  top: 300px;
-  left: 380px;
+  top: 330px;
+  left: 395px;
   border: 1px solid #cfd2d3;
   width: 100px;
   border-radius: 5px;
@@ -95,12 +103,12 @@
 
 .username-label {
   position: absolute;
-  top: 16px;
+  top: 83px;
   left: 40px;
 }
 
 .password-label {
   position: absolute;
-  top: 102px;
+  top: 184px;
   left: 40px;
 }

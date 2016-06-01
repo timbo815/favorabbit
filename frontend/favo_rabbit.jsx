@@ -10,11 +10,11 @@ var React = require('react'),
     App = require('./components/App.jsx'),
     LoginForm = require('./components/LoginForm.jsx'),
     SignUpForm = require('./components/SignUpForm.jsx');
-
+require('./util/favor_api_util.js');
 
 var routes = (
   <Route path="/" component={App}>
-  <Route path="/login" component={LoginForm}/>
+  <IndexRoute component={LoginForm}/>
   <Route path="/signup" component={SignUpForm} />
   </Route>
 );
@@ -34,7 +34,7 @@ function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
     asyncDoneCallback();
   }
 }
-
+window.FavorApiUtil = require('./util/favor_api_util.js');
 document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(<Router history={hashHistory} routes={routes}/>,
   document.getElementById('content'));

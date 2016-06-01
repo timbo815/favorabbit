@@ -1,0 +1,3 @@
+var FavorConstants = {
+  RECEIVE_SINGLE_FAVOR: "RECIEVE_SINGLE_FAVOR"
+};
