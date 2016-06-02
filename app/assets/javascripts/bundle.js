@@ -56,7 +56,7 @@
 	    App = __webpack_require__(256),
 	    LoginForm = __webpack_require__(257),
 	    SignUpForm = __webpack_require__(259),
-	    Home = __webpack_require__(264);
+	    Home = __webpack_require__(261);
 	
 	var routes = React.createElement(
 	  Route,
@@ -33191,104 +33191,10 @@
 /* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ServerActions = __webpack_require__(262);
-	
-	var FavorApiUtil = {
-	  fetchFavors: function () {
-	    $.ajax({
-	      url: "api/favors",
-	      success: function (favors) {
-	        ServerActions.receiveAllFavors(favors);
-	      }
-	    });
-	  },
-	
-	  createFavor: function (favorData) {
-	    $.ajax({
-	      type: "POST",
-	      url: "api/favors",
-	      data: { favor: favorData },
-	      success: function (favor) {
-	        ServerActions.receiveSingleFavor(favor);
-	      }
-	    });
-	  },
-	
-	  updateFavor: function (favorData) {
-	    $.ajax({
-	      type: "PATCH",
-	      url: "api/favors" + favorData.id,
-	      data: { favor: favorData },
-	      success: function (favor) {
-	        ServerActions.receiveSingleFavor(favor);
-	      }
-	    });
-	  },
-	
-	  deleteFavor: function (id) {
-	    $.ajax({
-	      type: "DELETE",
-	      url: "api/favors" + id,
-	      sucess: function (favor) {
-	        ServerActions.removeFavor(favor);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = FavorApiUtil;
-
-/***/ },
-/* 262 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(231);
-	var FavorConstants = __webpack_require__(263);
-	
-	var ServerActions = {
-	  receiveSingleFavor: function (favor) {
-	    AppDispatcher.dispatch({
-	      actionType: FavorConstants.RECEIVE_SINGLE_FAVOR,
-	      favor: favor
-	    });
-	  },
-	
-	  receiveAllFavors: function (favors) {
-	    AppDispatcher.dispatch({
-	      actionType: FavorConstants.RECEIVE_ALL_FAVORS,
-	      favors: favors
-	    });
-	  },
-	
-	  removeFavor: function (favor) {
-	    AppDispatcher.dispatch({
-	      actionType: FavorConstants.REMOVE_FAVOR,
-	      favor: favor
-	    });
-	  }
-	};
-	
-	module.exports = ServerActions;
-
-/***/ },
-/* 263 */
-/***/ function(module, exports) {
-
-	var FavorConstants = {
-	  RECEIVE_SINGLE_FAVOR: "RECIEVE_SINGLE_FAVOR",
-	  RECEIVE_ALL_FAVORS: "RECEIVE_ALL_FAVORS",
-	  REMOVE_FAVOR: "REMOVE_FAVOR"
-	};
-	
-	module.exports = FavorConstants;
-
-/***/ },
-/* 264 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(238),
-	    FavorsIndex = __webpack_require__(265);
+	    RequestsIndex = __webpack_require__(262),
+	    Dashboard = __webpack_require__(269);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -33296,7 +33202,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'home' },
 	      React.createElement(
 	        'h2',
 	        null,
@@ -33304,7 +33210,7 @@
 	        SessionStore.currentUser().username,
 	        '!'
 	      ),
-	      React.createElement(FavorsIndex, null)
+	      React.createElement(Dashboard, null)
 	    );
 	  }
 	});
@@ -33312,107 +33218,202 @@
 	module.exports = Home;
 
 /***/ },
-/* 265 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    FavorStore = __webpack_require__(266),
-	    ClientActions = __webpack_require__(267),
-	    FavorDetail = __webpack_require__(268);
+	    RequestStore = __webpack_require__(263),
+	    ClientActions = __webpack_require__(265),
+	    RequestDetail = __webpack_require__(268);
 	
-	var FavorsIndex = React.createClass({
-	  displayName: 'FavorsIndex',
+	var RequestsIndex = React.createClass({
+	  displayName: 'RequestsIndex',
 	
 	  getInitialState: function () {
-	    return { favors: [] };
+	    return { requests: [] };
 	  },
 	
 	  componentDidMount: function () {
-	    FavorStore.addListener(this.handleChange);
-	    ClientActions.fetchFavors();
+	    RequestStore.addListener(this.handleChange);
+	    ClientActions.fetchRequests();
 	  },
 	
 	  handleChange: function () {
-	    this.setState({ favors: FavorStore.all() });
+	    this.setState({ requests: RequestStore.all() });
 	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'section',
-	      { className: 'favors-index' },
+	      { className: 'requests-index' },
 	      React.createElement(
 	        'ul',
 	        null,
-	        this.state.favors.map(function (favor, i) {
-	          return React.createElement(FavorDetail, { key: i, favor: favor });
+	        this.state.requests.map(function (request, i) {
+	          return React.createElement(RequestDetail, { key: i, request: request });
 	        })
 	      )
 	    );
 	  }
 	});
 	
-	module.exports = FavorsIndex;
+	module.exports = RequestsIndex;
 
 /***/ },
-/* 266 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(231),
 	    Store = __webpack_require__(239).Store,
-	    FavorConstants = __webpack_require__(263),
-	    FavorStore = new Store(AppDispatcher);
+	    RequestConstants = __webpack_require__(264),
+	    RequestStore = new Store(AppDispatcher);
 	
-	var _favors = {};
+	var _requests = {};
 	
-	var _addFavor = function (favor) {
-	  _favors[favor.id] = favor;
+	var _addRequest = function (request) {
+	  _requests[request.id] = request;
 	};
 	
-	var _resetFavors = function (favors) {
-	  _favors = {};
-	  favors.forEach(function (favor) {
-	    _favors[favor.id] = favor;
+	var _resetRequests = function (requests) {
+	  _requests = {};
+	  requests.forEach(function (request) {
+	    _requests[request.id] = request;
 	  });
 	};
 	
-	FavorStore.all = function () {
-	  return Object.keys(_favors).map(function (id) {
-	    return _favors[id];
+	RequestStore.all = function () {
+	  return Object.keys(_requests).map(function (id) {
+	    return _requests[id];
 	  });
 	};
 	
-	FavorStore.__onDispatch = function (payload) {
+	RequestStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
-	    case FavorConstants.RECEIVE_SINGLE_FAVOR:
-	      _addFavor(payload.favor);
+	    case RequestConstants.RECEIVE_SINGLE_REQUEST:
+	      _addRequest(payload.request);
 	      break;
 	
-	    case FavorConstants.RECEIVE_ALL_FAVORS:
-	      _resetFavors(payload.favors);
+	    case RequestConstants.RECEIVE_ALL_REQUESTS:
+	      _resetRequests(payload.requests);
 	      break;
 	
-	    case FavorConstants.REMOVE_FAVOR:
-	      _removeFavor(payload.favor);
+	    case RequestConstants.REMOVE_REQUEST:
+	      _removeRequest(payload.request);
 	      break;
 	  }
 	  this.__emitChange();
 	};
 	
-	module.exports = FavorStore;
+	module.exports = RequestStore;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports) {
+
+	var RequestConstants = {
+	  RECEIVE_SINGLE_REQUEST: "RECIEVE_SINGLE_REQUEST",
+	  RECEIVE_ALL_REQUESTS: "RECEIVE_ALL_REQUESTS",
+	  REMOVE_REQUEST: "REMOVE_REQUEST"
+	};
+	
+	module.exports = RequestConstants;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var RequestApiUtil = __webpack_require__(266);
+	
+	var ClientActions = {
+	  fetchRequests: function () {
+	    RequestApiUtil.fetchRequests();
+	  }
+	};
+	
+	module.exports = ClientActions;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(267);
+	
+	var RequestApiUtil = {
+	  fetchRequests: function () {
+	    $.ajax({
+	      url: "api/requests",
+	      success: function (requests) {
+	        ServerActions.receiveAllRequests(requests);
+	      }
+	    });
+	  },
+	
+	  createRequest: function (requestData) {
+	    $.ajax({
+	      type: "POST",
+	      url: "api/requests",
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	      }
+	    });
+	  },
+	
+	  updateRequest: function (requestData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/requests" + requestData.id,
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	      }
+	    });
+	  },
+	
+	  deleteRequest: function (id) {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "api/requests" + id,
+	      sucess: function (request) {
+	        ServerActions.removeRequest(request);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = RequestApiUtil;
 
 /***/ },
 /* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FavorApiUtil = __webpack_require__(261);
+	var AppDispatcher = __webpack_require__(231);
+	var RequestConstants = __webpack_require__(264);
 	
-	var ClientActions = {
-	  fetchFavors: function () {
-	    FavorApiUtil.fetchFavors();
+	var ServerActions = {
+	  receiveSingleRequest: function (request) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.RECEIVE_SINGLE_Request,
+	      request: request
+	    });
+	  },
+	
+	  receiveAllRequests: function (requests) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.RECEIVE_ALL_REQUESTS,
+	      requests: requests
+	    });
+	  },
+	
+	  removeFavor: function (request) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.REMOVE_REQUEST,
+	      request: request
+	    });
 	  }
 	};
 	
-	module.exports = ClientActions;
+	module.exports = ServerActions;
 
 /***/ },
 /* 268 */
@@ -33420,42 +33421,146 @@
 
 	var React = __webpack_require__(1);
 	
-	var FavorDetail = React.createClass({
-	  displayName: "FavorDetail",
+	var RequestDetail = React.createClass({
+	  displayName: "RequestDetail",
+	
+	  checkRequests: function () {
+	    console.log("hello");
+	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      "section",
-	      { className: "favor-detail" },
+	      { className: "request-detail" },
 	      React.createElement(
 	        "ul",
 	        null,
+	        this.checkRequests,
 	        React.createElement(
 	          "li",
 	          null,
-	          this.props.favor.title
+	          this.props.request.title
 	        ),
 	        React.createElement(
 	          "li",
 	          null,
-	          this.props.favor.description
+	          this.props.request.description
 	        ),
 	        React.createElement(
 	          "li",
 	          null,
-	          this.props.favor.location
+	          this.props.request.location
 	        ),
 	        React.createElement(
 	          "li",
 	          null,
-	          this.props.favor.date
+	          this.props.request.date
 	        )
 	      )
 	    );
 	  }
 	});
 	
-	module.exports = FavorDetail;
+	module.exports = RequestDetail;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    HowItWorks = __webpack_require__(270);
+	
+	var Dashboard = React.createClass({
+	  displayName: 'Dashboard',
+	
+	  render: function () {
+	    var dashboardContent = React.createElement(HowItWorks, null);
+	    return React.createElement(
+	      'div',
+	      null,
+	      dashboardContent
+	    );
+	  }
+	});
+	
+	module.exports = Dashboard;
+
+/***/ },
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var HowItWorks = React.createClass({
+	  displayName: "HowItWorks",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "how-it-works" },
+	      React.createElement(
+	        "h2",
+	        null,
+	        "How it Works"
+	      ),
+	      React.createElement("img", { src: raised_hand_url, className: "raised-hand" }),
+	      React.createElement("br", null),
+	      React.createElement("br", null),
+	      React.createElement("img", { src: handshake_url, className: "handshake" }),
+	      React.createElement("br", null),
+	      React.createElement("br", null),
+	      React.createElement("img", { src: helping_hand_url, className: "helping-hand" }),
+	      React.createElement("br", null),
+	      React.createElement("br", null),
+	      React.createElement(
+	        "ul",
+	        null,
+	        React.createElement(
+	          "li",
+	          null,
+	          "Ask a Favor",
+	          React.createElement(
+	            "p",
+	            null,
+	            "Choose from a list of popular chores and errands"
+	          )
+	        ),
+	        React.createElement(
+	          "li",
+	          { className: "arrow" },
+	          "⟶"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          "Get Matched",
+	          React.createElement(
+	            "p",
+	            null,
+	            "Accept offers from other users"
+	          )
+	        ),
+	        React.createElement(
+	          "li",
+	          { className: "arrow" },
+	          "⟶"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          "Pay it Forward",
+	          React.createElement(
+	            "p",
+	            null,
+	            "Browse open favor requests and help another user out"
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = HowItWorks;
 
 /***/ }
 /******/ ]);

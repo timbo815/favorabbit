@@ -1,0 +1,7 @@
+var RequestConstants = {
+  RECEIVE_SINGLE_REQUEST: "RECIEVE_SINGLE_REQUEST",
+  RECEIVE_ALL_REQUESTS: "RECEIVE_ALL_REQUESTS",
+  REMOVE_REQUEST: "REMOVE_REQUEST"
+};
+
+module.exports = RequestConstants;

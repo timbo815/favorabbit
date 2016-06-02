@@ -1,0 +1,58 @@
+.how-it-works h2 {
+  font-size: 35px;
+  font-weight: 300;
+  margin: 0 auto;
+  width: 50%;
+  text-align: center;
+}
+
+.how-it-works .arrow {
+  color: #7C8585;
+  font-size: 45px;
+  width: 0px;
+}
+
+.how-it-works ul {
+  margin: 0 auto;
+  width: 74%;
+}
+
+.how-it-works li {
+  display: block;
+  float: left;
+  font-size: 22px;
+  color: #00964b;
+  width: 160px;
+  text-align: center;
+  padding: 20px;
+  margin: 40px;
+  font-weight: 100px;
+}
+
+.how-it-works p {
+  color: #828a8b;
+  font-size: 16px;
+  font-weight: 100;
+  padding-top: 15px;
+}
+
+.raised-hand {
+  width: 45px;
+  position: absolute;
+  top: 135px;
+  left: 319px;
+}
+
+.handshake {
+  width: 60px;
+  position: absolute;
+  top: 153px;
+  left: 700px;
+}
+
+.helping-hand {
+  width: 60px;
+  position: absolute;
+  top: 142px;
+  left: 1110px;
+}

@@ -11,28 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601162818) do
+ActiveRecord::Schema.define(version: 20160602125521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "favors", force: :cascade do |t|
-    t.string   "title",                       null: false
-    t.text     "description",                 null: false
-    t.date     "date",                        null: false
-    t.datetime "time",                        null: false
-    t.string   "location",                    null: false
-    t.integer  "category_id"
-    t.integer  "doer_id"
-    t.integer  "asker_id",                    null: false
-    t.boolean  "completed",   default: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+  create_table "requests", force: :cascade do |t|
+    t.string   "title",        null: false
+    t.text     "description",  null: false
+    t.date     "date",         null: false
+    t.datetime "time",         null: false
+    t.string   "location",     null: false
+    t.integer  "category_id",  null: false
+    t.integer  "requester_id", null: false
   end
 
-  add_index "favors", ["asker_id"], name: "index_favors_on_asker_id", using: :btree
-  add_index "favors", ["category_id"], name: "index_favors_on_category_id", using: :btree
-  add_index "favors", ["doer_id"], name: "index_favors_on_doer_id", using: :btree
+  add_index "requests", ["category_id"], name: "index_requests_on_category_id", using: :btree
+  add_index "requests", ["requester_id"], name: "index_requests_on_requester_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false

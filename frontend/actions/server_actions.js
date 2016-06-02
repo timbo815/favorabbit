@@ -1,26 +1,26 @@
 var AppDispatcher = require('../dispatcher/dispatcher');
-var FavorConstants = require('../constants/favor_constants');
+var RequestConstants = require('../constants/request_constants');
 
 
 var ServerActions = {
-  receiveSingleFavor: function (favor) {
+  receiveSingleRequest: function (request) {
     AppDispatcher.dispatch({
-      actionType: FavorConstants.RECEIVE_SINGLE_FAVOR,
-      favor: favor
+      actionType: RequestConstants.RECEIVE_SINGLE_Request,
+      request: request
     });
   },
 
-  receiveAllFavors: function (favors) {
+  receiveAllRequests: function (requests) {
     AppDispatcher.dispatch({
-      actionType: FavorConstants.RECEIVE_ALL_FAVORS,
-      favors: favors
+      actionType: RequestConstants.RECEIVE_ALL_REQUESTS,
+      requests: requests
     });
   },
 
-  removeFavor: function (favor) {
+  removeFavor: function (request) {
     AppDispatcher.dispatch({
-      actionType: FavorConstants.REMOVE_FAVOR,
-      favor: favor
+      actionType: RequestConstants.REMOVE_REQUEST,
+      request: request
     });
   }
 };

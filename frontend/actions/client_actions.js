@@ -1,9 +1,9 @@
-var FavorApiUtil = require('../util/favor_api_util.js');
+var RequestApiUtil = require('../util/request_api_util.js');
 
 
 var ClientActions = {
-  fetchFavors: function () {
-    FavorApiUtil.fetchFavors();
+  fetchRequests: function () {
+    RequestApiUtil.fetchRequests();
   }
 };
 
