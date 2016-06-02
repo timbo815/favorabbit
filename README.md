@@ -6,25 +6,16 @@ Heroku Link http://favorabbit.herokuapp.com
 FavoRabbit is a web application inspired by TaskRabbit that will be built using Ruby on Rails and React.js.  By the end of Week 9, this app will, at a minimum, satisfy the following criteria:
 
 - [ ] New account creation, login, and guest/demo login
-- [ ] Smooth, bug-free navigation
+- [x] Smooth, bug-free navigation
 - [ ] Adequate seed data to demonstrate the site's features
 - [ ] The minimally necessary features for an TaskRabbit-inspired site with a favor twist: posting favor requests, browsing favor requests, accepting favor requests, and reviewing favors done.
-- [ ] Hosting on Heroku
-- [ ] CSS styling that is satisfactorily visually appealing
+- [x] Hosting on Heroku
+- [x] CSS styling that is satisfactorily visually appealing
 - [ ] A production README, replacing this README
+- [ ] Create, read, edit, and delete favor requests
+- [ ] Accept favor offers from other users
+- [ ] View a dashboard with: bookings, pending favor requests, and pending favor offers
 
-## Product Goals and Priorities
-
-FavoRabbit will allow users to do the following:
-
-<!-- This is a Markdown checklist. Use it to keep track of your
-progress. Put an x between the brackets for a checkmark: [x] -->
-
-- [ ] Create an account (MVP)
-- [ ] Log in / Log out, including as a Guest/Demo User (MVP)
-- [ ] Create, read, edit, and delete favor requests (MVP)
-- [ ] View a dashboard with: upcoming favors(to be done for me), upcoming favors to be done(for others), favors done(for me), and favors done(by me)  (MVP)
-- [ ] leave reviews of other users (expected feature, but not MVP)
 
 
 ## Design Docs

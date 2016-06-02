@@ -1,12 +1,17 @@
 var React = require('react'),
-    HowItWorks = require('./HowItWorks');
+    RequestsIndex = require('./RequestsIndex');
+
 
 var Dashboard = React.createClass({
+  getInitialState: function () {
+    return ({ display: "requests" });
+  },
+
   render: function () {
-    var dashboardContent = <HowItWorks/>;
+
     return (
-      <div>
-        {dashboardContent}
+      <div className="dashboard">
+        <RequestsIndex/>
       </div>
     );
   }

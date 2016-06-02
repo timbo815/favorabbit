@@ -1,14 +1,19 @@
 var React = require('react'),
     SessionStore = require('../stores/session_store.js'),
     RequestsIndex = require('../components/RequestsIndex.jsx'),
-    Dashboard = require('../components/Dashboard');
+    Dashboard = require('../components/Dashboard'),
+    HowItWorks = require('./HowItWorks'),
+    Header = require('../components/Header'),
+    Welcome = require('../components/Welcome');
 
 var Home = React.createClass({
   render: function () {
     return(
       <div className="home">
-        <h2>Welcome {SessionStore.currentUser().username}!</h2>
-        <Dashboard/>
+        <Header/>
+        <Welcome/>
+        <HowItWorks />
+        <Dashboard />
       </div>
     );
   }

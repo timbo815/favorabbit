@@ -5,7 +5,7 @@ class Api::RequestsController < ApplicationController
     if @request.save
       render json: @request
     else
-      render json: @bench.errors, status: 422
+      render json: @request.errors, status: 422
     end
   end
 

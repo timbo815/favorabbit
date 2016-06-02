@@ -1,6 +1,7 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     ReactRouter = require('react-router'),
+    Modal = require('react-modal'),
     Router = ReactRouter.Router,
     Route = ReactRouter.Route,
     IndexRoute = ReactRouter.IndexRoute,
@@ -18,7 +19,7 @@ var routes = (
   <IndexRoute component={LoginForm}/>
   <Route path="/signup" component={SignUpForm} />
   <Route path="/login" component={LoginForm} />
-  <Route path="home" component={Home} />
+  <Route path="home" component={Home} onEnter={_ensureLoggedIn}/>
   </Route>
 );
 
@@ -39,6 +40,7 @@ function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  Modal.setAppElement(document.body);
   ReactDOM.render(<Router history={hashHistory} routes={routes}/>,
   document.getElementById('content'));
 });
