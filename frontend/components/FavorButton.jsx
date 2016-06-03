@@ -1,6 +1,5 @@
 var React = require('react'),
-    Modal = require('react-modal'),
-    RequestForm = require('./RequestForm');
+    Modal = require('react-modal');
 
 var style = {
   overlay : {

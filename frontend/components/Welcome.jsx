@@ -7,7 +7,7 @@ var Welcome = React.createClass({
     var currentUser = SessionStore.currentUser().username;
     return(
       <div className="welcome">
-        Welcome to FavoRabbit, {currentUser} !
+        Welcome to FavoRabbit, {currentUser}!
         <RequestButton/>
       </div>
     );

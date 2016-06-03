@@ -10,10 +10,12 @@ var RequestDetail = React.createClass({
     <section className="request-detail">
       <ul>
         {this.checkRequests}
+        <li>Category: {this.props.request.category}</li>
         <li>{this.props.request.title}</li>
         <li>{this.props.request.description}</li>
-        <li>{this.props.request.location}</li>
+        <li>Location: {this.props.request.location}</li>
         <li>{this.props.request.date}</li>
+        <li>{this.props.request.time}</li>
       </ul>
     </section>
     );

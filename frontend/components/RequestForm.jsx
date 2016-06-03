@@ -12,7 +12,7 @@ var RequestForm = React.createClass({
       date: "",
       time: "",
       location: "",
-      category: ""
+      category: "Cleaning"
     });
   },
 

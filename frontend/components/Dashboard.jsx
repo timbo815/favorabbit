@@ -11,6 +11,17 @@ var Dashboard = React.createClass({
 
     return (
       <div className="dashboard">
+        <ul className="tabs group">
+          <li>
+            Open Requests
+          </li>
+          <li>
+            Pending Offers
+          </li>
+          <li>
+            Bookings
+          </li>
+        </ul>
         <RequestsIndex/>
       </div>
     );

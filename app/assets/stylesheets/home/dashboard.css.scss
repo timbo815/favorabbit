@@ -1,30 +1,53 @@
 .dashboard {
+  border: solid 1px #cfd2d3;
+  border-radius: 5px;
+  background: white;
+  width: 900px;
   margin: 0 auto;
-  width: 90%;
+}
+
+.dashboard > ul > li {
+  display: block;
+  float: left;
+  width: 300px;
+  text-align: center;
+}
+
+.tabs {
+  width: 900px;
+  background: #1da3bf;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.group:after {
+  display: block;
+  clear: both;
+  content: ""
 }
 
 .request-detail {
- border: solid 1px #cfd2d3;
- width: 600px;
- background: white;
- margin: 0 auto;
- width: 100%;
- padding: 10px;
+  border: 1px solid gray;
+  padding: 20px;
 }
 
 .requests-index {
-  background: blue;
-  width: 65%;
-  margin: 0 auto;
+  width: 860px;
+  margin: auto;
+  padding: 20px;
 }
 
 .request-form {
   background: #f5f6f6;
   border: 1px solid gray;
   border-radius: 5px;
-  width: 60%;
-  height: 90%;
+  width: 820px;
+  height: 500px;
   min-height: 400px;
+  min-width: 825px;
   margin: 0 auto;
   font-size: 20px;
   font-family: sans-serif;
@@ -95,7 +118,8 @@
 }
 
 .submit-request {
-  background-color: white;
+  background-color: #1da3bf;
+  color: white;
   position: absolute;
   left: 625px;
   bottom: 25px;

@@ -11,9 +11,9 @@ var Home = React.createClass({
     return(
       <div className="home">
         <Header/>
-        <Welcome/><br/><br/>
-        <HowItWorks />
-        <Dashboard />
+          <Welcome/><br/><br/>
+          <HowItWorks />
+          <Dashboard />
       </div>
     );
   }

@@ -1,12 +1,14 @@
 .how-it-works {
   height: 371px;
-  margin: 70px;
+  width: 1200px;
+  margin: auto;
+  padding-bottom: 100px;
   position: relative;
 }
 .how-it-works h2 {
   font-size: 35px;
   font-weight: 300;
-  margin: 0 auto;
+  margin: auto;
   width: 50%;
   text-align: center;
 }
@@ -18,22 +20,21 @@
 }
 
 .how-it-works ul {
-  margin: 0 auto;
   width: 74%;
-  position: absolute;
+  margin: auto;
   left: 255px;
 }
 
 .how-it-works li {
   box-sizing: border-box;
-      display: block;
-      float: left;
-      font-size: 22px;
-      color: #00964b;
-      width: 15%;
-      text-align: center;
-      padding: 20px;
-      margin: 40px;
+  display: block;
+  float: left;
+  font-size: 22px;
+  color: #00964b;
+  width: 15%;
+  text-align: center;
+  padding: 20px;
+  margin: 40px;
 }
 
 .how-it-works p {
@@ -44,22 +45,13 @@
 }
 
 .raised-hand {
-  width: 45px;
-  position: absolute;
-  top: 130px;
-  left: 352px;
+  width: 50%;
 }
 
 .handshake {
-  width: 60px;
-  position: absolute;
-  top: 143px;
-  left: 700px;
+  width: 50%;
 }
 
 .helping-hand {
-  width: 60px;
-  position: absolute;
-  top: 109px;
-  left: 1055px;
+  width: 50%;
 }

@@ -35408,6 +35408,12 @@
 	        React.createElement(
 	          "li",
 	          null,
+	          "Category: ",
+	          this.props.request.category
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
 	          this.props.request.title
 	        ),
 	        React.createElement(
@@ -35418,12 +35424,18 @@
 	        React.createElement(
 	          "li",
 	          null,
+	          "Location: ",
 	          this.props.request.location
 	        ),
 	        React.createElement(
 	          "li",
 	          null,
 	          this.props.request.date
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          this.props.request.time
 	        )
 	      )
 	    );
@@ -35451,6 +35463,25 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'dashboard' },
+	      React.createElement(
+	        'ul',
+	        { className: 'tabs group' },
+	        React.createElement(
+	          'li',
+	          null,
+	          'Open Requests'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Pending Offers'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Bookings'
+	        )
+	      ),
 	      React.createElement(RequestsIndex, null)
 	    );
 	  }
@@ -35476,21 +35507,15 @@
 	        null,
 	        "How it Works"
 	      ),
-	      React.createElement("img", { src: raised_hand_url, className: "raised-hand" }),
-	      React.createElement("br", null),
-	      React.createElement("br", null),
-	      React.createElement("img", { src: handshake_url, className: "handshake" }),
-	      React.createElement("br", null),
-	      React.createElement("br", null),
-	      React.createElement("img", { src: helping_hand_url, className: "helping-hand" }),
-	      React.createElement("br", null),
-	      React.createElement("br", null),
 	      React.createElement(
 	        "ul",
 	        null,
 	        React.createElement(
 	          "li",
 	          null,
+	          React.createElement("img", { src: raised_hand_url, className: "raised-hand" }),
+	          React.createElement("br", null),
+	          React.createElement("br", null),
 	          "Ask a Favor",
 	          React.createElement(
 	            "p",
@@ -35506,6 +35531,9 @@
 	        React.createElement(
 	          "li",
 	          null,
+	          React.createElement("img", { src: handshake_url, className: "handshake" }),
+	          React.createElement("br", null),
+	          React.createElement("br", null),
 	          "Get Matched",
 	          React.createElement(
 	            "p",
@@ -35521,6 +35549,9 @@
 	        React.createElement(
 	          "li",
 	          null,
+	          React.createElement("img", { src: helping_hand_url, className: "helping-hand" }),
+	          React.createElement("br", null),
+	          React.createElement("br", null),
 	          "Pay it Forward",
 	          React.createElement(
 	            "p",
@@ -35573,7 +35604,7 @@
 	      { className: 'welcome' },
 	      'Welcome to FavoRabbit, ',
 	      currentUser,
-	      ' !',
+	      '!',
 	      React.createElement(RequestButton, null)
 	    );
 	  }
@@ -35587,9 +35618,25 @@
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(295),
-	    CategoryStore = __webpack_require__(296),
-	    CategoryApiUtil = __webpack_require__(297);
+	    RequestForm = __webpack_require__(295);
+	
+	var style = {
+	  overlay: {
+	    position: 'absolute',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    margin: 'auto',
+	    width: '830px',
+	    height: '502px',
+	    border: '1px solid #ccc',
+	    padding: '20px'
+	  }
+	};
 	
 	var RequestButton = React.createClass({
 	  displayName: 'RequestButton',
@@ -35618,6 +35665,7 @@
 	      React.createElement(
 	        Modal,
 	        {
+	          style: style,
 	          isOpen: this.state.modalOpen,
 	          onRequestClose: this.closeModal },
 	        React.createElement(RequestForm, { closeModal: this.closeModal })
@@ -35648,7 +35696,7 @@
 	      date: "",
 	      time: "",
 	      location: "",
-	      category: ""
+	      category: "Cleaning"
 	    };
 	  },
 	
