@@ -4,18 +4,10 @@ var React = require('react'),
     CategoryStore = require('../stores/category_store'),
     CategoryApiUtil = require('../util/category_api_util.js');
 
+
 var RequestButton = React.createClass({
   getInitialState: function () {
-    return({ modalOpen: false, categories: []});
-  },
-
-  componentDidMount: function () {
-    CategoryStore.addListener(this.handleChange);
-    CategoryApiUtil.fetchAllCategories();
-  },
-
-  handleChange: function () {
-    this.setState({categories: CategoryStore.all()});
+    return({ modalOpen: false });
   },
 
   closeModal: function () {
@@ -29,12 +21,12 @@ var RequestButton = React.createClass({
   render: function () {
     return (
     <div>
-      <button onClick={this.openModal}>Ask a Favor</button>
+      <button onClick={this.openModal} className="request-button">Ask a Favor</button>
 
       <Modal
         isOpen={this.state.modalOpen}
         onRequestClose={this.closeModal}>
-        <RequestForm categories={this.state.categories}/>
+        <RequestForm closeModal={this.closeModal}/>
       </Modal>
     </div>
     );

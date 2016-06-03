@@ -33,7 +33,7 @@ class Api::RequestsController < ApplicationController
   private
 
   def request_params
-    params.require(:request).permit(:title, :description, :date, :time, :location, :category_id, :requester_id)
+    params.require(:request).permit(:title, :description, :date, :time, :location, :category, :requester_id)
   end
 
 end

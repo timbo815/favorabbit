@@ -1,3 +1,3 @@
 class Request < ActiveRecord::Base
-  validates :title, :description, :date, :time, :location, :category_id, :requester_id, presence: true
+  validates :title, :description, :date, :time, :location, :category, :requester_id, presence: true
 end

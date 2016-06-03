@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602201729) do
+ActiveRecord::Schema.define(version: 20160603140118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,11 +30,10 @@ ActiveRecord::Schema.define(version: 20160602201729) do
     t.date     "date",         null: false
     t.datetime "time",         null: false
     t.string   "location",     null: false
-    t.integer  "category_id",  null: false
     t.integer  "requester_id", null: false
+    t.string   "category"
   end
 
-  add_index "requests", ["category_id"], name: "index_requests_on_category_id", using: :btree
   add_index "requests", ["requester_id"], name: "index_requests_on_requester_id", using: :btree
 
   create_table "users", force: :cascade do |t|

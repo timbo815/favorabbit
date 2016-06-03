@@ -6,7 +6,7 @@
 .request-detail {
  border: solid 1px #cfd2d3;
  width: 600px;
- background: orange;
+ background: white;
  margin: 0 auto;
  width: 100%;
  padding: 10px;
@@ -16,4 +16,102 @@
   background: blue;
   width: 65%;
   margin: 0 auto;
+}
+
+.request-form {
+  background: #f5f6f6;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 60%;
+  height: 90%;
+  min-height: 400px;
+  margin: 0 auto;
+  font-size: 20px;
+  font-family: sans-serif;
+  position: relative;
+}
+
+.request-form label {
+  padding: 10px;
+  margin-left: 50px;
+}
+
+.request-form select {
+  width: 20%;
+  margin-left: 18px;
+  border: 1px solid gray;
+  background: white;
+  height: 6%;
+  margin-top: 35px;
+}
+
+.title {
+  background-color: white;
+  width: 40%;
+  margin-left: 63px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.description {
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 40%;
+  height: 16%;
+  text-indent: 10px;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.date {
+  background: white;
+  font-size: 16px;
+  margin-left: 57px;
+  border: solid 1px gray;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.location {
+  background: white;
+  font-size: 16px;
+  margin-left: 22px;
+  border: solid 1px gray;
+  border-radius: 5px;
+  text-align: center;
+  padding: 2px;
+}
+
+.time {
+  background: white;
+  font-size: 16px;
+  margin-left: 54px;
+  border: solid 1px gray;
+  border-radius: 5px;
+  text-align: center;
+  padding: 2px;
+}
+
+.submit-request {
+  background-color: white;
+  position: absolute;
+  left: 625px;
+  bottom: 25px;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #C4B9B9;
+  border-style: outset;
+}
+
+.close-x {
+  position: absolute;
+  right: 40px;
+  top: 10px;
+  border: 1px solid gray;
+  width: 26px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
 }
