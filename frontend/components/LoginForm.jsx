@@ -39,7 +39,6 @@ var LoginForm = React.createClass({
       username: this.state.username,
       password: this.state.password
     };
-
     SessionApiUtil.login(formData);
   },
 

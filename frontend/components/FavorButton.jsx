@@ -1,5 +1,6 @@
 var React = require('react'),
-    Modal = require('react-modal');
+    Modal = require('react-modal'),
+    RequestsIndex = require('./RequestsIndex');
 
 var style = {
   overlay : {
@@ -12,14 +13,14 @@ var style = {
   },
   content : {
     margin          : 'auto',
-    width           : '830px',
+    width           : '900px',
     height          : '502px',
     border          : '1px solid #ccc',
     padding         : '20px',
   }
 };
 
-var RequestButton = React.createClass({
+var FavorButton = React.createClass({
   getInitialState: function () {
     return({ modalOpen: false });
   },
@@ -35,17 +36,18 @@ var RequestButton = React.createClass({
   render: function () {
     return (
     <div>
-      <button onClick={this.openModal} className="request-button">Ask a Favor</button>
+      <button onClick={this.openModal} className="welcome-button favor">Do a Favor</button>
 
       <Modal
         style={style}
         isOpen={this.state.modalOpen}
         onRequestClose={this.closeModal}>
-        <RequestForm closeModal={this.closeModal}/>
+        <h2>Do a Good Deed!</h2>
+          <RequestsIndex requests={this.props.requests} closeModal={this.closeModal}/>
       </Modal>
     </div>
     );
   }
 });
 
-module.exports = RequestButton;
+module.exports = FavorButton;

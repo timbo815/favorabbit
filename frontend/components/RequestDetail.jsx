@@ -1,15 +1,59 @@
-var React = require('react');
+var React = require('react'),
+    SessionStore = require('../stores/session_store.js'),
+    Modal = require('react-modal'),
+    OfferForm = require('./OfferForm.jsx');
+
+var style = {
+  overlay : {
+    position        : 'absolute',
+    top             : 0,
+    left            : 0,
+    right           : 0,
+    bottom          : 0,
+    backgroundColor : 'rgba(255, 255, 255, 0.75)',
+  },
+  content : {
+    margin          : 'auto',
+    width           : '900px',
+    height          : '502px',
+    border          : '1px solid #ccc',
+    padding         : '20px',
+  }
+};
 
 var RequestDetail = React.createClass({
-  checkRequests: function () {
-    console.log("hello");
+  getInitialState: function () {
+    return({ modalOpen: false });
+  },
+
+  closeModal: function () {
+    this.setState({ modalOpen: false });
+  },
+
+  openModal: function () {
+    this.setState({ modalOpen: true });
+  },
+
+  renderOffer: function (requester_id) {
+    if (SessionStore.currentUser().id !== requester_id) {
+      return (
+        <div>
+          <button onClick={this.openModal} className="offer-button">Make an Offer</button>
+          <Modal
+            style={style}
+            isOpen={this.state.modalOpen}
+            onRequestClose={this.closeModal}>
+            <OfferForm request={this.props.request}/>
+          </Modal>
+        </div>
+      );
+    }
   },
 
   render: function () {
     return(
     <section className="request-detail">
       <ul>
-        {this.checkRequests}
         <li>Category: {this.props.request.category}</li>
         <li>{this.props.request.title}</li>
         <li>{this.props.request.description}</li>
@@ -17,6 +61,7 @@ var RequestDetail = React.createClass({
         <li>{this.props.request.date}</li>
         <li>{this.props.request.time}</li>
       </ul>
+        {this.renderOffer(this.props.request.requester_id)}
     </section>
     );
   }

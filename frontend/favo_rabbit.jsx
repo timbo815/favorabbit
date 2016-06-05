@@ -11,7 +11,8 @@ var React = require('react'),
     App = require('./components/App.jsx'),
     LoginForm = require('./components/LoginForm.jsx'),
     SignUpForm = require('./components/SignUpForm.jsx'),
-    Home = require('./components/Home.jsx');
+    Home = require('./components/Home.jsx'),
+    OfferForm = require('./components/OfferForm.jsx');
 
 
 var routes = (
@@ -20,6 +21,7 @@ var routes = (
   <Route path="/signup" component={SignUpForm} />
   <Route path="/login" component={LoginForm} />
   <Route path="home" component={Home} onEnter={_ensureLoggedIn}/>
+  <Route path="offer" component={OfferForm} onEnter={_ensureLoggedIn}/>
   </Route>
 );
 

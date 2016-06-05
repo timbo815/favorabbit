@@ -10,7 +10,7 @@ class Api::UsersController < ApplicationController
 			render json: @user.errors, status: 422
 		end
 	end
-
+  
 	private
 
 	def user_params

@@ -9,12 +9,8 @@
   margin: auto;
 }
 
-
-.request-button {
+.welcome-button {
   border: 3px solid gray;
-  position: absolute;
-  left: 200px;
-  top: 150px;
   border-style: outset;
   border-radius: 15px;
   background: #1da3bf;
@@ -24,4 +20,15 @@
   width: 250px;
   height: 90px;
   cursor: pointer;
+}
+.request {
+  position: absolute;
+  left: 200px;
+  top: 150px;
+}
+
+.favor {
+  position: absolute;
+  left: 700px;
+  top: 150px;
 }

@@ -1,6 +1,7 @@
 var AppDispatcher = require('../dispatcher/dispatcher.js'),
     Store = require('flux/utils').Store,
     RequestConstants = require('../constants/request_constants'),
+    SessionStore = require('./session_store');
     RequestStore = new Store(AppDispatcher);
 
 
@@ -21,6 +22,26 @@ RequestStore.all = function () {
   return Object.keys(_requests).map(function (id) {
     return _requests[id];
   });
+};
+
+RequestStore.allOtherRequests = function () {
+  var otherRequests = [];
+  for (var key in _requests) {
+    if (_requests[key].requester_id !== SessionStore.currentUser().id) {
+      otherRequests.push(_requests[key]);
+    }
+  }
+  return otherRequests;
+};
+
+RequestStore.userRequests = function () {
+  var userRequests = [];
+  for (var key in _requests) {
+    if (_requests[key].requester_id === SessionStore.currentUser().id) {
+      userRequests.push(_requests[key]);
+    }
+  }
+  return userRequests;
 };
 
 RequestStore.__onDispatch = function (payload) {

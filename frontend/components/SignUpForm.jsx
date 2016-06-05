@@ -72,8 +72,6 @@ var React = require('react'),
           <div className="signup-page">
             <form onSubmit={this.handleSubmit} className="signup-form">
               <img src={logo_url} className="logo"/><br/><br/><br/>
-
-              {this.fieldErrors("base")}
               <label for="username" className="username-label">Username</label><br/><br/><br/>
               {this.fieldErrors("username")}
               <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>

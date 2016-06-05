@@ -1,6 +1,7 @@
 var AppDispatcher = require('../dispatcher/dispatcher');
 var RequestConstants = require('../constants/request_constants');
 var CategoryConstants = require('../constants/category_constants');
+var OfferConstants = require('../constants/offer_constants');
 
 
 var ServerActions = {
@@ -29,6 +30,20 @@ var ServerActions = {
     AppDispatcher.dispatch({
       actionType: CategoryConstants.RECEIVE_ALL_CATEGORIES,
       categories: categories
+    });
+  },
+
+  receiveSingleOffer: function (offer) {
+    AppDispatcher.dispatch({
+      actionType: OfferConstants.RECEIVE_SINGLE_OFFER,
+      offer: offer
+    });
+  },
+
+  receiveAllOffers: function (offers) {
+    AppDispatcher.dispatch({
+      actionType: OfferConstants.RECEIVE_ALL_OFFERS,
+      offers: offers
     });
   }
 };

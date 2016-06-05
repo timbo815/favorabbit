@@ -21,7 +21,7 @@ var SessionApiUtil = {
   logout: function () {
   $.ajax({
     url: '/api/session',
-    method: 'delete',
+    type: 'DELETE',
     success: function () {
       console.log("Logout success (SessionApiUtil#logout)");
       SessionActions.removeCurrentUser();
