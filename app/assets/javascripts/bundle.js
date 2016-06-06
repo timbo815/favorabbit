@@ -58,7 +58,7 @@
 	    LoginForm = __webpack_require__(277),
 	    SignUpForm = __webpack_require__(279),
 	    Home = __webpack_require__(281),
-	    OfferForm = __webpack_require__(299);
+	    OfferForm = __webpack_require__(284);
 	
 	var routes = React.createElement(
 	  Route,
@@ -34848,14 +34848,14 @@
 	    var messages = errors[field].map(function (error, i) {
 	      return React.createElement(
 	        'li',
-	        { key: i, className: 'errors' },
+	        { key: i },
 	        error
 	      );
 	    });
 	
 	    return React.createElement(
 	      'ul',
-	      null,
+	      { className: 'signup-errors' },
 	      messages
 	    );
 	  },
@@ -34864,6 +34864,11 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'login-page' },
+	      React.createElement(
+	        'section',
+	        null,
+	        this.fieldErrors("base")
+	      ),
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit, className: 'login-form' },
@@ -34907,11 +34912,6 @@
 	          { onClick: this.renderSignUp, className: 'signup-button' },
 	          'Sign Up'
 	        )
-	      ),
-	      React.createElement(
-	        'section',
-	        { className: 'errors' },
-	        this.fieldErrors("base")
 	      )
 	    );
 	  }
@@ -34943,7 +34943,6 @@
 	    errors = _errors[field];
 	    result[field] = errors.slice();
 	  });
-	
 	  return result;
 	};
 	
@@ -35033,6 +35032,8 @@
 	      return React.createElement(
 	        'li',
 	        { key: i },
+	        field,
+	        ' ',
 	        error
 	      );
 	    });
@@ -35054,6 +35055,12 @@
 	      'div',
 	      { className: 'signup-page' },
 	      React.createElement(
+	        'section',
+	        null,
+	        this.fieldErrors("username"),
+	        this.fieldErrors("password")
+	      ),
+	      React.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit, className: 'signup-form' },
 	        React.createElement('img', { src: logo_url, className: 'logo' }),
@@ -35068,7 +35075,6 @@
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        this.fieldErrors("username"),
 	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange, className: 'username' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
@@ -35082,7 +35088,6 @@
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange, className: 'password' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        this.fieldErrors("password"),
 	        React.createElement('input', { type: 'submit', value: 'Sign Up', className: 'submit-button' }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
@@ -35098,11 +35103,6 @@
 	          { onClick: this.renderLogIn, className: 'signup-button' },
 	          'Log In'
 	        )
-	      ),
-	      React.createElement(
-	        'section',
-	        { className: 'errors' },
-	        this.fieldErrors("base")
 	      )
 	    );
 	  }
@@ -35145,9 +35145,9 @@
 	    SessionStore = __webpack_require__(258),
 	    RequestsIndex = __webpack_require__(282),
 	    Dashboard = __webpack_require__(290),
-	    HowItWorks = __webpack_require__(291),
-	    Header = __webpack_require__(292),
-	    Welcome = __webpack_require__(293);
+	    HowItWorks = __webpack_require__(297),
+	    Header = __webpack_require__(298),
+	    Welcome = __webpack_require__(299);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -35174,7 +35174,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    RequestDetail = __webpack_require__(289);
+	    RequestDetail = __webpack_require__(283);
 	
 	var RequestsIndex = React.createClass({
 	  displayName: 'RequestsIndex',
@@ -35201,226 +35201,10 @@
 /* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(251),
-	    Store = __webpack_require__(259).Store,
-	    RequestConstants = __webpack_require__(284),
-	    SessionStore = __webpack_require__(258);
-	RequestStore = new Store(AppDispatcher);
-	
-	var _requests = {};
-	
-	var _addRequest = function (request) {
-	  _requests[request.id] = request;
-	};
-	
-	var _resetRequests = function (requests) {
-	  _requests = {};
-	  requests.forEach(function (request) {
-	    _requests[request.id] = request;
-	  });
-	};
-	
-	RequestStore.all = function () {
-	  return Object.keys(_requests).map(function (id) {
-	    return _requests[id];
-	  });
-	};
-	
-	RequestStore.allOtherRequests = function () {
-	  var otherRequests = [];
-	  for (var key in _requests) {
-	    if (_requests[key].requester_id !== SessionStore.currentUser().id) {
-	      otherRequests.push(_requests[key]);
-	    }
-	  }
-	  return otherRequests;
-	};
-	
-	RequestStore.userRequests = function () {
-	  var userRequests = [];
-	  for (var key in _requests) {
-	    if (_requests[key].requester_id === SessionStore.currentUser().id) {
-	      userRequests.push(_requests[key]);
-	    }
-	  }
-	  return userRequests;
-	};
-	
-	RequestStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case RequestConstants.RECEIVE_SINGLE_REQUEST:
-	      _addRequest(payload.request);
-	      break;
-	
-	    case RequestConstants.RECEIVE_ALL_REQUESTS:
-	      _resetRequests(payload.requests);
-	      break;
-	
-	    case RequestConstants.REMOVE_REQUEST:
-	      _removeRequest(payload.request);
-	      break;
-	  }
-	  this.__emitChange();
-	};
-	
-	module.exports = RequestStore;
-
-/***/ },
-/* 284 */
-/***/ function(module, exports) {
-
-	var RequestConstants = {
-	  RECEIVE_SINGLE_REQUEST: "RECIEVE_SINGLE_REQUEST",
-	  RECEIVE_ALL_REQUESTS: "RECEIVE_ALL_REQUESTS",
-	  REMOVE_REQUEST: "REMOVE_REQUEST"
-	};
-	
-	module.exports = RequestConstants;
-
-/***/ },
-/* 285 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var RequestApiUtil = __webpack_require__(286);
-	var OfferApiUtil = __webpack_require__(300);
-	
-	var ClientActions = {
-	  fetchRequests: function () {
-	    RequestApiUtil.fetchRequests();
-	  },
-	
-	  fetchOffers: function () {
-	    OfferApiUtil.fetchOffers();
-	  }
-	
-	};
-	
-	module.exports = ClientActions;
-
-/***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ServerActions = __webpack_require__(287);
-	
-	var RequestApiUtil = {
-	  fetchRequests: function () {
-	    $.ajax({
-	      url: "api/requests",
-	      success: function (requests) {
-	        ServerActions.receiveAllRequests(requests);
-	      }
-	    });
-	  },
-	
-	  createRequest: function (requestData) {
-	    $.ajax({
-	      type: "POST",
-	      url: "api/requests",
-	      data: { request: requestData },
-	      success: function (request) {
-	        ServerActions.receiveSingleRequest(request);
-	      }
-	    });
-	  },
-	
-	  updateRequest: function (requestData) {
-	    $.ajax({
-	      type: "PATCH",
-	      url: "api/requests" + requestData.id,
-	      data: { request: requestData },
-	      success: function (request) {
-	        ServerActions.receiveSingleRequest(request);
-	      }
-	    });
-	  },
-	
-	  deleteRequest: function (id) {
-	    $.ajax({
-	      type: "DELETE",
-	      url: "api/requests" + id,
-	      sucess: function (request) {
-	        ServerActions.removeRequest(request);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = RequestApiUtil;
-
-/***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(251);
-	var RequestConstants = __webpack_require__(284);
-	var CategoryConstants = __webpack_require__(288);
-	var OfferConstants = __webpack_require__(301);
-	
-	var ServerActions = {
-	  receiveSingleRequest: function (request) {
-	    AppDispatcher.dispatch({
-	      actionType: RequestConstants.RECEIVE_SINGLE_REQUEST,
-	      request: request
-	    });
-	  },
-	
-	  receiveAllRequests: function (requests) {
-	    AppDispatcher.dispatch({
-	      actionType: RequestConstants.RECEIVE_ALL_REQUESTS,
-	      requests: requests
-	    });
-	  },
-	
-	  removeRequest: function (request) {
-	    AppDispatcher.dispatch({
-	      actionType: RequestConstants.REMOVE_REQUEST,
-	      request: request
-	    });
-	  },
-	
-	  receiveAllCategories: function (categories) {
-	    AppDispatcher.dispatch({
-	      actionType: CategoryConstants.RECEIVE_ALL_CATEGORIES,
-	      categories: categories
-	    });
-	  },
-	
-	  receiveSingleOffer: function (offer) {
-	    AppDispatcher.dispatch({
-	      actionType: OfferConstants.RECEIVE_SINGLE_OFFER,
-	      offer: offer
-	    });
-	  },
-	
-	  receiveAllOffers: function (offers) {
-	    AppDispatcher.dispatch({
-	      actionType: OfferConstants.RECEIVE_ALL_OFFERS,
-	      offers: offers
-	    });
-	  }
-	};
-	
-	module.exports = ServerActions;
-
-/***/ },
-/* 288 */
-/***/ function(module, exports) {
-
-	var CategoryConstants = {
-	  RECEIVE_ALL_CATEGORIES: "RECEIVE_ALL_CATEGORIES"
-	};
-	
-	module.exports = CategoryConstants;
-
-/***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    Modal = __webpack_require__(229),
-	    OfferForm = __webpack_require__(299);
+	    OfferForm = __webpack_require__(284);
 	
 	var style = {
 	  overlay: {
@@ -35525,570 +35309,12 @@
 	module.exports = RequestDetail;
 
 /***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    RequestsIndex = __webpack_require__(282),
-	    OffersIndex = __webpack_require__(302),
-	    ClientActions = __webpack_require__(285),
-	    RequestStore = __webpack_require__(283),
-	    OfferStore = __webpack_require__(304);
-	
-	var Dashboard = React.createClass({
-	  displayName: 'Dashboard',
-	
-	  getInitialState: function () {
-	    return { requests: [], offers: [] };
-	  },
-	
-	  componentDidMount: function () {
-	    this.requestListener = RequestStore.addListener(this.handleRequestChange);
-	    this.offerListener = OfferStore.addListener(this.handleOfferChange);
-	    ClientActions.fetchRequests();
-	    ClientActions.fetchOffers();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.requestListener.remove();
-	    this.offerListener.remove();
-	  },
-	
-	  handleRequestChange: function () {
-	    this.setState({ requests: RequestStore.userRequests() });
-	  },
-	
-	  handleOfferChange: function () {
-	    this.setState({ offers: OfferStore.userOffers });
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'dashboard' },
-	      React.createElement(
-	        'ul',
-	        { className: 'tabs group' },
-	        React.createElement(
-	          'li',
-	          null,
-	          'Open Requests'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Pending Offers'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          'Bookings'
-	        )
-	      ),
-	      React.createElement(RequestsIndex, { requests: this.state.requests })
-	    );
-	  }
-	});
-	
-	module.exports = Dashboard;
-
-/***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var HowItWorks = React.createClass({
-	  displayName: "HowItWorks",
-	
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      { className: "how-it-works" },
-	      React.createElement(
-	        "h2",
-	        null,
-	        "How it Works"
-	      ),
-	      React.createElement(
-	        "ul",
-	        null,
-	        React.createElement(
-	          "li",
-	          null,
-	          React.createElement("img", { src: raised_hand_url, className: "raised-hand" }),
-	          React.createElement("br", null),
-	          React.createElement("br", null),
-	          "Ask a Favor",
-	          React.createElement(
-	            "p",
-	            null,
-	            "Choose from a list of popular chores and errands"
-	          )
-	        ),
-	        React.createElement(
-	          "li",
-	          { className: "arrow" },
-	          "⟶"
-	        ),
-	        React.createElement(
-	          "li",
-	          null,
-	          React.createElement("img", { src: handshake_url, className: "handshake" }),
-	          React.createElement("br", null),
-	          React.createElement("br", null),
-	          "Get Matched",
-	          React.createElement(
-	            "p",
-	            null,
-	            "Accept offers from other users"
-	          )
-	        ),
-	        React.createElement(
-	          "li",
-	          { className: "arrow" },
-	          "⟶"
-	        ),
-	        React.createElement(
-	          "li",
-	          null,
-	          React.createElement("img", { src: helping_hand_url, className: "helping-hand" }),
-	          React.createElement("br", null),
-	          React.createElement("br", null),
-	          "Pay it Forward",
-	          React.createElement(
-	            "p",
-	            null,
-	            "Browse open favor requests and help another user out"
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = HowItWorks;
-
-/***/ },
-/* 292 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    SessionApiUtil = __webpack_require__(249),
-	    Link = __webpack_require__(168).Link;
-	
-	var Header = React.createClass({
-	  displayName: 'Header',
-	
-	  //
-	  // contextTypes: {
-	  //   router: React.PropTypes.object.isRequired
-	  // },
-	
-	  render: function () {
-	    return React.createElement(
-	      'header',
-	      { className: 'header' },
-	      React.createElement('img', { src: logo_url, className: 'logo' }),
-	      React.createElement(
-	        Link,
-	        { to: '/', onClick: this.logout, className: 'logout-link' },
-	        'Log Out'
-	      )
-	    );
-	  },
-	
-	  logout: function () {
-	    SessionApiUtil.logout();
-	  }
-	});
-	
-	module.exports = Header;
-
-/***/ },
-/* 293 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
-	    RequestStore = __webpack_require__(283),
-	    RequestButton = __webpack_require__(294),
-	    FavorButton = __webpack_require__(298),
-	    ClientActions = __webpack_require__(285);
-	
-	var Welcome = React.createClass({
-	  displayName: 'Welcome',
-	
-	
-	  getInitialState: function () {
-	    return { requests: [] };
-	  },
-	
-	  componentDidMount: function () {
-	    this.requestListener = RequestStore.addListener(this.handleChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.requestListener.remove();
-	  },
-	
-	  handleChange: function () {
-	    this.setState({ requests: RequestStore.allOtherRequests() });
-	  },
-	
-	  render: function () {
-	    var currentUser = SessionStore.currentUser().username;
-	    return React.createElement(
-	      'div',
-	      { className: 'welcome' },
-	      React.createElement('img', { src: SessionStore.currentUser().image_url }),
-	      'Welcome to FavoRabbit, ',
-	      currentUser,
-	      '!',
-	      React.createElement(RequestButton, null),
-	      React.createElement(FavorButton, { requests: this.state.requests })
-	    );
-	  }
-	});
-	
-	module.exports = Welcome;
-
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(295);
-	
-	var style = {
-	  overlay: {
-	    position: 'absolute',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
-	  },
-	  content: {
-	    margin: 'auto',
-	    width: '830px',
-	    height: '502px',
-	    border: '1px solid #ccc',
-	    padding: '20px'
-	  }
-	};
-	
-	var RequestButton = React.createClass({
-	  displayName: 'RequestButton',
-	
-	  getInitialState: function () {
-	    return { modalOpen: false };
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'button',
-	        { onClick: this.openModal, className: 'welcome-button request' },
-	        'Ask a Favor'
-	      ),
-	      React.createElement(
-	        Modal,
-	        {
-	          style: style,
-	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal },
-	        React.createElement(RequestForm, { closeModal: this.closeModal })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = RequestButton;
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    CategoryStore = __webpack_require__(296),
-	    CategoryApiUtil = __webpack_require__(297),
-	    RequestApiUtil = __webpack_require__(286),
-	    SessionStore = __webpack_require__(258);
-	
-	var RequestForm = React.createClass({
-	  displayName: 'RequestForm',
-	
-	  getInitialState: function () {
-	    return {
-	      title: "",
-	      description: "",
-	      date: "",
-	      time: "",
-	      location: "",
-	      category: "Cleaning"
-	    };
-	  },
-	
-	  updateTitle: function (e) {
-	    this.setState({ title: e.target.value });
-	  },
-	
-	  updateDescription: function (e) {
-	    this.setState({ description: e.target.value });
-	  },
-	
-	  updateLocation: function (e) {
-	    this.setState({ location: e.target.value });
-	  },
-	
-	  updateDate: function (e) {
-	    this.setState({ date: e.target.value });
-	  },
-	
-	  updateTime: function (e) {
-	    this.setState({ time: e.target.value });
-	  },
-	
-	  updateCategory: function (e) {
-	    this.setState({ category: e.target.value });
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var formData = {
-	      title: this.state.title,
-	      description: this.state.description,
-	      date: this.state.date,
-	      time: this.state.time,
-	      location: this.state.location,
-	      category: this.state.category,
-	      requester_id: SessionStore.currentUser().id
-	    };
-	    RequestApiUtil.createRequest(formData);
-	    this.props.closeModal();
-	  },
-	
-	  render: function () {
-	    var categories = ["Cleaning", "Shopping + Delivery", "Handyman", "Moving Help", "General Help", "Upgrade Your Home"];
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleSubmit, className: 'request-form' },
-	      React.createElement(
-	        'label',
-	        { 'for': 'category' },
-	        'Category'
-	      ),
-	      React.createElement(
-	        'select',
-	        { id: 'category', onChange: this.updateCategory },
-	        categories.map(function (category, i) {
-	          return React.createElement(
-	            'option',
-	            { key: i },
-	            category
-	          );
-	        })
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { 'for': 'title' },
-	        'Title'
-	      ),
-	      React.createElement('input', { type: 'text', id: 'title', onChange: this.updateTitle, className: 'title' }),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { 'for': 'description' },
-	        'Description'
-	      ),
-	      React.createElement('textarea', { id: 'description', onChange: this.updateDescription, className: 'description' }),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { 'for': 'date' },
-	        'Date'
-	      ),
-	      React.createElement('input', { type: 'date', id: 'date', onChange: this.updateDate, className: 'date' }),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { 'for': 'location' },
-	        'Location'
-	      ),
-	      React.createElement('input', { type: 'text', id: 'location', onChange: this.updateLocation, className: 'location' }),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { 'for': 'time' },
-	        'Time'
-	      ),
-	      React.createElement('input', { type: 'time', id: 'time', onChange: this.updateTime, className: 'time' }),
-	      React.createElement('input', { type: 'submit', value: 'Submit Request', className: 'submit-request' }),
-	      React.createElement(
-	        'button',
-	        { onClick: this.props.closeModal, className: 'close-x' },
-	        'X'
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = RequestForm;
-
-/***/ },
-/* 296 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(251),
-	    Store = __webpack_require__(259).Store,
-	    CategoryConstants = __webpack_require__(288),
-	    CategoryStore = new Store(AppDispatcher);
-	
-	var _categories = [];
-	
-	var addCategories = function (categories) {
-	  _categories = [];
-	  _categories.push(categories);
-	};
-	
-	CategoryStore.all = function () {
-	  return _categories;
-	};
-	
-	CategoryStore.allNames = function () {
-	  var names = [];
-	  for (var key in _categories) {
-	    names.push(_categories[key][key].title);
-	  }
-	  return names;
-	};
-	
-	CategoryStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case CategoryConstants.RECEIVE_ALL_CATEGORIES:
-	      addCategories(payload.categories);
-	      break;
-	  }
-	  this.__emitChange();
-	};
-	
-	module.exports = CategoryStore;
-
-/***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ServerActions = __webpack_require__(287);
-	
-	var CategoryApiUtil = {
-	  fetchAllCategories: function () {
-	    $.ajax({
-	      url: "api/categories",
-	      success: function (categories) {
-	        ServerActions.receiveAllCategories(categories);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = CategoryApiUtil;
-
-/***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    Modal = __webpack_require__(229),
-	    RequestsIndex = __webpack_require__(282);
-	
-	var style = {
-	  overlay: {
-	    position: 'absolute',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
-	  },
-	  content: {
-	    margin: 'auto',
-	    width: '900px',
-	    height: '502px',
-	    border: '1px solid #ccc',
-	    padding: '20px'
-	  }
-	};
-	
-	var FavorButton = React.createClass({
-	  displayName: 'FavorButton',
-	
-	  getInitialState: function () {
-	    return { modalOpen: false };
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'button',
-	        { onClick: this.openModal, className: 'welcome-button favor' },
-	        'Do a Favor'
-	      ),
-	      React.createElement(
-	        Modal,
-	        {
-	          style: style,
-	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal },
-	        React.createElement(
-	          'h2',
-	          null,
-	          'Do a Good Deed!'
-	        ),
-	        React.createElement(RequestsIndex, { requests: this.props.requests, closeModal: this.closeModal })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = FavorButton;
-
-/***/ },
-/* 299 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    SessionStore = __webpack_require__(258),
-	    OfferApiUtil = __webpack_require__(300);
+	    OfferApiUtil = __webpack_require__(285);
 	
 	var OfferForm = React.createClass({
 	  displayName: 'OfferForm',
@@ -36175,10 +35401,10 @@
 	module.exports = OfferForm;
 
 /***/ },
-/* 300 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ServerActions = __webpack_require__(287);
+	var ServerActions = __webpack_require__(286);
 	
 	var OfferApiUtil = {
 	  fetchOffers: function () {
@@ -36206,7 +35432,84 @@
 	module.exports = OfferApiUtil;
 
 /***/ },
-/* 301 */
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(251);
+	var RequestConstants = __webpack_require__(287);
+	var CategoryConstants = __webpack_require__(288);
+	var OfferConstants = __webpack_require__(289);
+	
+	var ServerActions = {
+	  receiveSingleRequest: function (request) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.RECEIVE_SINGLE_REQUEST,
+	      request: request
+	    });
+	  },
+	
+	  receiveAllRequests: function (requests) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.RECEIVE_ALL_REQUESTS,
+	      requests: requests
+	    });
+	  },
+	
+	  removeRequest: function (request) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.REMOVE_REQUEST,
+	      request: request
+	    });
+	  },
+	
+	  receiveAllCategories: function (categories) {
+	    AppDispatcher.dispatch({
+	      actionType: CategoryConstants.RECEIVE_ALL_CATEGORIES,
+	      categories: categories
+	    });
+	  },
+	
+	  receiveSingleOffer: function (offer) {
+	    AppDispatcher.dispatch({
+	      actionType: OfferConstants.RECEIVE_SINGLE_OFFER,
+	      offer: offer
+	    });
+	  },
+	
+	  receiveAllOffers: function (offers) {
+	    AppDispatcher.dispatch({
+	      actionType: OfferConstants.RECEIVE_ALL_OFFERS,
+	      offers: offers
+	    });
+	  }
+	};
+	
+	module.exports = ServerActions;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports) {
+
+	var RequestConstants = {
+	  RECEIVE_SINGLE_REQUEST: "RECIEVE_SINGLE_REQUEST",
+	  RECEIVE_ALL_REQUESTS: "RECEIVE_ALL_REQUESTS",
+	  REMOVE_REQUEST: "REMOVE_REQUEST"
+	};
+	
+	module.exports = RequestConstants;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports) {
+
+	var CategoryConstants = {
+	  RECEIVE_ALL_CATEGORIES: "RECEIVE_ALL_CATEGORIES"
+	};
+	
+	module.exports = CategoryConstants;
+
+/***/ },
+/* 289 */
 /***/ function(module, exports) {
 
 	var OfferConstants = {
@@ -36217,11 +35520,80 @@
 	module.exports = OfferConstants;
 
 /***/ },
-/* 302 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    OfferDetail = __webpack_require__(303);
+	    RequestsIndex = __webpack_require__(282),
+	    OffersIndex = __webpack_require__(291),
+	    ClientActions = __webpack_require__(293),
+	    RequestStore = __webpack_require__(295),
+	    OfferStore = __webpack_require__(296);
+	
+	var Dashboard = React.createClass({
+	  displayName: 'Dashboard',
+	
+	  getInitialState: function () {
+	    return { requests: [], offers: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.requestListener = RequestStore.addListener(this.handleRequestChange);
+	    this.offerListener = OfferStore.addListener(this.handleOfferChange);
+	    ClientActions.fetchRequests();
+	    ClientActions.fetchOffers();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.requestListener.remove();
+	    this.offerListener.remove();
+	  },
+	
+	  handleRequestChange: function () {
+	    this.setState({ requests: RequestStore.userRequests() });
+	  },
+	
+	  handleOfferChange: function () {
+	    this.setState({ offers: OfferStore.userOffers });
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'dashboard' },
+	      React.createElement(
+	        'ul',
+	        { className: 'tabs group' },
+	        React.createElement(
+	          'li',
+	          null,
+	          'Open Requests'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Pending Offers'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Bookings'
+	        )
+	      ),
+	      React.createElement(RequestsIndex, { requests: this.state.requests })
+	    );
+	  }
+	});
+	
+	module.exports = Dashboard;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    OfferDetail = __webpack_require__(292);
 	
 	var OffersIndex = React.createClass({
 	  displayName: 'OffersIndex',
@@ -36245,7 +35617,7 @@
 	module.exports = OffersIndex;
 
 /***/ },
-/* 303 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36261,12 +35633,157 @@
 	module.exports = OfferDetail;
 
 /***/ },
-/* 304 */
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var RequestApiUtil = __webpack_require__(294);
+	var OfferApiUtil = __webpack_require__(285);
+	
+	var ClientActions = {
+	  fetchRequests: function () {
+	    RequestApiUtil.fetchRequests();
+	  },
+	
+	  fetchOffers: function () {
+	    OfferApiUtil.fetchOffers();
+	  }
+	
+	};
+	
+	module.exports = ClientActions;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(286);
+	var ErrorActions = __webpack_require__(256);
+	
+	var RequestApiUtil = {
+	  fetchRequests: function () {
+	    $.ajax({
+	      url: "api/requests",
+	      success: function (requests) {
+	        ServerActions.receiveAllRequests(requests);
+	      }
+	    });
+	  },
+	
+	  createRequest: function (requestData) {
+	    $.ajax({
+	      type: "POST",
+	      url: "api/requests",
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	      },
+	      error: function (xhr) {
+	        console.log("create request error in RequestApiUtil#createRequest");
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("request", errors);
+	      }
+	    });
+	  },
+	
+	  updateRequest: function (requestData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/requests" + requestData.id,
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	      }
+	    });
+	  },
+	
+	  deleteRequest: function (id) {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "api/requests" + id,
+	      sucess: function (request) {
+	        ServerActions.removeRequest(request);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = RequestApiUtil;
+
+/***/ },
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251),
 	    Store = __webpack_require__(259).Store,
-	    OfferConstants = __webpack_require__(284),
+	    RequestConstants = __webpack_require__(287),
+	    SessionStore = __webpack_require__(258);
+	RequestStore = new Store(AppDispatcher);
+	
+	var _requests = {};
+	
+	var _addRequest = function (request) {
+	  _requests[request.id] = request;
+	};
+	
+	var _resetRequests = function (requests) {
+	  _requests = {};
+	  requests.forEach(function (request) {
+	    _requests[request.id] = request;
+	  });
+	};
+	
+	RequestStore.all = function () {
+	  return Object.keys(_requests).map(function (id) {
+	    return _requests[id];
+	  });
+	};
+	
+	RequestStore.allOtherRequests = function () {
+	  var otherRequests = [];
+	  for (var key in _requests) {
+	    if (_requests[key].requester_id !== SessionStore.currentUser().id) {
+	      otherRequests.push(_requests[key]);
+	    }
+	  }
+	  return otherRequests;
+	};
+	
+	RequestStore.userRequests = function () {
+	  var userRequests = [];
+	  for (var key in _requests) {
+	    if (_requests[key].requester_id === SessionStore.currentUser().id) {
+	      userRequests.push(_requests[key]);
+	    }
+	  }
+	  return userRequests;
+	};
+	
+	RequestStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case RequestConstants.RECEIVE_SINGLE_REQUEST:
+	      _addRequest(payload.request);
+	      break;
+	
+	    case RequestConstants.RECEIVE_ALL_REQUESTS:
+	      _resetRequests(payload.requests);
+	      break;
+	
+	    case RequestConstants.REMOVE_REQUEST:
+	      _removeRequest(payload.request);
+	      break;
+	  }
+	  this.__emitChange();
+	};
+	
+	module.exports = RequestStore;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(251),
+	    Store = __webpack_require__(259).Store,
+	    OfferConstants = __webpack_require__(287),
 	    SessionStore = __webpack_require__(258);
 	OfferStore = new Store(AppDispatcher);
 	
@@ -36302,6 +35819,538 @@
 	  this.__emitChange();
 	};
 	module.exports = OfferStore;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var HowItWorks = React.createClass({
+	  displayName: "HowItWorks",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "how-it-works" },
+	      React.createElement(
+	        "h2",
+	        null,
+	        "How it Works"
+	      ),
+	      React.createElement(
+	        "ul",
+	        null,
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: raised_hand_url, className: "raised-hand" }),
+	          React.createElement("br", null),
+	          React.createElement("br", null),
+	          "Ask a Favor",
+	          React.createElement(
+	            "p",
+	            null,
+	            "Choose from a list of popular chores and errands"
+	          )
+	        ),
+	        React.createElement(
+	          "li",
+	          { className: "arrow" },
+	          "⟶"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: handshake_url, className: "handshake" }),
+	          React.createElement("br", null),
+	          React.createElement("br", null),
+	          "Get Matched",
+	          React.createElement(
+	            "p",
+	            null,
+	            "Accept offers from other users"
+	          )
+	        ),
+	        React.createElement(
+	          "li",
+	          { className: "arrow" },
+	          "⟶"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: helping_hand_url, className: "helping-hand" }),
+	          React.createElement("br", null),
+	          React.createElement("br", null),
+	          "Pay it Forward",
+	          React.createElement(
+	            "p",
+	            null,
+	            "Browse open favor requests and help another user out"
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = HowItWorks;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    SessionApiUtil = __webpack_require__(249),
+	    Link = __webpack_require__(168).Link;
+	
+	var Header = React.createClass({
+	  displayName: 'Header',
+	
+	  //
+	  // contextTypes: {
+	  //   router: React.PropTypes.object.isRequired
+	  // },
+	
+	  render: function () {
+	    return React.createElement(
+	      'header',
+	      { className: 'header' },
+	      React.createElement('img', { src: logo_url, className: 'logo' }),
+	      React.createElement(
+	        Link,
+	        { to: '/', onClick: this.logout, className: 'logout-link' },
+	        'Log Out'
+	      )
+	    );
+	  },
+	
+	  logout: function () {
+	    SessionApiUtil.logout();
+	  }
+	});
+	
+	module.exports = Header;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    SessionStore = __webpack_require__(258),
+	    RequestStore = __webpack_require__(295),
+	    RequestButton = __webpack_require__(300),
+	    FavorButton = __webpack_require__(304),
+	    ClientActions = __webpack_require__(293);
+	
+	var Welcome = React.createClass({
+	  displayName: 'Welcome',
+	
+	
+	  getInitialState: function () {
+	    return { requests: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.requestListener = RequestStore.addListener(this.handleChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.requestListener.remove();
+	  },
+	
+	  handleChange: function () {
+	    this.setState({ requests: RequestStore.allOtherRequests() });
+	  },
+	
+	  render: function () {
+	    var currentUser = SessionStore.currentUser();
+	    return React.createElement(
+	      'div',
+	      { className: 'welcome' },
+	      React.createElement('img', { src: currentUser.image_url }),
+	      'Welcome to FavoRabbit, ',
+	      currentUser.username,
+	      '!',
+	      React.createElement(RequestButton, null),
+	      React.createElement(FavorButton, { requests: this.state.requests })
+	    );
+	  }
+	});
+	
+	module.exports = Welcome;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    Modal = __webpack_require__(229),
+	    RequestForm = __webpack_require__(301);
+	
+	var style = {
+	  overlay: {
+	    position: 'absolute',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    margin: 'auto',
+	    width: '830px',
+	    height: '502px',
+	    border: '1px solid #ccc',
+	    padding: '20px'
+	  }
+	};
+	
+	var RequestButton = React.createClass({
+	  displayName: 'RequestButton',
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'button',
+	        { onClick: this.openModal, className: 'welcome-button request' },
+	        'Ask a Favor'
+	      ),
+	      React.createElement(
+	        Modal,
+	        {
+	          style: style,
+	          isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal },
+	        React.createElement(RequestForm, { closeModal: this.closeModal })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = RequestButton;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    CategoryStore = __webpack_require__(302),
+	    CategoryApiUtil = __webpack_require__(303),
+	    RequestApiUtil = __webpack_require__(294),
+	    SessionStore = __webpack_require__(258),
+	    ErrorStore = __webpack_require__(278);
+	
+	var RequestForm = React.createClass({
+	  displayName: 'RequestForm',
+	
+	  getInitialState: function () {
+	    return {
+	      title: "",
+	      description: "",
+	      date: "",
+	      time: "",
+	      location: "",
+	      category: "Cleaning"
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.errorListener.remove();
+	  },
+	
+	  updateTitle: function (e) {
+	    this.setState({ title: e.target.value });
+	  },
+	
+	  updateDescription: function (e) {
+	    this.setState({ description: e.target.value });
+	  },
+	
+	  updateLocation: function (e) {
+	    this.setState({ location: e.target.value });
+	  },
+	
+	  updateDate: function (e) {
+	    this.setState({ date: e.target.value });
+	  },
+	
+	  updateTime: function (e) {
+	    this.setState({ time: e.target.value });
+	  },
+	
+	  updateCategory: function (e) {
+	    this.setState({ category: e.target.value });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var formData = {
+	      title: this.state.title,
+	      description: this.state.description,
+	      date: this.state.date,
+	      time: this.state.time,
+	      location: this.state.location,
+	      category: this.state.category,
+	      requester_id: SessionStore.currentUser().id
+	    };
+	    RequestApiUtil.createRequest(formData);
+	    //
+	    // var errors = ErrorStore.formErrors("request");
+	    //
+	    // if (Object.keys(errors).length === 0) {
+	    //
+	    // }
+	    //
+	  },
+	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors("request");
+	    if (!errors[field]) {
+	      return;
+	    }
+	
+	    var messages = errors[field].map(function (error, i) {
+	      return React.createElement(
+	        'li',
+	        { key: i },
+	        field,
+	        ' ',
+	        error
+	      );
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'form-errors' },
+	      messages
+	    );
+	  },
+	
+	  render: function () {
+	    var categories = ["Cleaning", "Shopping + Delivery", "Handyman", "Moving Help", "General Help", "Upgrade Your Home"];
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit, className: 'request-form' },
+	      React.createElement(
+	        'label',
+	        { 'for': 'category' },
+	        'Category'
+	      ),
+	      React.createElement(
+	        'select',
+	        { id: 'category', onChange: this.updateCategory },
+	        categories.map(function (category, i) {
+	          return React.createElement(
+	            'option',
+	            { key: i },
+	            category
+	          );
+	        })
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { 'for': 'title' },
+	        'Title'
+	      ),
+	      React.createElement('input', { type: 'text', id: 'title', onChange: this.updateTitle, className: 'title' }),
+	      this.fieldErrors('title'),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { 'for': 'description' },
+	        'Description'
+	      ),
+	      React.createElement('textarea', { id: 'description', onChange: this.updateDescription, className: 'description' }),
+	      this.fieldErrors('description'),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { 'for': 'date' },
+	        'Date'
+	      ),
+	      React.createElement('input', { type: 'date', id: 'date', onChange: this.updateDate, className: 'date' }),
+	      this.fieldErrors('date'),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { 'for': 'location' },
+	        'Location'
+	      ),
+	      React.createElement('input', { type: 'text', id: 'location', onChange: this.updateLocation, className: 'location' }),
+	      this.fieldErrors('location'),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { 'for': 'time' },
+	        'Time'
+	      ),
+	      React.createElement('input', { type: 'time', id: 'time', onChange: this.updateTime, className: 'time' }),
+	      this.fieldErrors('time'),
+	      React.createElement('input', { type: 'submit', value: 'Submit Request', className: 'submit-request' }),
+	      React.createElement(
+	        'button',
+	        { onClick: this.props.closeModal, className: 'close-x' },
+	        'X'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = RequestForm;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(251),
+	    Store = __webpack_require__(259).Store,
+	    CategoryConstants = __webpack_require__(288),
+	    CategoryStore = new Store(AppDispatcher);
+	
+	var _categories = [];
+	
+	var addCategories = function (categories) {
+	  _categories = [];
+	  _categories.push(categories);
+	};
+	
+	CategoryStore.all = function () {
+	  return _categories;
+	};
+	
+	CategoryStore.allNames = function () {
+	  var names = [];
+	  for (var key in _categories) {
+	    names.push(_categories[key][key].title);
+	  }
+	  return names;
+	};
+	
+	CategoryStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case CategoryConstants.RECEIVE_ALL_CATEGORIES:
+	      addCategories(payload.categories);
+	      break;
+	  }
+	  this.__emitChange();
+	};
+	
+	module.exports = CategoryStore;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(286);
+	
+	var CategoryApiUtil = {
+	  fetchAllCategories: function () {
+	    $.ajax({
+	      url: "api/categories",
+	      success: function (categories) {
+	        ServerActions.receiveAllCategories(categories);
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = CategoryApiUtil;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    Modal = __webpack_require__(229),
+	    RequestsIndex = __webpack_require__(282);
+	
+	var style = {
+	  overlay: {
+	    position: 'absolute',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    margin: 'auto',
+	    width: '900px',
+	    height: '502px',
+	    border: '1px solid #ccc',
+	    padding: '20px'
+	  }
+	};
+	
+	var FavorButton = React.createClass({
+	  displayName: 'FavorButton',
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'button',
+	        { onClick: this.openModal, className: 'welcome-button favor' },
+	        'Do a Favor'
+	      ),
+	      React.createElement(
+	        Modal,
+	        {
+	          style: style,
+	          isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal },
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Do a Good Deed!'
+	        ),
+	        React.createElement(RequestsIndex, { requests: this.props.requests, closeModal: this.closeModal })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = FavorButton;
 
 /***/ }
 /******/ ]);

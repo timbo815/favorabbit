@@ -15,7 +15,7 @@
  margin-right: auto;
  left: 0;
  right: 0;
- top: 30px;
+ top: 75px;
  display: block;
  width: 500px;
  height: 362px;
@@ -52,7 +52,7 @@
  text-align: center;
  margin-left: 40px;
  cursor: pointer;
- background: #1da3bf;
+ background: #00964b;
  color: white;
 }
 
@@ -65,7 +65,7 @@
  border-radius: 5px;
  text-align: center;
  cursor: pointer;
- background: #1da3bf;
+ background: #00964b;
  color: white;
  padding: 5px;
 }
@@ -100,9 +100,17 @@
 }
 
 .signup-errors {
- color: #FF2F2F;
- position: absolute;
- top: 206px;
- left: 438px;
- width: 300px;
+  color: white;
+  background: #00964b;
+  width: 100%;
+  font-size: 18px;
+  display: block;
+  text-align: center;
+}
+
+.form-errors{
+  position: absolute;
+  color: #e9714b;
+  font-size: 16px;
+  left: 175px;
 }

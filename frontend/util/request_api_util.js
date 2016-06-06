@@ -1,5 +1,5 @@
 var ServerActions = require('../actions/server_actions.js');
-
+var ErrorActions = require('../actions/error_actions.js');
 
 var RequestApiUtil = {
   fetchRequests: function () {
@@ -18,7 +18,12 @@ var RequestApiUtil = {
       data: {request: requestData},
       success: function (request) {
         ServerActions.receiveSingleRequest(request);
-      }
+      },
+      error: function (xhr) {
+          console.log("create request error in RequestApiUtil#createRequest");
+          var errors = xhr.responseJSON;
+          ErrorActions.setErrors("request", errors);
+        }
     });
   },
 

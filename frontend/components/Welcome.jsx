@@ -24,11 +24,11 @@ var Welcome = React.createClass({
   },
 
   render: function () {
-    var currentUser = SessionStore.currentUser().username;
+    var currentUser = SessionStore.currentUser();
     return(
       <div className="welcome">
-        <img src={SessionStore.currentUser().image_url}></img>
-        Welcome to FavoRabbit, {currentUser}!
+        <img src={currentUser.image_url}></img>
+        Welcome to FavoRabbit, {currentUser.username}!
         <RequestButton/>
         <FavorButton requests={this.state.requests}/>
       </div>

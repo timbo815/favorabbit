@@ -56,7 +56,7 @@ var React = require('react'),
         if (!errors[field]) { return; }
 
         var messages = errors[field].map(function(error, i) {
-          return (<li key={i}>{error}</li>);
+          return (<li key={i}>{field} {error}</li>);
         });
 
         return (<ul className="signup-errors">{ messages }</ul>);
@@ -70,22 +70,26 @@ var React = require('react'),
       render: function () {
         return(
           <div className="signup-page">
+            <section>
+              {this.fieldErrors("username")}
+              {this.fieldErrors("password")}
+            </section>
             <form onSubmit={this.handleSubmit} className="signup-form">
               <img src={logo_url} className="logo"/><br/><br/><br/>
               <label for="username" className="username-label">Username</label><br/><br/><br/>
-              {this.fieldErrors("username")}
+
               <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
               <br/><br/>
               <label for="password" className="password-label">Password</label><br/><br/>
               <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
               <br/><br/>
-              {this.fieldErrors("password")}
+
               <input type="submit" value="Sign Up" className="submit-button"/>
               <br/><br/><br/>
               <p>Already a user?</p><br/>
               <button onClick={this.renderLogIn} className="signup-button">Log In</button>
             </form>
-            <section className="errors">{this.fieldErrors("base")}</section>
+
           </div>
         );
       }

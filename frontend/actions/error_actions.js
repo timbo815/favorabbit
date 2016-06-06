@@ -9,7 +9,7 @@ var ErrorActions = {
       errors: errors
     });
   },
-
+  
   clearErrors: function () {
     AppDispatcher.dispatch({
       actionType: ErrorConstants.CLEAR_ERRORS

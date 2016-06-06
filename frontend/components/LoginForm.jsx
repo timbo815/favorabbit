@@ -60,15 +60,16 @@ var LoginForm = React.createClass({
     if (!errors[field]) { return; }
 
     var messages = errors[field].map(function(error, i) {
-      return <li key={i} className="errors">{error}</li>;
+      return <li key={i}>{error}</li>;
     });
 
-    return <ul>{ messages }</ul>;
+    return <ul className="signup-errors">{ messages }</ul>;
   },
 
   render: function () {
     return(
       <div className="login-page">
+        <section>{this.fieldErrors("base")}</section>
         <form onSubmit={this.handleSubmit} className="login-form">
           <img src={logo_url} className="logo"/><br/><br/><br/>
           <label for="username" className="username-label">Username</label><br/><br/><br/>
@@ -82,7 +83,6 @@ var LoginForm = React.createClass({
           <p>Not a user?</p><br/>
           <button onClick={this.renderSignUp} className="signup-button">Sign Up</button>
         </form>
-        <section className="errors">{this.fieldErrors("base")}</section>
       </div>
     );
   }
