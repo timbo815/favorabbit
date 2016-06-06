@@ -1,15 +1,19 @@
 .welcome {
   font-size: 36px;
-  height: 190px;
   text-align: center;
   position: relative;
   padding-top: 50px;
-  padding-bottom: 50px;
-  width: 1200px;
+  padding-bottom: 100px;
+  width: 700px;
   margin: auto;
 }
 
+.welcome > h4 {
+  font-weight: normal;
+  font-family: "Proxima Alt Light"
+}
 .welcome-button {
+  float:left;
   border: 3px solid gray;
   border-style: outset;
   border-radius: 15px;
@@ -17,18 +21,11 @@
   padding: 15px;
   color: white;
   font-size: 20px;
-  width: 250px;
-  height: 90px;
   cursor: pointer;
-}
-.request {
-  position: absolute;
-  left: 200px;
-  top: 150px;
+  margin-left:150px;
 }
 
-.favor {
-  position: absolute;
-  left: 700px;
-  top: 150px;
+.user-photo {
+  border-radius: 50%;
+  float: left;
 }

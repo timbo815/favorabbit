@@ -17,6 +17,12 @@ var UserApiUtil = {
       }
     });
   }
+  // 
+  // editUser: function (formData) {
+  //   $.ajax({
+  //     url: "api/"
+  //   });
+  // }
 };
 
 module.exports = UserApiUtil;

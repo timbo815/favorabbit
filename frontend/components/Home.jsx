@@ -12,7 +12,7 @@ var Home = React.createClass({
     return(
       <div className="home">
         <Header/>
-          <Welcome/><br/><br/>
+          <Welcome/>
           <HowItWorks />
           <Dashboard />
       </div>

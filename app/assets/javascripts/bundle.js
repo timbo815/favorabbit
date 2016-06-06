@@ -58,7 +58,8 @@
 	    LoginForm = __webpack_require__(277),
 	    SignUpForm = __webpack_require__(279),
 	    Home = __webpack_require__(281),
-	    OfferForm = __webpack_require__(284);
+	    OfferForm = __webpack_require__(284),
+	    Account = __webpack_require__(306);
 	
 	var routes = React.createElement(
 	  Route,
@@ -67,7 +68,8 @@
 	  React.createElement(Route, { path: '/signup', component: SignUpForm }),
 	  React.createElement(Route, { path: '/login', component: LoginForm }),
 	  React.createElement(Route, { path: 'home', component: Home, onEnter: _ensureLoggedIn }),
-	  React.createElement(Route, { path: 'offer', component: OfferForm, onEnter: _ensureLoggedIn })
+	  React.createElement(Route, { path: 'offer', component: OfferForm, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: 'account', component: Account, onEnter: _ensureLoggedIn })
 	);
 	
 	function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
@@ -35133,6 +35135,12 @@
 	      }
 	    });
 	  }
+	  //
+	  // editUser: function (formData) {
+	  //   $.ajax({
+	  //     url: "api/"
+	  //   });
+	  // }
 	};
 	
 	module.exports = UserApiUtil;
@@ -35159,8 +35167,6 @@
 	      { className: 'home' },
 	      React.createElement(Header, null),
 	      React.createElement(Welcome, null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
 	      React.createElement(HowItWorks, null),
 	      React.createElement(Dashboard, null)
 	    );
@@ -35922,6 +35928,11 @@
 	        Link,
 	        { to: '/', onClick: this.logout, className: 'logout-link' },
 	        'Log Out'
+	      ),
+	      React.createElement(
+	        Link,
+	        { to: '/account', className: 'logout-link' },
+	        'Account'
 	      )
 	    );
 	  },
@@ -35969,10 +35980,14 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'welcome' },
-	      React.createElement('img', { src: currentUser.image_url }),
-	      'Welcome to FavoRabbit, ',
-	      currentUser.username,
-	      '!',
+	      React.createElement('img', { src: currentUser.image_url, className: 'user-photo' }),
+	      React.createElement(
+	        'h4',
+	        null,
+	        'Welcome to FavoRabbit, ',
+	        currentUser.username,
+	        '!'
+	      ),
 	      React.createElement(RequestButton, null),
 	      React.createElement(FavorButton, { requests: this.state.requests })
 	    );
@@ -36028,7 +36043,7 @@
 	      null,
 	      React.createElement(
 	        'button',
-	        { onClick: this.openModal, className: 'welcome-button request' },
+	        { onClick: this.openModal, className: 'welcome-button' },
 	        'Ask a Favor'
 	      ),
 	      React.createElement(
@@ -36330,7 +36345,7 @@
 	      null,
 	      React.createElement(
 	        'button',
-	        { onClick: this.openModal, className: 'welcome-button favor' },
+	        { onClick: this.openModal, className: 'welcome-button' },
 	        'Do a Favor'
 	      ),
 	      React.createElement(
@@ -36351,6 +36366,87 @@
 	});
 	
 	module.exports = FavorButton;
+
+/***/ },
+/* 305 */,
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    UserEditForm = __webpack_require__(307);
+	
+	var Account = React.createClass({
+	  displayName: 'Account',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(UserEditForm, null)
+	    );
+	  }
+	});
+	
+	module.exports = Account;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var userEditForm = React.createClass({
+	  displayName: 'userEditForm',
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      imageFile: null,
+	      imageUrl: null
+	    };
+	  },
+	
+	  updateFile: function (e) {
+	    var file = e.currentTarget.files[0];
+	    var fileReader = new FileReader();
+	    fileReader.onloadend = function () {
+	      this.setState({ imageFile: file, imageUrl: fileReader.result });
+	    }.bind(this);
+	
+	    if (file) {
+	      fileReader.readAsDataURL(file);
+	    }
+	  },
+	
+	  updateUsername: function (e) {
+	    this.setState({ username: e.target.value });
+	  },
+	
+	  // handlSubmit: function (e) {
+	  //   e.preventDefault();
+	  //   var formData = new FormData();
+	  //   formData.append('user[username]', this.state.username);
+	  //   formData.append('user[image]',this.state.imageFile);
+	  //   UserApi
+	  // },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.updateUsername }),
+	        React.createElement('input', { type: 'file', onChange: this.updateFile }),
+	        React.createElement('input', { type: 'submit', value: 'Save Changes' })
+	      ),
+	      React.createElement('img', { src: this.state.imageUrl })
+	    );
+	  }
+	});
+	
+	module.exports = userEditForm;
 
 /***/ }
 /******/ ]);

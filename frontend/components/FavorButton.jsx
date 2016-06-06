@@ -36,7 +36,7 @@ var FavorButton = React.createClass({
   render: function () {
     return (
     <div>
-      <button onClick={this.openModal} className="welcome-button favor">Do a Favor</button>
+      <button onClick={this.openModal} className="welcome-button">Do a Favor</button>
 
       <Modal
         style={style}

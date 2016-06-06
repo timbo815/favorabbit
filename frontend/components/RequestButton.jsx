@@ -36,7 +36,7 @@ var RequestButton = React.createClass({
   render: function () {
     return (
     <div>
-      <button onClick={this.openModal} className="welcome-button request">Ask a Favor</button>
+      <button onClick={this.openModal} className="welcome-button">Ask a Favor</button>
 
       <Modal
         style={style}

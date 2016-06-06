@@ -13,6 +13,7 @@ var Header = React.createClass({
       <header className="header">
         <img src={logo_url} className="logo"/>
         <Link to="/" onClick={this.logout} className="logout-link">Log Out</Link>
+        <Link to="/account" className="logout-link">Account</Link>
       </header>
     );
   },
