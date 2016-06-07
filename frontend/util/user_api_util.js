@@ -16,13 +16,24 @@ var UserApiUtil = {
         ErrorActions.setErrors("signup", errors);
       }
     });
+  },
+
+  editUser: function (formData) {
+    $.ajax({
+      url: "api/user",
+      type: "PATCH",
+      contentType: false,
+      processData: false,
+      data: formData,
+      success: function () {
+  
+      },
+      error: function (errors) {
+
+
+      }
+    });
   }
-  // 
-  // editUser: function (formData) {
-  //   $.ajax({
-  //     url: "api/"
-  //   });
-  // }
 };
 
 module.exports = UserApiUtil;

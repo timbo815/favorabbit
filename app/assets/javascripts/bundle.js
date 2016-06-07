@@ -59,7 +59,7 @@
 	    SignUpForm = __webpack_require__(279),
 	    Home = __webpack_require__(281),
 	    OfferForm = __webpack_require__(284),
-	    Account = __webpack_require__(306);
+	    Account = __webpack_require__(305);
 	
 	var routes = React.createElement(
 	  Route,
@@ -35134,13 +35134,19 @@
 	        ErrorActions.setErrors("signup", errors);
 	      }
 	    });
+	  },
+	
+	  editUser: function (formData) {
+	    $.ajax({
+	      url: "api/user",
+	      type: "PATCH",
+	      contentType: false,
+	      processData: false,
+	      data: formData,
+	      success: function () {},
+	      error: function (errors) {}
+	    });
 	  }
-	  //
-	  // editUser: function (formData) {
-	  //   $.ajax({
-	  //     url: "api/"
-	  //   });
-	  // }
 	};
 	
 	module.exports = UserApiUtil;
@@ -35320,6 +35326,7 @@
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
+	    ErrorStore = __webpack_require__(278),
 	    OfferApiUtil = __webpack_require__(285);
 	
 	var OfferForm = React.createClass({
@@ -35327,6 +35334,14 @@
 	
 	  getInitialState: function () {
 	    return { message: "" };
+	  },
+	
+	  componentDidMount: function () {
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.errorListener.remove();
 	  },
 	
 	  updateMessage: function (e) {
@@ -35337,10 +35352,33 @@
 	    e.preventDefault();
 	    var formData = {
 	      message: this.state.message,
-	      request_id: this.props.request_id,
-	      doer_id: SessionStore.currentUser().id
+	      request_id: this.props.request.id
+	      // doer_id: SessionStore.currentUser().id,
 	    };
 	    OfferApiUtil.createOffer(formData);
+	  },
+	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors("offer");
+	    if (!errors[field]) {
+	      return;
+	    }
+	
+	    var messages = errors[field].map(function (error, i) {
+	      return React.createElement(
+	        'li',
+	        { key: i },
+	        field,
+	        ' ',
+	        error
+	      );
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'form-errors' },
+	      messages
+	    );
 	  },
 	
 	  render: function () {
@@ -35396,7 +35434,8 @@
 	          'Your Message Here',
 	          React.createElement('br', null),
 	          React.createElement('br', null),
-	          React.createElement('textarea', { onChange: this.updateMessage, className: 'description' })
+	          React.createElement('textarea', { onChange: this.updateMessage, className: 'description' }),
+	          this.fieldErrors('message')
 	        ),
 	        React.createElement('input', { type: 'submit', value: 'Submit Offer', className: 'submit-request' })
 	      )
@@ -35410,7 +35449,8 @@
 /* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ServerActions = __webpack_require__(286);
+	var ServerActions = __webpack_require__(286),
+	    ErrorActions = __webpack_require__(256);
 	
 	var OfferApiUtil = {
 	  fetchOffers: function () {
@@ -35430,9 +35470,15 @@
 	      data: { offer: formData },
 	      success: function (offer) {
 	        ServerActions.receiveSingleOffer(offer);
+	      },
+	      error: function (xhr) {
+	        console.log("create offer error in OfferApiUtil#createOffer");
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("offer", errors);
 	      }
 	    });
 	  }
+	
 	};
 	
 	module.exports = OfferApiUtil;
@@ -36359,7 +36405,12 @@
 	          null,
 	          'Do a Good Deed!'
 	        ),
-	        React.createElement(RequestsIndex, { requests: this.props.requests, closeModal: this.closeModal })
+	        React.createElement(RequestsIndex, { requests: this.props.requests, closeModal: this.closeModal }),
+	        React.createElement(
+	          'button',
+	          { onClick: this.closeModal, className: 'close-x' },
+	          'X'
+	        )
 	      )
 	    );
 	  }
@@ -36368,12 +36419,11 @@
 	module.exports = FavorButton;
 
 /***/ },
-/* 305 */,
-/* 306 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserEditForm = __webpack_require__(307);
+	    UserEditForm = __webpack_require__(306);
 	
 	var Account = React.createClass({
 	  displayName: 'Account',
@@ -36390,17 +36440,19 @@
 	module.exports = Account;
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
+	var React = __webpack_require__(1),
+	    UserApiUtil = __webpack_require__(280),
+	    SessionStore = __webpack_require__(258);
 	
-	var userEditForm = React.createClass({
-	  displayName: 'userEditForm',
+	var UserEditForm = React.createClass({
+	  displayName: 'UserEditForm',
 	
 	  getInitialState: function () {
 	    return {
-	      username: "",
+	      username: SessionStore.currentUser().username,
 	      imageFile: null,
 	      imageUrl: null
 	    };
@@ -36422,13 +36474,13 @@
 	    this.setState({ username: e.target.value });
 	  },
 	
-	  // handlSubmit: function (e) {
-	  //   e.preventDefault();
-	  //   var formData = new FormData();
-	  //   formData.append('user[username]', this.state.username);
-	  //   formData.append('user[image]',this.state.imageFile);
-	  //   UserApi
-	  // },
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var formData = new FormData();
+	    formData.append('user[username]', this.state.username);
+	    formData.append('user[image]', this.state.imageFile);
+	    UserApiUtil.editUser(formData);
+	  },
 	
 	  render: function () {
 	    return React.createElement(
@@ -36446,7 +36498,7 @@
 	  }
 	});
 	
-	module.exports = userEditForm;
+	module.exports = UserEditForm;
 
 /***/ }
 /******/ ]);

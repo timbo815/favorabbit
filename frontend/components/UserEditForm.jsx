@@ -1,9 +1,11 @@
-var React = require('react');
+var React = require('react'),
+    UserApiUtil = require('../util/user_api_util.js'),
+    SessionStore = require('../stores/session_store.js');
 
-var userEditForm = React.createClass({
+var UserEditForm = React.createClass({
   getInitialState: function () {
     return({
-      username: "",
+      username: SessionStore.currentUser().username,
       imageFile: null,
       imageUrl: null
     });
@@ -25,13 +27,13 @@ var userEditForm = React.createClass({
     this.setState({username: e.target.value});
   },
 
-  // handlSubmit: function (e) {
-  //   e.preventDefault();
-  //   var formData = new FormData();
-  //   formData.append('user[username]', this.state.username);
-  //   formData.append('user[image]',this.state.imageFile);
-  //   UserApi
-  // },
+  handleSubmit: function (e) {
+    e.preventDefault();
+    var formData = new FormData();
+    formData.append('user[username]', this.state.username);
+    formData.append('user[image]', this.state.imageFile);
+    UserApiUtil.editUser(formData);
+  },
 
   render: function () {
     return(
@@ -47,4 +49,4 @@ var userEditForm = React.createClass({
   }
 });
 
-module.exports = userEditForm;
+module.exports = UserEditForm;

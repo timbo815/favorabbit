@@ -1,4 +1,5 @@
-var ServerActions = require('../actions/server_actions.js');
+var ServerActions = require('../actions/server_actions.js'),
+    ErrorActions = require('../actions/error_actions.js');
 
 var OfferApiUtil = {
   fetchOffers: function () {
@@ -18,10 +19,15 @@ var OfferApiUtil = {
       data: {offer: formData},
       success: function (offer) {
         ServerActions.receiveSingleOffer(offer);
-      }
+      },
+      error: function (xhr) {
+        console.log("create offer error in OfferApiUtil#createOffer");
+        var errors = xhr.responseJSON;
+        ErrorActions.setErrors("offer", errors);
+        }
     });
-
   }
+
 };
 
 module.exports = OfferApiUtil;

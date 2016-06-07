@@ -11,21 +11,27 @@
 .welcome > h4 {
   font-weight: normal;
   font-family: "Proxima Alt Light"
+  width:600px;
 }
 .welcome-button {
   float:left;
-  border: 3px solid gray;
+  border: 1px solid #23b4d2;
   border-style: outset;
   border-radius: 15px;
-  background: #1da3bf;
   padding: 15px;
-  color: white;
+  color:  #1da3bf;
   font-size: 20px;
   cursor: pointer;
   margin-left:150px;
 }
 
+.welcome-button:hover {
+  background:#23b4d2;
+  color:white;
+}
+
 .user-photo {
   border-radius: 50%;
   float: left;
+  margin-top:20px;
 }
