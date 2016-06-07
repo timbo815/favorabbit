@@ -8,7 +8,7 @@ var React = require('react'),
 
 var Dashboard = React.createClass({
   getInitialState: function () {
-    return ({ requests: [], offers: []});
+    return ({ requests: [], offers: [], focused: "requests"});
   },
 
   componentDidMount: function () {
@@ -28,28 +28,49 @@ var Dashboard = React.createClass({
   },
 
   handleOfferChange: function () {
-    this.setState({ offers: OfferStore.userOffers});
+    this.setState({ offers: OfferStore.userOffers()});
+  },
+
+  renderDashboard: function () {
+    switch(this.state.focused) {
+      case "requests":
+      return(<RequestsIndex requests={this.state.requests}/>);
+
+      case "offers":
+      return(<OffersIndex offers={this.state.offers}/>);
+    }
+  },
+
+  handleOffersClick: function (e) {
+    this.setState({ focused: "offers" });
+  },
+
+  handleRequestsClick: function (e) {
+    this.setState({ focused: "requests" });
   },
 
   render: function () {
 
     return (
-      <div className="dashboard">
+      <div>
         <ul className="tabs group">
-          <li>
+          <li onClick={this.handleRequestsClick}>
             Open Requests
           </li>
-          <li>
+          <li onClick={this.handleOffersClick}>
             Pending Offers
           </li>
           <li>
             Bookings
           </li>
         </ul>
-        <RequestsIndex requests={this.state.requests}/>
+      <div className="dashboard">
+        {this.renderDashboard()}
       </div>
+    </div>
     );
   }
 });
+
 
 module.exports = Dashboard;

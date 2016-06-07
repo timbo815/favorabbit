@@ -75,15 +75,13 @@ var React = require('react'),
               {this.fieldErrors("password")}
             </section>
             <form onSubmit={this.handleSubmit} className="signup-form">
-              <img src={logo_url} className="logo"/><br/><br/><br/>
-              <label for="username" className="username-label">Username</label><br/><br/><br/>
-
+              <img src={logo_url} className="logo"/>
+              <h5>FavoRabbit</h5>
+              <label for="username" className="username-label">Username</label>
               <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
-              <br/><br/>
-              <label for="password" className="password-label">Password</label><br/><br/>
+              <label for="password" className="password-label">Password</label><br/><br/><br/>
               <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
               <br/><br/>
-
               <input type="submit" value="Sign Up" className="submit-button"/>
               <br/><br/><br/>
               <p>Already a user?</p><br/>

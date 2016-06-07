@@ -7,21 +7,21 @@ var HowItWorks = React.createClass({
         <h2>How it Works</h2>
           <ul>
             <li>
-              <img src={raised_hand_url} className="raised-hand"/><br/><br/>
-              Ask a Favor
-              <p>Choose from a list of popular chores and errands</p>
+              <img src={raised_hand_url} className="raised-hand"/>
+              <h4>Ask a Favor</h4>
+              Choose from a list of popular chores and errands
             </li>
             <li className="arrow">⟶</li>
             <li>
-              <img src={handshake_url} className="handshake"/><br/><br/>
-              Get Matched
-              <p>Accept offers from other users</p>
+              <img src={handshake_url} className="handshake"/>
+              <h4>Get Matched</h4>
+              Accept offers from other users
             </li>
             <li className="arrow">⟶</li>
             <li>
-              <img src={helping_hand_url} className="helping-hand"/><br/><br/>
-              Pay it Forward
-              <p>Browse open favor requests and help another user out</p>
+              <img src={helping_hand_url} className="helping-hand"/>
+              <h4>Pay it Forward</h4>
+              Browse open favor requests and help another user out
             </li>
           </ul>
       </div>

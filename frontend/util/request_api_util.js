@@ -11,13 +11,14 @@ var RequestApiUtil = {
     });
   },
 
-  createRequest: function (requestData) {
+  createRequest: function (requestData, callback) {
     $.ajax({
       type: "POST",
       url: "api/requests",
       data: {request: requestData},
       success: function (request) {
         ServerActions.receiveSingleRequest(request);
+        callback();
       },
       error: function (xhr) {
           console.log("create request error in RequestApiUtil#createRequest");

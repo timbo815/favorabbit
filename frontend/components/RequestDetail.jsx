@@ -51,15 +51,17 @@ var RequestDetail = React.createClass({
   },
 
   render: function () {
+    var currentUser = SessionStore.currentUser();
     return(
-    <section className="request-detail">
+    <section className="detail group">
+      <img src={currentUser.image_url} className="user-photo"></img>
       <ul>
         <li>Category: {this.props.request.category}</li>
-        <li>{this.props.request.title}</li>
-        <li>{this.props.request.description}</li>
+        <li>Title: {this.props.request.title}</li>
+        <li>Request: {this.props.request.description}</li><br/>
         <li>Location: {this.props.request.location}</li>
-        <li>{this.props.request.date}</li>
-        <li>{this.props.request.time}</li>
+        <li>Date: {this.props.request.date}</li>
+        <li>Time: {this.props.request.time}</li>
       </ul>
         {this.renderOffer(this.props.request.requester_id)}
     </section>

@@ -7,7 +7,7 @@ var OffersIndex = React.createClass({
 
   render: function () {
     return (
-      <section className="offers-index">
+      <section className="index">
         <ul>
         {
           this.props.offers.map(function (offer, i) {

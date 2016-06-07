@@ -4,34 +4,49 @@
   position: relative;
   padding-top: 50px;
   padding-bottom: 100px;
-  width: 700px;
+  width: 900px;
   margin: auto;
 }
 
 .welcome > h4 {
   font-weight: normal;
-  font-family: "Proxima Alt Light"
-  width:600px;
+  font-family: "Proxima Alt Semibold";
+  width:630px;
 }
 .welcome-button {
   float:left;
-  border: 1px solid #23b4d2;
-  border-style: outset;
+  border: 1px solid #00964b;
   border-radius: 15px;
   padding: 15px;
-  color:  #1da3bf;
+  color:  #00964b;
   font-size: 20px;
   cursor: pointer;
-  margin-left:150px;
+  font-family: "Proxima Alt Regular";
+}
+.welcome-button:focus {
+  outline:0;
 }
 
 .welcome-button:hover {
-  background:#23b4d2;
+  background:#00964b;
   color:white;
 }
 
 .user-photo {
   border-radius: 50%;
   float: left;
-  margin-top:20px;
+  margin-top: 20px;
+  width: 86px;
+  height: 86px;
+}
+
+.favor-button {
+  border: 1px solid #00964b;
+  border-radius: 15px;
+  padding: 15px;
+  color:  #00964b;
+  font-size: 20px;
+  cursor: pointer;
+  font-family: "Proxima Alt Regular";
+  float: right;
 }

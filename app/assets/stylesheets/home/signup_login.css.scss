@@ -1,5 +1,5 @@
 .login-page, .signup-page {
- font-family: Arial, Helvetica, sans-serif;
+ font-family: "Proxima Alt Light";
  background-image: asset-url("helping-hikers.jpg");
  background-size: cover;
  position: fixed;
@@ -29,6 +29,22 @@
  position: absolute;
  left:304px;
  top: 337px;
+}
+
+.login-form > h5 {
+  font-size: 35px;
+  margin-left: 185px;
+  color: #00964b;
+  font-family: "Proxima Alt Semibold";
+  margin-top: 20px;
+}
+
+.signup-form > h5 {
+  font-size: 35px;
+  margin-left: 185px;
+  color: black;
+  font-family: "Proxima Alt Semibold";
+  margin-top: 20px;
 }
 
 .signup-form > p {

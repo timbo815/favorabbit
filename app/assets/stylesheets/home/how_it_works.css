@@ -1,9 +1,9 @@
 .how-it-works {
   height: 371px;
-  width: 1200px;
+  width: 900px;
   margin: auto;
-  padding-bottom: 100px;
   position: relative;
+  font-family: "Proxima Alt Light";
 }
 .how-it-works h2 {
   font-size: 35px;
@@ -13,45 +13,49 @@
   text-align: center;
 }
 
+.how-it-works h4 {
+  font-family: "Proxima Alt Regular";
+    color: #00964b;
+}
+
 .how-it-works .arrow {
   color: #7C8585;
-  font-size: 45px;
+  font-size: 40px;
   width: 0px;
 }
 
 .how-it-works ul {
-  width: 74%;
-  margin: auto;
-  left: 255px;
+  width: 700px;
+  margin: 40px auto;
 }
 
 .how-it-works li {
-  box-sizing: border-box;
-  display: block;
+  /*display: block;
   float: left;
   font-size: 22px;
-  color: #00964b;
-  width: 15%;
+  */
+  color: #323a3b;
+  float:left;
+  width: 200px;
   text-align: center;
-  padding: 20px;
-  margin: 40px;
 }
 
 .how-it-works p {
-  color: #828a8b;
+  /*color: #828a8b;
+  width:200px;
   font-size: 16px;
   font-weight: 100;
-  padding-top: 15px;
+  padding-top: 15px;*/
 }
 
 .raised-hand {
-  width: 50%;
+  width: 40px;
 }
 
 .handshake {
-  width: 50%;
+  width: 40px;
 }
 
 .helping-hand {
-  width: 50%;
+    width: 40px;
 }

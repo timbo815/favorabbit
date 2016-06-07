@@ -37,11 +37,15 @@ var UserEditForm = React.createClass({
 
   render: function () {
     return(
-      <div>
+      <div className="user-edit">
         <form onSubmit={this.handleSubmit}>
-          <input type='text' value={this.state.username} onChange={this.updateUsername}/>
+          <label>Username
+          <input type='text' value={this.state.username} onChange={this.updateUsername} className="edit-username"/>
+          </label>
+          <label>Upload a new photo
           <input type='file' onChange={this.updateFile}/>
-          <input type='submit' value='Save Changes'/>
+          </label>
+          <input type='submit' value='Save Changes' className="user-edit-submit"/>
         </form>
         <img src={this.state.imageUrl}/>
       </div>

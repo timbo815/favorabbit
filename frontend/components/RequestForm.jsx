@@ -60,7 +60,7 @@ var RequestForm = React.createClass({
       category: this.state.category,
       requester_id: SessionStore.currentUser().id
     };
-    RequestApiUtil.createRequest(formData);
+    RequestApiUtil.createRequest(formData, this.props.closeModal);
     //
     // var errors = ErrorStore.formErrors("request");
     //

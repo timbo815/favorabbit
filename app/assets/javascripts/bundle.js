@@ -34875,25 +34875,23 @@
 	        'form',
 	        { onSubmit: this.handleSubmit, className: 'login-form' },
 	        React.createElement('img', { src: logo_url, className: 'logo' }),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
+	        React.createElement(
+	          'h5',
+	          null,
+	          'FavoRabbit'
+	        ),
 	        React.createElement(
 	          'label',
 	          { 'for': 'username', className: 'username-label' },
 	          'Username'
 	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
 	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange, className: 'username' }),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
 	        React.createElement(
 	          'label',
 	          { 'for': 'password', className: 'password-label' },
 	          'Password'
 	        ),
+	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange, className: 'password' }),
@@ -35066,25 +35064,23 @@
 	        'form',
 	        { onSubmit: this.handleSubmit, className: 'signup-form' },
 	        React.createElement('img', { src: logo_url, className: 'logo' }),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
+	        React.createElement(
+	          'h5',
+	          null,
+	          'FavoRabbit'
+	        ),
 	        React.createElement(
 	          'label',
 	          { 'for': 'username', className: 'username-label' },
 	          'Username'
 	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
 	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange, className: 'username' }),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
 	        React.createElement(
 	          'label',
 	          { 'for': 'password', className: 'password-label' },
 	          'Password'
 	        ),
+	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange, className: 'password' }),
@@ -35195,7 +35191,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'section',
-	      { className: 'requests-index' },
+	      { className: 'index' },
 	      React.createElement(
 	        'ul',
 	        null,
@@ -35274,9 +35270,11 @@
 	  },
 	
 	  render: function () {
+	    var currentUser = SessionStore.currentUser();
 	    return React.createElement(
 	      'section',
-	      { className: 'request-detail' },
+	      { className: 'detail group' },
+	      React.createElement('img', { src: currentUser.image_url, className: 'user-photo' }),
 	      React.createElement(
 	        'ul',
 	        null,
@@ -35289,13 +35287,16 @@
 	        React.createElement(
 	          'li',
 	          null,
+	          'Title: ',
 	          this.props.request.title
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
+	          'Request: ',
 	          this.props.request.description
 	        ),
+	        React.createElement('br', null),
 	        React.createElement(
 	          'li',
 	          null,
@@ -35305,11 +35306,13 @@
 	        React.createElement(
 	          'li',
 	          null,
+	          'Date: ',
 	          this.props.request.date
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
+	          'Time: ',
 	          this.props.request.time
 	        )
 	      ),
@@ -35586,7 +35589,7 @@
 	  displayName: 'Dashboard',
 	
 	  getInitialState: function () {
-	    return { requests: [], offers: [] };
+	    return { requests: [], offers: [], focused: "requests" };
 	  },
 	
 	  componentDidMount: function () {
@@ -35606,25 +35609,43 @@
 	  },
 	
 	  handleOfferChange: function () {
-	    this.setState({ offers: OfferStore.userOffers });
+	    this.setState({ offers: OfferStore.userOffers() });
+	  },
+	
+	  renderDashboard: function () {
+	    switch (this.state.focused) {
+	      case "requests":
+	        return React.createElement(RequestsIndex, { requests: this.state.requests });
+	
+	      case "offers":
+	        return React.createElement(OffersIndex, { offers: this.state.offers });
+	    }
+	  },
+	
+	  handleOffersClick: function (e) {
+	    this.setState({ focused: "offers" });
+	  },
+	
+	  handleRequestsClick: function (e) {
+	    this.setState({ focused: "requests" });
 	  },
 	
 	  render: function () {
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'dashboard' },
+	      null,
 	      React.createElement(
 	        'ul',
 	        { className: 'tabs group' },
 	        React.createElement(
 	          'li',
-	          null,
+	          { onClick: this.handleRequestsClick },
 	          'Open Requests'
 	        ),
 	        React.createElement(
 	          'li',
-	          null,
+	          { onClick: this.handleOffersClick },
 	          'Pending Offers'
 	        ),
 	        React.createElement(
@@ -35633,7 +35654,11 @@
 	          'Bookings'
 	        )
 	      ),
-	      React.createElement(RequestsIndex, { requests: this.state.requests })
+	      React.createElement(
+	        'div',
+	        { className: 'dashboard' },
+	        this.renderDashboard()
+	      )
 	    );
 	  }
 	});
@@ -35654,7 +35679,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'section',
-	      { className: 'offers-index' },
+	      { className: 'index' },
 	      React.createElement(
 	        'ul',
 	        null,
@@ -35675,14 +35700,29 @@
 	var React = __webpack_require__(1);
 	
 	var OfferDetail = React.createClass({
-	  displayName: 'OfferDetail',
+	  displayName: "OfferDetail",
 	
 	  render: function () {
-	    return React.createElement('div', null);
+	    return React.createElement(
+	      "section",
+	      { className: "detail" },
+	      this.props.offer.doer_photo,
+	      React.createElement(
+	        "ul",
+	        null,
+	        React.createElement(
+	          "li",
+	          null,
+	          this.props.offer.message
+	        )
+	      )
+	    );
 	  }
 	});
 	
 	module.exports = OfferDetail;
+	
+	// <img src={} className="user-photo"></img>
 
 /***/ },
 /* 293 */
@@ -35721,13 +35761,14 @@
 	    });
 	  },
 	
-	  createRequest: function (requestData) {
+	  createRequest: function (requestData, callback) {
 	    $.ajax({
 	      type: "POST",
 	      url: "api/requests",
 	      data: { request: requestData },
 	      success: function (request) {
 	        ServerActions.receiveSingleRequest(request);
+	        callback();
 	      },
 	      error: function (xhr) {
 	        console.log("create request error in RequestApiUtil#createRequest");
@@ -35774,6 +35815,7 @@
 	var _requests = {};
 	
 	var _addRequest = function (request) {
+	  debugger;
 	  _requests[request.id] = request;
 	};
 	
@@ -35835,7 +35877,7 @@
 
 	var AppDispatcher = __webpack_require__(251),
 	    Store = __webpack_require__(259).Store,
-	    OfferConstants = __webpack_require__(287),
+	    OfferConstants = __webpack_require__(289),
 	    SessionStore = __webpack_require__(258);
 	OfferStore = new Store(AppDispatcher);
 	
@@ -35897,14 +35939,12 @@
 	          "li",
 	          null,
 	          React.createElement("img", { src: raised_hand_url, className: "raised-hand" }),
-	          React.createElement("br", null),
-	          React.createElement("br", null),
-	          "Ask a Favor",
 	          React.createElement(
-	            "p",
+	            "h4",
 	            null,
-	            "Choose from a list of popular chores and errands"
-	          )
+	            "Ask a Favor"
+	          ),
+	          "Choose from a list of popular chores and errands"
 	        ),
 	        React.createElement(
 	          "li",
@@ -35915,14 +35955,12 @@
 	          "li",
 	          null,
 	          React.createElement("img", { src: handshake_url, className: "handshake" }),
-	          React.createElement("br", null),
-	          React.createElement("br", null),
-	          "Get Matched",
 	          React.createElement(
-	            "p",
+	            "h4",
 	            null,
-	            "Accept offers from other users"
-	          )
+	            "Get Matched"
+	          ),
+	          "Accept offers from other users"
 	        ),
 	        React.createElement(
 	          "li",
@@ -35933,14 +35971,12 @@
 	          "li",
 	          null,
 	          React.createElement("img", { src: helping_hand_url, className: "helping-hand" }),
-	          React.createElement("br", null),
-	          React.createElement("br", null),
-	          "Pay it Forward",
 	          React.createElement(
-	            "p",
+	            "h4",
 	            null,
-	            "Browse open favor requests and help another user out"
-	          )
+	            "Pay it Forward"
+	          ),
+	          "Browse open favor requests and help another user out"
 	        )
 	      )
 	    );
@@ -35971,14 +36007,33 @@
 	      { className: 'header' },
 	      React.createElement('img', { src: logo_url, className: 'logo' }),
 	      React.createElement(
-	        Link,
-	        { to: '/', onClick: this.logout, className: 'logout-link' },
-	        'Log Out'
+	        'h5',
+	        { className: 'favo' },
+	        'Favo'
 	      ),
 	      React.createElement(
-	        Link,
-	        { to: '/account', className: 'logout-link' },
-	        'Account'
+	        'h5',
+	        { className: 'rabbit' },
+	        'Rabbit'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'header-links' },
+	        React.createElement(
+	          Link,
+	          { to: '/home', className: 'header-link' },
+	          'Home'
+	        ),
+	        React.createElement(
+	          Link,
+	          { to: '/account', className: 'header-link' },
+	          'Account'
+	        ),
+	        React.createElement(
+	          Link,
+	          { to: '/', onClick: this.logout, className: 'header-link' },
+	          'Log Out'
+	        )
 	      )
 	    );
 	  },
@@ -36174,7 +36229,7 @@
 	      category: this.state.category,
 	      requester_id: SessionStore.currentUser().id
 	    };
-	    RequestApiUtil.createRequest(formData);
+	    RequestApiUtil.createRequest(formData, this.props.closeModal);
 	    //
 	    // var errors = ErrorStore.formErrors("request");
 	    //
@@ -36391,7 +36446,7 @@
 	      null,
 	      React.createElement(
 	        'button',
-	        { onClick: this.openModal, className: 'welcome-button' },
+	        { onClick: this.openModal, className: 'favor-button' },
 	        'Do a Favor'
 	      ),
 	      React.createElement(
@@ -36423,7 +36478,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserEditForm = __webpack_require__(306);
+	    UserEditForm = __webpack_require__(306),
+	    Header = __webpack_require__(298);
 	
 	var Account = React.createClass({
 	  displayName: 'Account',
@@ -36431,7 +36487,13 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'account' },
+	      React.createElement(Header, null),
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Your Account'
+	      ),
 	      React.createElement(UserEditForm, null)
 	    );
 	  }
@@ -36485,13 +36547,23 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'user-edit' },
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit },
-	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.updateUsername }),
-	        React.createElement('input', { type: 'file', onChange: this.updateFile }),
-	        React.createElement('input', { type: 'submit', value: 'Save Changes' })
+	        React.createElement(
+	          'label',
+	          null,
+	          'Username',
+	          React.createElement('input', { type: 'text', value: this.state.username, onChange: this.updateUsername, className: 'edit-username' })
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Upload a new photo',
+	          React.createElement('input', { type: 'file', onChange: this.updateFile })
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'Save Changes', className: 'user-edit-submit' })
 	      ),
 	      React.createElement('img', { src: this.state.imageUrl })
 	    );

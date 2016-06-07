@@ -14,9 +14,9 @@ class Api::UsersController < ApplicationController
   def update
     @user = current_user
     if @user.update_attributes(user_params)
-      render json: @user
+      render "api/users/show"
     else
-      render json: @user.errors
+      render json: @user.errors, status: 422
     end
   end
 

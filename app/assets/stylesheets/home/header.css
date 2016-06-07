@@ -1,22 +1,54 @@
 .header {
   display: block;
   background: white;
-  height: 61px;
+  height: 60px;
+}
+
+.header-links {
+  float:right;
+  margin-right:175px;
+  font-family: "Proxima Alt Light"
 }
 
 .header img {
-  width: 165px;
-  height: 47px;
   position: absolute;
-  left: 150px;
+  left: 200px;
+  height: 50px;
+  width:auto;
 }
 
-.logout-link {
-  float: right;
+/*.header h5 {
+  float:left;
+  font-family: "Proxima Alt Semibold";
+  color:#00964b;
+  font-size: 28px;
+  margin-left: 225px;
+  margin-top: 10px;
+}*/
+
+.header-link {
+  float: left;
   display: block;
   color: #626a6b;
   padding: 5px;
   margin-top: 15px;
   margin-right: 15px;
   cursor: pointer;
+}
+
+.favo {
+  float:left;
+  font-family: "Proxima Alt Semibold";
+  color:#335f4d;
+  font-size: 28px;
+  margin-left: 275px;
+  margin-top: 10px;
+}
+
+.rabbit {
+  float:left;
+  font-family: "Proxima Alt Semibold";
+  color:#00964b;
+  font-size: 28px;
+  margin-top: 10px;
 }

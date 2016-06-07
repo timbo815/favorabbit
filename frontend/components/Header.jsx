@@ -11,9 +11,12 @@ var Header = React.createClass({
   render: function () {
     return(
       <header className="header">
-        <img src={logo_url} className="logo"/>
-        <Link to="/" onClick={this.logout} className="logout-link">Log Out</Link>
-        <Link to="/account" className="logout-link">Account</Link>
+        <img src={logo_url} className="logo"/><h5 className="favo">Favo</h5><h5 className="rabbit">Rabbit</h5>
+      <ul className="header-links">
+        <Link to="/home" className="header-link">Home</Link>
+        <Link to="/account" className="header-link">Account</Link>
+        <Link to="/" onClick={this.logout} className="header-link">Log Out</Link>
+      </ul>
       </header>
     );
   },

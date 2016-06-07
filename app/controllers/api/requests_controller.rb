@@ -3,7 +3,7 @@ class Api::RequestsController < ApplicationController
   def create
     @request = Request.new(request_params)
     if @request.save
-      render json: @request
+      render "api/requests/show"
     else
       render json: @request.errors, status: 422
     end

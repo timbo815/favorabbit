@@ -4,7 +4,7 @@ class Api::OffersController < ApplicationController
     @offer = Offer.new(offer_params)
     @offer.doer_id = current_user.id
     if @offer.save
-      render json: @offer
+      render "api/offers/show"
     else
       render json: @offer.errors, status: 422
     end
@@ -13,10 +13,10 @@ class Api::OffersController < ApplicationController
   # def show
   # end
   #
-  # def index
-  #
-  # end
-  #
+  def index
+    @offers = Offer.all
+    render json: @offers
+  end
   # def destroy
   # end
 

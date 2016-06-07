@@ -7,7 +7,7 @@ var RequestsIndex = React.createClass({
 
   render: function () {
     return (
-      <section className="requests-index">
+      <section className="index">
         <ul>
         {
           this.props.requests.map(function (request, i) {

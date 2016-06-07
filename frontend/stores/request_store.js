@@ -8,6 +8,7 @@ var AppDispatcher = require('../dispatcher/dispatcher.js'),
 var _requests = {};
 
 var _addRequest = function (request) {
+  debugger
   _requests[request.id] = request;
 };
 
