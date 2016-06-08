@@ -42,7 +42,7 @@ var FavorButton = React.createClass({
         style={style}
         isOpen={this.state.modalOpen}
         onRequestClose={this.closeModal}>
-        <h2>Do a Good Deed!</h2>
+        <h2 className="favor-index-heading">Pay it Forward!</h2>
           <RequestsIndex requests={this.props.requests} closeModal={this.closeModal}/>
             <button onClick={this.closeModal} className="close-x">X</button>
       </Modal>

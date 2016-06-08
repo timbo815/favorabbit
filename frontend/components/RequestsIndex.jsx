@@ -11,7 +11,7 @@ var RequestsIndex = React.createClass({
         <ul>
         {
           this.props.requests.map(function (request, i) {
-            return <RequestDetail key={i} request={request}/>;
+            return <RequestDetail key={i} request={request} />;
           })
         }
         </ul>

@@ -34,7 +34,7 @@ var OfferApiUtil = {
       url: "api/offers/" + offerData.id,
       data: {offer: offerData},
       success: function (offer) {
-
+        ServerActions.receiveSingleOffer(offer);
       }
     });
   }

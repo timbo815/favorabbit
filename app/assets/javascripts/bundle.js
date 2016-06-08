@@ -57,9 +57,9 @@
 	    App = __webpack_require__(276),
 	    LoginForm = __webpack_require__(277),
 	    SignUpForm = __webpack_require__(279),
-	    Home = __webpack_require__(281),
-	    OfferForm = __webpack_require__(284),
-	    Account = __webpack_require__(305);
+	    Home = __webpack_require__(287),
+	    OfferForm = __webpack_require__(290),
+	    Account = __webpack_require__(310);
 	
 	var routes = React.createElement(
 	  Route,
@@ -35114,7 +35114,7 @@
 
 	var SessionActions = __webpack_require__(250);
 	var ErrorActions = __webpack_require__(256);
-	var ServerActions = __webpack_require__(286);
+	var ServerActions = __webpack_require__(281);
 	
 	var UserApiUtil = {
 	  signUp: function (formData) {
@@ -35161,13 +35161,146 @@
 /* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var AppDispatcher = __webpack_require__(251);
+	var RequestConstants = __webpack_require__(282);
+	var CategoryConstants = __webpack_require__(283);
+	var OfferConstants = __webpack_require__(284);
+	var UserConstants = __webpack_require__(285);
+	var BookingConstants = __webpack_require__(286);
+	
+	var ServerActions = {
+	  receiveSingleRequest: function (request) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.RECEIVE_SINGLE_REQUEST,
+	      request: request
+	    });
+	  },
+	
+	  receiveAllRequests: function (requests) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.RECEIVE_ALL_REQUESTS,
+	      requests: requests
+	    });
+	  },
+	
+	  removeRequest: function (request) {
+	    AppDispatcher.dispatch({
+	      actionType: RequestConstants.REMOVE_REQUEST,
+	      request: request
+	    });
+	  },
+	
+	  receiveAllCategories: function (categories) {
+	    AppDispatcher.dispatch({
+	      actionType: CategoryConstants.RECEIVE_ALL_CATEGORIES,
+	      categories: categories
+	    });
+	  },
+	
+	  receiveSingleOffer: function (offer) {
+	    AppDispatcher.dispatch({
+	      actionType: OfferConstants.RECEIVE_SINGLE_OFFER,
+	      offer: offer
+	    });
+	  },
+	
+	  receiveAllOffers: function (offers) {
+	    AppDispatcher.dispatch({
+	      actionType: OfferConstants.RECEIVE_ALL_OFFERS,
+	      offers: offers
+	    });
+	  },
+	
+	  receiveAllDoers: function (doers) {
+	    AppDispatcher.dispatch({
+	      actionType: UserConstants.RECEIVE_ALL_DOERS,
+	      doers: doers
+	    });
+	  },
+	
+	  receiveSingleBooking: function (booking) {
+	    AppDispatcher.dispatch({
+	      actionType: BookingConstants.RECEIVE_SINGLE_BOOKING,
+	      booking: booking
+	    });
+	  },
+	
+	  receiveAllBookings: function (bookings) {
+	    AppDispatcher.dispatch({
+	      actionType: BookingConstants.RECEIVE_ALL_BOOKINGS,
+	      bookings: bookings
+	    });
+	  }
+	};
+	
+	module.exports = ServerActions;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports) {
+
+	var RequestConstants = {
+	  RECEIVE_SINGLE_REQUEST: "RECIEVE_SINGLE_REQUEST",
+	  RECEIVE_ALL_REQUESTS: "RECEIVE_ALL_REQUESTS",
+	  REMOVE_REQUEST: "REMOVE_REQUEST"
+	};
+	
+	module.exports = RequestConstants;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports) {
+
+	var CategoryConstants = {
+	  RECEIVE_ALL_CATEGORIES: "RECEIVE_ALL_CATEGORIES"
+	};
+	
+	module.exports = CategoryConstants;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports) {
+
+	var OfferConstants = {
+	  RECEIVE_SINGLE_OFFER: "RECEIVE_SINGLE_OFFER",
+	  RECEIVE_ALL_OFFERS: "RECEIVE_ALL_OFFERS"
+	};
+	
+	module.exports = OfferConstants;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  RECEIVE_ALL_DOERS: "RECEIVE_ALL_DOERS"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 286 */
+/***/ function(module, exports) {
+
+	var BookingConstants = {
+	  RECEIVE_SINGLE_BOOKING: "RECEIVE_SINGLE_BOOKING",
+	  RECEIVE_ALL_BOOKINGS: "RECEIVE_ALL_BOOKINGS"
+	};
+	
+	module.exports = BookingConstants;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
-	    RequestsIndex = __webpack_require__(282),
-	    Dashboard = __webpack_require__(290),
-	    HowItWorks = __webpack_require__(297),
-	    Header = __webpack_require__(298),
-	    Welcome = __webpack_require__(299);
+	    RequestsIndex = __webpack_require__(288),
+	    Dashboard = __webpack_require__(292),
+	    HowItWorks = __webpack_require__(302),
+	    Header = __webpack_require__(303),
+	    Welcome = __webpack_require__(304);
+	PopularCategories = __webpack_require__(312);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -35180,7 +35313,13 @@
 	      React.createElement(Header, null),
 	      React.createElement(Welcome, null),
 	      React.createElement(HowItWorks, null),
-	      React.createElement(Dashboard, null)
+	      React.createElement(Dashboard, null),
+	      React.createElement(PopularCategories, null),
+	      React.createElement(
+	        'footer',
+	        { className: 'footer' },
+	        'Github LinkedIn'
+	      )
 	    );
 	  }
 	});
@@ -35188,11 +35327,11 @@
 	module.exports = Home;
 
 /***/ },
-/* 282 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    RequestDetail = __webpack_require__(283);
+	    RequestDetail = __webpack_require__(289);
 	
 	var RequestsIndex = React.createClass({
 	  displayName: 'RequestsIndex',
@@ -35216,13 +35355,13 @@
 	module.exports = RequestsIndex;
 
 /***/ },
-/* 283 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    Modal = __webpack_require__(229),
-	    OfferForm = __webpack_require__(284);
+	    OfferForm = __webpack_require__(290);
 	
 	var style = {
 	  overlay: {
@@ -35334,13 +35473,13 @@
 	module.exports = RequestDetail;
 
 /***/ },
-/* 284 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278),
-	    OfferApiUtil = __webpack_require__(285);
+	    OfferApiUtil = __webpack_require__(291);
 	
 	var OfferForm = React.createClass({
 	  displayName: 'OfferForm',
@@ -35459,10 +35598,10 @@
 	module.exports = OfferForm;
 
 /***/ },
-/* 285 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ServerActions = __webpack_require__(286),
+	var ServerActions = __webpack_require__(281),
 	    ErrorActions = __webpack_require__(256);
 	
 	var OfferApiUtil = {
@@ -35497,7 +35636,9 @@
 	      type: "PATCH",
 	      url: "api/offers/" + offerData.id,
 	      data: { offer: offerData },
-	      success: function (offer) {}
+	      success: function (offer) {
+	        ServerActions.receiveSingleOffer(offer);
+	      }
 	    });
 	  }
 	
@@ -35506,143 +35647,32 @@
 	module.exports = OfferApiUtil;
 
 /***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(251);
-	var RequestConstants = __webpack_require__(287);
-	var CategoryConstants = __webpack_require__(288);
-	var OfferConstants = __webpack_require__(289);
-	var UserConstants = __webpack_require__(308);
-	var BookingConstants = __webpack_require__(310);
-	
-	var ServerActions = {
-	  receiveSingleRequest: function (request) {
-	    AppDispatcher.dispatch({
-	      actionType: RequestConstants.RECEIVE_SINGLE_REQUEST,
-	      request: request
-	    });
-	  },
-	
-	  receiveAllRequests: function (requests) {
-	    AppDispatcher.dispatch({
-	      actionType: RequestConstants.RECEIVE_ALL_REQUESTS,
-	      requests: requests
-	    });
-	  },
-	
-	  removeRequest: function (request) {
-	    AppDispatcher.dispatch({
-	      actionType: RequestConstants.REMOVE_REQUEST,
-	      request: request
-	    });
-	  },
-	
-	  receiveAllCategories: function (categories) {
-	    AppDispatcher.dispatch({
-	      actionType: CategoryConstants.RECEIVE_ALL_CATEGORIES,
-	      categories: categories
-	    });
-	  },
-	
-	  receiveSingleOffer: function (offer) {
-	    AppDispatcher.dispatch({
-	      actionType: OfferConstants.RECEIVE_SINGLE_OFFER,
-	      offer: offer
-	    });
-	  },
-	
-	  receiveAllOffers: function (offers) {
-	    AppDispatcher.dispatch({
-	      actionType: OfferConstants.RECEIVE_ALL_OFFERS,
-	      offers: offers
-	    });
-	  },
-	
-	  receiveAllDoers: function (doers) {
-	    AppDispatcher.dispatch({
-	      actionType: UserConstants.RECEIVE_ALL_DOERS,
-	      doers: doers
-	    });
-	  },
-	
-	  receiveSingleBooking: function (booking) {
-	    AppDispatcher.dispatch({
-	      actionType: BookingConstants.RECEIVE_SINGLE_BOOKING,
-	      booking: booking
-	    });
-	  },
-	
-	  receiveAllBookings: function (bookings) {
-	    AppDispatcher.dispatch({
-	      actionType: BookingConstants.RECEIVE_ALL_BOOKINGS,
-	      bookings: bookings
-	    });
-	  }
-	};
-	
-	module.exports = ServerActions;
-
-/***/ },
-/* 287 */
-/***/ function(module, exports) {
-
-	var RequestConstants = {
-	  RECEIVE_SINGLE_REQUEST: "RECIEVE_SINGLE_REQUEST",
-	  RECEIVE_ALL_REQUESTS: "RECEIVE_ALL_REQUESTS",
-	  REMOVE_REQUEST: "REMOVE_REQUEST"
-	};
-	
-	module.exports = RequestConstants;
-
-/***/ },
-/* 288 */
-/***/ function(module, exports) {
-
-	var CategoryConstants = {
-	  RECEIVE_ALL_CATEGORIES: "RECEIVE_ALL_CATEGORIES"
-	};
-	
-	module.exports = CategoryConstants;
-
-/***/ },
-/* 289 */
-/***/ function(module, exports) {
-
-	var OfferConstants = {
-	  RECEIVE_SINGLE_OFFER: "RECEIVE_SINGLE_OFFER",
-	  RECEIVE_ALL_OFFERS: "RECEIVE_ALL_OFFERS"
-	};
-	
-	module.exports = OfferConstants;
-
-/***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    RequestsIndex = __webpack_require__(282),
-	    OffersIndex = __webpack_require__(291),
-	    ClientActions = __webpack_require__(293),
-	    RequestStore = __webpack_require__(295),
-	    OfferStore = __webpack_require__(296),
-	    BookingStore = __webpack_require__(311);
+	    RequestsIndex = __webpack_require__(288),
+	    OffersIndex = __webpack_require__(293),
+	    ClientActions = __webpack_require__(297),
+	    RequestStore = __webpack_require__(299),
+	    OfferStore = __webpack_require__(300),
+	    BookingStore = __webpack_require__(301);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
 	
 	  getInitialState: function () {
-	    return { requests: [], offers: [], bookings: [], acceptedOffers: [], focused: "requests" };
+	    return { requests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests" };
 	  },
 	
 	  componentDidMount: function () {
 	    this.requestListener = RequestStore.addListener(this.handleRequestChange);
 	    this.offerListener = OfferStore.addListener(this.handleOfferChange);
-	    this.bookingListener = BookingStore.addListener(this.handleBookingChange);
+	    // this.bookingListener = BookingStore.addListener(this.handleBookingChange);
 	    ClientActions.fetchRequests();
 	    ClientActions.fetchOffers();
 	    ClientActions.fetchDoers();
-	    ClientActions.fetchBookings();
+	    // ClientActions.fetchBookings();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35656,13 +35686,14 @@
 	
 	  handleOfferChange: function () {
 	    var acceptedOffers = OfferStore.acceptedOffers();
-	    this.setState({ offers: OfferStore.userOffers() });
+	    var pendingOffers = OfferStore.pendingOffers();
+	    this.setState({ pendingOffers: OfferStore.pendingOffers() });
 	    this.setState({ acceptedOffers: acceptedOffers });
 	  },
-	
-	  handleBookingChange: function () {
-	    this.setState({ bookings: BookingStore.userBookings() });
-	  },
+	  //
+	  // handleBookingChange: function () {
+	  //   this.setState({ bookings: BookingStore.userBookings()});
+	  // },
 	
 	  renderDashboard: function () {
 	    switch (this.state.focused) {
@@ -35670,7 +35701,7 @@
 	        return React.createElement(RequestsIndex, { requests: this.state.requests });
 	
 	      case "offers":
-	        return React.createElement(OffersIndex, { offers: this.state.offers });
+	        return React.createElement(OffersIndex, { offers: this.state.pendingOffers });
 	
 	      case "bookings":
 	        return React.createElement(OffersIndex, { offers: this.state.acceptedOffers });
@@ -35725,11 +35756,11 @@
 	module.exports = Dashboard;
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    OfferDetail = __webpack_require__(292);
+	    OfferDetail = __webpack_require__(294);
 	
 	var OffersIndex = React.createClass({
 	  displayName: 'OffersIndex',
@@ -35753,17 +35784,27 @@
 	module.exports = OffersIndex;
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserStore = __webpack_require__(307),
-	    BookingApiUtil = __webpack_require__(309),
-	    OfferApiUtil = __webpack_require__(285);
+	    UserStore = __webpack_require__(295),
+	    BookingApiUtil = __webpack_require__(296),
+	    OfferApiUtil = __webpack_require__(291),
+	    RequestStore = __webpack_require__(299);
 	
 	var OfferDetail = React.createClass({
 	  displayName: 'OfferDetail',
 	
+	  renderAcceptButton: function () {
+	    if (this.props.offer.accepted === false) {
+	      return React.createElement(
+	        'button',
+	        { onClick: this.makeBooking, id: this.props.offer.id, className: 'offer-button' },
+	        'Accept Offer'
+	      );
+	    }
+	  },
 	
 	  render: function () {
 	    var request = RequestStore.find(this.props.offer.request_id);
@@ -35788,11 +35829,7 @@
 	          this.props.offer.message
 	        )
 	      ),
-	      React.createElement(
-	        'button',
-	        { onClick: this.makeBooking, id: this.props.offer.id },
-	        'Accept Offer'
-	      )
+	      this.renderAcceptButton
 	    );
 	  },
 	
@@ -35813,11 +35850,108 @@
 	// <img src={} className="user-photo"></img>
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var RequestApiUtil = __webpack_require__(294);
-	var OfferApiUtil = __webpack_require__(285);
+	var AppDispatcher = __webpack_require__(251);
+	var Store = __webpack_require__(259).Store;
+	
+	var UserStore = new Store(AppDispatcher);
+	
+	var _currentUser, _errors;
+	
+	var _doers = {};
+	
+	var addDoers = function (doers) {
+	  _doers = {};
+	  doers.forEach(function (doer) {
+	    _doers[doer.id] = doer;
+	  });
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case "LOGIN":
+	      UserStore.login(payload.user);
+	      break;
+	    case "LOGOUT":
+	      UserStore.logout();
+	      break;
+	    case "ERROR":
+	      UserStore.setErrors(payload.errors);
+	      break;
+	    case "RECEIVE_ALL_DOERS":
+	      addDoers(payload.doers);
+	      break;
+	  }
+	  UserStore.__emitChange();
+	};
+	
+	UserStore.login = function (user) {
+	  _currentUser = user;
+	  _errors = null;
+	};
+	
+	UserStore.logout = function () {
+	  _currentUser = null;
+	  _errors = null;
+	};
+	
+	UserStore.currentUser = function () {
+	  if (_currentUser) {
+	    return $.extend({}, _currentUser);
+	  }
+	};
+	
+	UserStore.doerImage = function (id) {
+	  var user = _doers[id];
+	  return user.image_url;
+	};
+	
+	UserStore.setErrors = function (errors) {
+	  _errors = errors;
+	};
+	
+	UserStore.errors = function () {
+	  if (_errors) {
+	    return [].slice.call(_errors);
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports) {
+
+	var BookingApiUtil = {
+	  makeBooking: function (offerData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/offers" + offerData.id,
+	      data: { offer: offerData },
+	      success: function (offer) {}
+	    });
+	  },
+	
+	  fetchBookings: function () {
+	    $.ajax({
+	      url: "api/bookings",
+	      success: function (bookings) {
+	        ServerActions.receiveAllBookings(bookings);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = BookingApiUtil;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var RequestApiUtil = __webpack_require__(298);
+	var OfferApiUtil = __webpack_require__(291);
 	var UserApiUtil = __webpack_require__(280);
 	
 	var ClientActions = {
@@ -35831,21 +35965,21 @@
 	
 	  fetchDoers: function () {
 	    UserApiUtil.fetchDoers();
-	  },
-	
-	  fetchBookings: function () {
-	    BookingApiUtil.fetchBookings();
 	  }
 	
 	};
 	
+	// fetchBookings: function () {
+	//   BookingApiUtil.fetchBookings();
+	// }
+	
 	module.exports = ClientActions;
 
 /***/ },
-/* 294 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ServerActions = __webpack_require__(286);
+	var ServerActions = __webpack_require__(281);
 	var ErrorActions = __webpack_require__(256);
 	
 	var RequestApiUtil = {
@@ -35900,12 +36034,12 @@
 	module.exports = RequestApiUtil;
 
 /***/ },
-/* 295 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251),
 	    Store = __webpack_require__(259).Store,
-	    RequestConstants = __webpack_require__(287),
+	    RequestConstants = __webpack_require__(282),
 	    SessionStore = __webpack_require__(258);
 	RequestStore = new Store(AppDispatcher);
 	
@@ -35972,20 +36106,20 @@
 	module.exports = RequestStore;
 
 /***/ },
-/* 296 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251),
 	    Store = __webpack_require__(259).Store,
-	    OfferConstants = __webpack_require__(289),
+	    OfferConstants = __webpack_require__(284),
 	    SessionStore = __webpack_require__(258);
 	OfferStore = new Store(AppDispatcher);
 	
 	var _offers = {};
 	
-	// var addOffer = function (offer) {
-	//   _offers[offer.id] = offer;
-	// };
+	var addOffer = function (offer) {
+	  _offers[offer.id] = offer;
+	};
 	
 	var addOffers = function (offers) {
 	  _offers = {};
@@ -36010,11 +36144,21 @@
 	  return acceptedOffers;
 	};
 	
+	OfferStore.pendingOffers = function () {
+	  var pendingOffers = [];
+	  for (var key in _offers) {
+	    if (_offers[key].accepted === false) {
+	      pendingOffers.push(_offers[key]);
+	    }
+	  }
+	  return pendingOffers;
+	};
+	
 	OfferStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
-	    // case OfferConstants.RECEIVE_SINGLE_OFFER:
-	    // addOffer(payload.offer);
-	    // break;
+	    case OfferConstants.RECEIVE_SINGLE_OFFER:
+	      addOffer(payload.offer);
+	      break;
 	
 	    case OfferConstants.RECEIVE_ALL_OFFERS:
 	      addOffers(payload.offers);
@@ -36025,7 +36169,54 @@
 	module.exports = OfferStore;
 
 /***/ },
-/* 297 */
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(251),
+	    Store = __webpack_require__(259).Store,
+	    BookingConstants = __webpack_require__(286),
+	    BookingStore = new Store(AppDispatcher);
+	
+	var _bookings = {};
+	
+	var addBooking = function (booking) {
+	  _bookings[booking.id] = booking;
+	};
+	
+	var addBookings = function (bookings) {
+	  _bookings = {};
+	  bookings.forEach(function (booking) {
+	    _bookings[booking.id] = booking;
+	  });
+	};
+	//
+	// BookingStore.userBookings = function () {
+	//   var userBookings = [];
+	//   for (var key in _bookings) {
+	//     if (_bookings[key].requester_id === SessionStore.currentUser().id) {
+	//       userBookings.push(_bookings[key]);
+	//     }
+	//   }
+	//   return userBookings;
+	// };
+	
+	BookingStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case BookingConstants.RECEIVE_SINGLE_BOOKING:
+	      addBooking(payload.booking);
+	      break;
+	
+	    case BookingConstants.RECEIVE_ALL_BOOKINGS:
+	      addBookings(bookings);
+	      break;
+	  }
+	  this.__emitChange();
+	};
+	
+	module.exports = BookingStore;
+
+/***/ },
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36096,7 +36287,7 @@
 	module.exports = HowItWorks;
 
 /***/ },
-/* 298 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -36156,15 +36347,15 @@
 	module.exports = Header;
 
 /***/ },
-/* 299 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
-	    RequestStore = __webpack_require__(295),
-	    RequestButton = __webpack_require__(300),
-	    FavorButton = __webpack_require__(304),
-	    ClientActions = __webpack_require__(293);
+	    RequestStore = __webpack_require__(299),
+	    RequestButton = __webpack_require__(305),
+	    FavorButton = __webpack_require__(309),
+	    ClientActions = __webpack_require__(297);
 	
 	var Welcome = React.createClass({
 	  displayName: 'Welcome',
@@ -36208,12 +36399,12 @@
 	module.exports = Welcome;
 
 /***/ },
-/* 300 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(301);
+	    RequestForm = __webpack_require__(306);
 	
 	var style = {
 	  overlay: {
@@ -36272,13 +36463,13 @@
 	module.exports = RequestButton;
 
 /***/ },
-/* 301 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    CategoryStore = __webpack_require__(302),
-	    CategoryApiUtil = __webpack_require__(303),
-	    RequestApiUtil = __webpack_require__(294),
+	    CategoryStore = __webpack_require__(307),
+	    CategoryApiUtil = __webpack_require__(308),
+	    RequestApiUtil = __webpack_require__(298),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278);
 	
@@ -36373,7 +36564,7 @@
 	  },
 	
 	  render: function () {
-	    var categories = ["Cleaning", "Shopping + Delivery", "Handyman", "Moving Help", "General Help", "Upgrade Your Home"];
+	    var categories = ["Career", "Child Care", "Computer Help", "Education", "Furniture Assembly", "Cleaning", "General Help", "Handyman", "General Help", "Moving Help", "Pet Care", "Shopping + Delivery", "Transportation"];
 	    return React.createElement(
 	      'form',
 	      { onSubmit: this.handleSubmit, className: 'request-form' },
@@ -36451,12 +36642,12 @@
 	module.exports = RequestForm;
 
 /***/ },
-/* 302 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251),
 	    Store = __webpack_require__(259).Store,
-	    CategoryConstants = __webpack_require__(288),
+	    CategoryConstants = __webpack_require__(283),
 	    CategoryStore = new Store(AppDispatcher);
 	
 	var _categories = [];
@@ -36490,10 +36681,10 @@
 	module.exports = CategoryStore;
 
 /***/ },
-/* 303 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ServerActions = __webpack_require__(286);
+	var ServerActions = __webpack_require__(281);
 	
 	var CategoryApiUtil = {
 	  fetchAllCategories: function () {
@@ -36510,12 +36701,12 @@
 	module.exports = CategoryApiUtil;
 
 /***/ },
-/* 304 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestsIndex = __webpack_require__(282);
+	    RequestsIndex = __webpack_require__(288);
 	
 	var style = {
 	  overlay: {
@@ -36567,8 +36758,8 @@
 	          onRequestClose: this.closeModal },
 	        React.createElement(
 	          'h2',
-	          null,
-	          'Do a Good Deed!'
+	          { className: 'favor-index-heading' },
+	          'Pay it Forward!'
 	        ),
 	        React.createElement(RequestsIndex, { requests: this.props.requests, closeModal: this.closeModal }),
 	        React.createElement(
@@ -36584,12 +36775,12 @@
 	module.exports = FavorButton;
 
 /***/ },
-/* 305 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserEditForm = __webpack_require__(306),
-	    Header = __webpack_require__(298);
+	    UserEditForm = __webpack_require__(311),
+	    Header = __webpack_require__(303);
 	
 	var Account = React.createClass({
 	  displayName: 'Account',
@@ -36612,7 +36803,7 @@
 	module.exports = Account;
 
 /***/ },
-/* 306 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -36683,169 +36874,68 @@
 	module.exports = UserEditForm;
 
 /***/ },
-/* 307 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(251);
-	var Store = __webpack_require__(259).Store;
+	var React = __webpack_require__(1);
 	
-	var UserStore = new Store(AppDispatcher);
+	var PopularCategories = React.createClass({
+	  displayName: "PopularCategories",
 	
-	var _currentUser, _errors;
-	
-	var _doers = {};
-	
-	var addDoers = function (doers) {
-	  _doers = {};
-	  doers.forEach(function (doer) {
-	    _doers[doer.id] = doer;
-	  });
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case "LOGIN":
-	      UserStore.login(payload.user);
-	      break;
-	    case "LOGOUT":
-	      UserStore.logout();
-	      break;
-	    case "ERROR":
-	      UserStore.setErrors(payload.errors);
-	      break;
-	    case "RECEIVE_ALL_DOERS":
-	      addDoers(payload.doers);
-	      break;
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "popular-categories group" },
+	      React.createElement(
+	        "h2",
+	        null,
+	        "Popular Categories"
+	      ),
+	      React.createElement(
+	        "ul",
+	        null,
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: moving_help_url, className: "moving-help" }),
+	          "Moving Help"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: transportation_url, className: "transportation" }),
+	          "Transportation"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: pet_care_url, className: "pet-care" }),
+	          "Pet Care"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: general_help_url, className: "general-help" }),
+	          "General Help"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: computer_help_url, className: "computer-help" }),
+	          "Computer Help"
+	        ),
+	        React.createElement(
+	          "li",
+	          null,
+	          React.createElement("img", { src: furniture_assembly_url, className: "furniture-assembly" }),
+	          "Furniture Assembly"
+	        )
+	      )
+	    );
 	  }
-	  UserStore.__emitChange();
-	};
+	});
 	
-	UserStore.login = function (user) {
-	  _currentUser = user;
-	  _errors = null;
-	};
-	
-	UserStore.logout = function () {
-	  _currentUser = null;
-	  _errors = null;
-	};
-	
-	UserStore.currentUser = function () {
-	  if (_currentUser) {
-	    return $.extend({}, _currentUser);
-	  }
-	};
-	
-	UserStore.doerImage = function (id) {
-	  var user = _doers[id];
-	  return user.image_url;
-	};
-	
-	UserStore.setErrors = function (errors) {
-	  _errors = errors;
-	};
-	
-	UserStore.errors = function () {
-	  if (_errors) {
-	    return [].slice.call(_errors);
-	  }
-	};
-	
-	module.exports = UserStore;
-
-/***/ },
-/* 308 */
-/***/ function(module, exports) {
-
-	var UserConstants = {
-	  RECEIVE_ALL_DOERS: "RECEIVE_ALL_DOERS"
-	};
-	
-	module.exports = UserConstants;
-
-/***/ },
-/* 309 */
-/***/ function(module, exports) {
-
-	var BookingApiUtil = {
-	  makeBooking: function (offerData) {
-	    $.ajax({
-	      type: "PATCH",
-	      url: "api/offers" + offerData.id,
-	      data: { offer: offerData },
-	      success: function (offer) {}
-	    });
-	  },
-	
-	  fetchBookings: function () {
-	    $.ajax({
-	      url: "api/bookings",
-	      success: function (bookings) {
-	        ServerActions.receiveAllBookings(bookings);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = BookingApiUtil;
-
-/***/ },
-/* 310 */
-/***/ function(module, exports) {
-
-	var BookingConstants = {
-	  RECEIVE_SINGLE_BOOKING: "RECEIVE_SINGLE_BOOKING",
-	  RECEIVE_ALL_BOOKINGS: "RECEIVE_ALL_BOOKINGS"
-	};
-	
-	module.exports = BookingConstants;
-
-/***/ },
-/* 311 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(251),
-	    Store = __webpack_require__(259).Store,
-	    BookingConstants = __webpack_require__(310),
-	    BookingStore = new Store(AppDispatcher);
-	
-	var _bookings = {};
-	
-	var addBooking = function (booking) {
-	  _bookings[booking.id] = booking;
-	};
-	
-	var addBookings = function (bookings) {
-	  _bookings = {};
-	  bookings.forEach(function (booking) {
-	    _bookings[booking.id] = booking;
-	  });
-	};
-	
-	BookingStore.userBookings = function () {
-	  var userBookings = [];
-	  for (var key in _bookings) {
-	    if (_bookings[key].requester_id === SessionStore.currentUser().id) {
-	      userBookings.push(_bookings[key]);
-	    }
-	  }
-	  return userRequests;
-	};
-	
-	BookingStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case BookingConstants.RECEIVE_SINGLE_BOOKING:
-	      addBooking(payload.booking);
-	      break;
-	
-	    case BookingConstants.RECEIVE_ALL_BOOKINGS:
-	      addBookings(bookings);
-	      break;
-	  }
-	  this.__emitChange();
-	};
-	
-	module.exports = BookingStore;
+	module.exports = PopularCategories;
 
 /***/ }
 /******/ ]);

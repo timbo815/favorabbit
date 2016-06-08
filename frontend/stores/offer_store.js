@@ -7,9 +7,9 @@ var AppDispatcher = require('../dispatcher/dispatcher.js'),
 
 var _offers = {};
 
-// var addOffer = function (offer) {
-//   _offers[offer.id] = offer;
-// };
+var addOffer = function (offer) {
+  _offers[offer.id] = offer;
+};
 
 var addOffers = function (offers) {
   _offers = {};
@@ -34,11 +34,21 @@ OfferStore.acceptedOffers = function () {
   return acceptedOffers;
 };
 
+OfferStore.pendingOffers = function () {
+  var pendingOffers = [];
+  for (var key in _offers) {
+    if (_offers[key].accepted === false) {
+      pendingOffers.push(_offers[key]);
+    }
+  }
+  return pendingOffers;
+};
+
 OfferStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
-    // case OfferConstants.RECEIVE_SINGLE_OFFER:
-    // addOffer(payload.offer);
-    // break;
+    case OfferConstants.RECEIVE_SINGLE_OFFER:
+    addOffer(payload.offer);
+    break;
 
     case OfferConstants.RECEIVE_ALL_OFFERS:
     addOffers(payload.offers);

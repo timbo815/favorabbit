@@ -1,9 +1,14 @@
+
+
 .offer-button {
-  background-color: #1da3bf;
-  color: white;
-  border: 1px solid #C4B9B9;
-  border-style: outset;
+  color: #1da3bf;
+  border: 1px solid #1da3bf;
   padding: 10px;
   margin-left: 625px;
   border-radius: 5px;
+}
+
+.offer-button:hover {
+  color:white;
+  background-color: #1da3bf;
 }

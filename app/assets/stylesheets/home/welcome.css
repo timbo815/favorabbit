@@ -10,8 +10,9 @@
 
 .welcome > h4 {
   font-weight: normal;
+  font-size: 40px;
   font-family: "Proxima Alt Semibold";
-  width:630px;
+  width: 675px;
 }
 .welcome-button {
   float:left;
@@ -51,6 +52,16 @@
   float: right;
 }
 
+.favor-index-heading {
+  text-align: center;
+  font-family: "Proxima Alt Regular"
+}
+
 .favor-button:focus {
   outline:0;
+}
+
+.favor-button:hover {
+  background:#00964b;
+  color:white;
 }

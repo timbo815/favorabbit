@@ -9,7 +9,6 @@
   font-size: 35px;
   font-weight: 300;
   margin: auto;
-  width: 50%;
   text-align: center;
 }
 
@@ -26,7 +25,8 @@
 
 .how-it-works ul {
   width: 700px;
-  margin: 40px auto;
+  margin-top: 45px;
+  margin-left: 150px;
 }
 
 .how-it-works li {

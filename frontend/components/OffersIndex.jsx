@@ -4,7 +4,6 @@ var React = require('react'),
 var OffersIndex = React.createClass({
 
 
-
   render: function () {
     return (
       <section className="index">

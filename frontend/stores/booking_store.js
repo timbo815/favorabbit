@@ -15,16 +15,16 @@ var AppDispatcher = require('../dispatcher/dispatcher.js'),
       _bookings[booking.id] = booking;
     });
   };
-
-  BookingStore.userBookings = function () {
-    var userBookings = [];
-    for (var key in _bookings) {
-      if (_bookings[key].requester_id === SessionStore.currentUser().id) {
-        userBookings.push(_bookings[key]);
-      }
-    }
-    return userRequests;
-  };
+  // 
+  // BookingStore.userBookings = function () {
+  //   var userBookings = [];
+  //   for (var key in _bookings) {
+  //     if (_bookings[key].requester_id === SessionStore.currentUser().id) {
+  //       userBookings.push(_bookings[key]);
+  //     }
+  //   }
+  //   return userBookings;
+  // };
 
   BookingStore.__onDispatch = function(payload) {
     switch(payload.actionType) {

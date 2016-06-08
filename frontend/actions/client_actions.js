@@ -16,9 +16,9 @@ var ClientActions = {
     UserApiUtil.fetchDoers();
   },
 
-  fetchBookings: function () {
-    BookingApiUtil.fetchBookings();
-  }
+  // fetchBookings: function () {
+  //   BookingApiUtil.fetchBookings();
+  // }
 
 };
 

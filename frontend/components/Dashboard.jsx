@@ -9,17 +9,17 @@ var React = require('react'),
 
 var Dashboard = React.createClass({
   getInitialState: function () {
-    return ({ requests: [], offers: [], bookings: [], acceptedOffers: [], focused: "requests"});
+    return ({ requests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests"});
   },
 
   componentDidMount: function () {
     this.requestListener = RequestStore.addListener(this.handleRequestChange);
     this.offerListener = OfferStore.addListener(this.handleOfferChange);
-    this.bookingListener = BookingStore.addListener(this.handleBookingChange);
+    // this.bookingListener = BookingStore.addListener(this.handleBookingChange);
     ClientActions.fetchRequests();
     ClientActions.fetchOffers();
     ClientActions.fetchDoers();
-    ClientActions.fetchBookings();
+    // ClientActions.fetchBookings();
   },
 
   componentWillUnmount: function () {
@@ -33,13 +33,14 @@ var Dashboard = React.createClass({
 
   handleOfferChange: function () {
     var acceptedOffers = OfferStore.acceptedOffers();
-    this.setState({ offers: OfferStore.userOffers()});
+    var pendingOffers = OfferStore.pendingOffers();
+    this.setState({ pendingOffers: OfferStore.pendingOffers()});
     this.setState({ acceptedOffers: acceptedOffers});
   },
-
-  handleBookingChange: function () {
-    this.setState({ bookings: BookingStore.userBookings()});
-  },
+  //
+  // handleBookingChange: function () {
+  //   this.setState({ bookings: BookingStore.userBookings()});
+  // },
 
   renderDashboard: function () {
     switch(this.state.focused) {
@@ -47,7 +48,7 @@ var Dashboard = React.createClass({
       return(<RequestsIndex requests={this.state.requests}/>);
 
       case "offers":
-      return(<OffersIndex offers={this.state.offers}/>);
+      return(<OffersIndex offers={this.state.pendingOffers}/>);
 
       case "bookings":
       return(<OffersIndex offers={this.state.acceptedOffers}/>);
