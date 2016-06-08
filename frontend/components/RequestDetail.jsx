@@ -43,7 +43,7 @@ var RequestDetail = React.createClass({
             style={style}
             isOpen={this.state.modalOpen}
             onRequestClose={this.closeModal}>
-            <OfferForm request={this.props.request}/>
+            <OfferForm request={this.props.request} closeModal={this.closeModal}/>
           </Modal>
         </div>
       );

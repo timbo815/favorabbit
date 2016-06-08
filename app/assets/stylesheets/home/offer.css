@@ -4,11 +4,28 @@
   color: #1da3bf;
   border: 1px solid #1da3bf;
   padding: 10px;
-  margin-left: 625px;
   border-radius: 5px;
+  position: absolute;
+  right: 90px;
+  top: 355px;
+
 }
 
 .offer-button:hover {
   color:white;
+  background-color: #1da3bf;
+}
+
+.accept-offer-button {
+  color: #1da3bf;
+  border: 1px solid #1da3bf;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 175px;
+
+}
+
+.accept-offer-button:hover {
+  color: white;
   background-color: #1da3bf;
 }

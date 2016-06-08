@@ -7,7 +7,7 @@ var React = require('react'),
 var OfferDetail = React.createClass({
   renderAcceptButton: function () {
     if(this.props.offer.accepted === false) {
-      return(<button onClick={this.makeBooking} id={this.props.offer.id} className="offer-button">Accept Offer</button>);
+      return(<button onClick={this.makeBooking} id={this.props.offer.id} className="accept-offer-button">Accept Offer</button>);
     }
   },
 
@@ -16,12 +16,12 @@ var OfferDetail = React.createClass({
     var userImage = UserStore.doerImage(this.props.offer.doer_id);
     return (
       <section className="detail">
-        <img src={userImage}/>
+        <img src={userImage} className='user-photo'/>
         <ul>
           <li>Subject: {request.title}</li>
           <li>Offer: {this.props.offer.message}</li>
         </ul>
-        {this.renderAcceptButton}
+        {this.renderAcceptButton()}
       </section>
     );
   },

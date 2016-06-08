@@ -12,13 +12,14 @@ var OfferApiUtil = {
     });
   },
 
-  createOffer: function (formData) {
+  createOffer: function (formData, callback) {
     $.ajax({
       type: "POST",
       url: "api/offers",
       data: {offer: formData},
       success: function (offer) {
         ServerActions.receiveSingleOffer(offer);
+        callback();
       },
       error: function (xhr) {
         console.log("create offer error in OfferApiUtil#createOffer");

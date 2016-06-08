@@ -1,7 +1,7 @@
 .dashboard {
   border: solid 1px #cfd2d3;
   background: white;
-  width: 900px;
+  width: 920px;
   height: 500px;
   margin: 0 auto;
   font-family: "Proxima Alt Regular";
@@ -17,7 +17,7 @@
 
 .tabs {
   margin: 0 auto;
-  width: 900px;
+  width: 920px;
   background: white;
   color: #1da3bf;
   padding-top: 10px;
@@ -54,8 +54,8 @@
 }
 
 .detail > ul {
-  float:right;
-  width: 650px;
+  float:left;
+  width: 500px;
 }
 
 .detail > ul > li {

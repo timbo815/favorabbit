@@ -1,6 +1,6 @@
 .login-page, .signup-page {
  font-family: "Proxima Alt Light";
- background-image: asset-url("helping-hikers.jpg");
+ background-image: asset-url("cover_photo.jpg");
  background-size: cover;
  position: fixed;
  top: 0;
@@ -23,20 +23,11 @@
  color:#828a8b;
  border-radius: 10px;
  border: solid 1px #cfd2d3;
+ opacity: .95;
 }
 
 .login-form > p {
- position: absolute;
- left:304px;
- top: 337px;
-}
-
-.login-form > h5 {
-  font-size: 35px;
-  margin-left: 185px;
-  color: #00964b;
-  font-family: "Proxima Alt Semibold";
-  margin-top: 20px;
+  text-align:center;
 }
 
 .signup-form > h5 {
@@ -48,9 +39,7 @@
 }
 
 .signup-form > p {
- position: absolute;
- left: 280px;
- top: 337px;
+  text-align:center;
 }
 
 .logo {
@@ -60,51 +49,80 @@
  left: 82px;
 }
 
+.login-logo {
+  width: 75px;
+  float: left;
+  margin-left: 115px;
+}
+
+.favo-login {
+  font-family: "Proxima Alt Semibold";
+  color: #335f4d;
+  font-size: 28px;
+  width: 65px;
+  float: left;
+}
+
+.rabbit-login {
+  font-family: "Proxima Alt Semibold";
+  color: #00964b;
+  font-size: 28px;
+  width: 88px;
+  float: left;
+}
+
 .submit-button {
- border: solid 1px #cfd2d3;
+ border: solid 1px #00964b;
  width: 400px;
  height: 50px;
  border-radius: 10px;
  text-align: center;
  margin-left: 40px;
+ margin-top:20px;
  cursor: pointer;
- background: #00964b;
- color: white;
+ color: #00964b;
+}
+
+.submit-button:hover {
+  color:white;
+  background:#00964b;
 }
 
 .signup-button {
- position: absolute;
- top: 330px;
- left: 395px;
- border: 1px solid #cfd2d3;
- width: 100px;
- border-radius: 5px;
- text-align: center;
- cursor: pointer;
- background: #00964b;
- color: white;
- padding: 5px;
+  border: 1px solid #00964b;
+  color: #00964b;
+  width: 115px;
+  margin: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
 }
-
+.signup-button:hover {
+  color:white;
+  background:#00964b;
+}
 .username, .password {
  height: 44px;
  border: solid 1px #cfd2d3;
  margin-left: 40px;
+ margin-top:30px;
  width: 400px;
  border-radius: 4px;
  text-indent: 15px;
 }
 
 .username-label {
- position: absolute;
- top: 83px;
- left: 40px;
+  position: absolute;
+  top: 70px;
+  left: 41px;
 }
 
 .password-label {
- position: absolute;
- top: 184px;
- left: 40px;
+  position: absolute;
+  top: 149px;
+  left: 41px;
 }
 
 .errors {

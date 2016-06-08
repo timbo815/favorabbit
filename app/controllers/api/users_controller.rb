@@ -22,7 +22,7 @@ class Api::UsersController < ApplicationController
 
   def index
     @users = User.all
-      render json: @users 
+      render "api/users/index"
   end
 
 	private

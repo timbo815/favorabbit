@@ -73,7 +73,7 @@ var Dashboard = React.createClass({
       <div>
         <ul className="tabs group">
           <li onClick={this.handleRequestsClick}>
-            Open Requests
+            Your Open Requests
           </li>
           <li onClick={this.handleOffersClick}>
             Pending Offers

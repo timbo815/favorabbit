@@ -82,7 +82,7 @@ var RequestForm = React.createClass({
   },
 
   render: function () {
-    var categories = ["Career", "Child Care", "Computer Help", "Education", "Furniture Assembly",
+    var categories = ["Career", "Child Care", "Computer Help", "Cooking", "Education", "Furniture Assembly",
                       "Cleaning", "General Help", "Handyman", "General Help", "Moving Help", "Pet Care",
                       "Shopping + Delivery", "Transportation"];
     return (

@@ -28,7 +28,7 @@ var OfferForm = React.createClass({
       request_id: this.props.request.id
       // doer_id: SessionStore.currentUser().id,
     };
-    OfferApiUtil.createOffer(formData);
+    OfferApiUtil.createOffer(formData, this.props.closeModal);
   },
 
   fieldErrors: function (field) {
@@ -62,6 +62,7 @@ var OfferForm = React.createClass({
           </label>
           <input type="submit" value="Submit Offer" className="submit-request"/>
         </form>
+          <button onClick={this.props.closeModal} className="close-x">X</button>
       </div>
     );
   }

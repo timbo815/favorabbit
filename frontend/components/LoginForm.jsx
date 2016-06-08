@@ -46,6 +46,15 @@ var LoginForm = React.createClass({
     this.setState({username: e.target.value});
   },
 
+  guestLogin: function (e) {
+    e.preventDefault();
+    var formData = {
+      username: "guest",
+      password: "guestguest"
+    };
+    SessionApiUtil.login(formData);
+  },
+
   passwordChange: function (e) {
     this.setState({password: e.target.value});
   },
@@ -71,17 +80,15 @@ var LoginForm = React.createClass({
       <div className="login-page">
         <section>{this.fieldErrors("base")}</section>
         <form onSubmit={this.handleSubmit} className="login-form">
-          <img src={logo_url} className="logo"/>
-          <h5>FavoRabbit</h5>
+          <img src={logo_url} className="login-logo"/><span className="favo-login">Favo</span><span className="rabbit-login">Rabbit</span>
           <label for="username" className="username-label">Username</label>
           <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
-          <label for="password" className="password-label">Password</label><br/><br/><br/>
+          <label for="password" className="password-label">Password</label>
           <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
-          <br/><br/>
           <input type="submit" value="Sign In" className="submit-button"/>
-          <br/><br/><br/>
-          <p>Not a user?</p><br/>
-          <button onClick={this.renderSignUp} className="signup-button">Sign Up</button>
+          <p>Not a user?<button onClick={this.renderSignUp} className="signup-button">Sign Up</button>
+          Or <button className="signup-button" onClick={this.guestLogin}>Login as guest</button>
+          </p>
         </form>
       </div>
     );
