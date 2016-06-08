@@ -1,5 +1,6 @@
 var SessionActions = require('./../actions/session_actions');
 var ErrorActions = require('./../actions/error_actions');
+var ServerActions = require('./../actions/server_actions');
 
 var UserApiUtil = {
   signUp: function (formData) {
@@ -26,14 +27,21 @@ var UserApiUtil = {
       processData: false,
       data: formData,
       success: function () {
-  
-      },
-      error: function (errors) {
-
 
       }
     });
+  },
+
+  fetchDoers: function () {
+    $.ajax({
+      url: "api/users",
+      success: function (doers) {
+        ServerActions.receiveAllDoers(doers);
+      }
+    });
   }
+
+
 };
 
 module.exports = UserApiUtil;

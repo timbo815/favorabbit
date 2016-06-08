@@ -35114,6 +35114,7 @@
 
 	var SessionActions = __webpack_require__(250);
 	var ErrorActions = __webpack_require__(256);
+	var ServerActions = __webpack_require__(286);
 	
 	var UserApiUtil = {
 	  signUp: function (formData) {
@@ -35139,10 +35140,19 @@
 	      contentType: false,
 	      processData: false,
 	      data: formData,
-	      success: function () {},
-	      error: function (errors) {}
+	      success: function () {}
+	    });
+	  },
+	
+	  fetchDoers: function () {
+	    $.ajax({
+	      url: "api/users",
+	      success: function (doers) {
+	        ServerActions.receiveAllDoers(doers);
+	      }
 	    });
 	  }
+	
 	};
 	
 	module.exports = UserApiUtil;
@@ -35480,6 +35490,15 @@
 	        ErrorActions.setErrors("offer", errors);
 	      }
 	    });
+	  },
+	
+	  updateOffer: function (offerData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/offers/" + offerData.id,
+	      data: { offer: offerData },
+	      success: function (offer) {}
+	    });
 	  }
 	
 	};
@@ -35494,6 +35513,8 @@
 	var RequestConstants = __webpack_require__(287);
 	var CategoryConstants = __webpack_require__(288);
 	var OfferConstants = __webpack_require__(289);
+	var UserConstants = __webpack_require__(308);
+	var BookingConstants = __webpack_require__(310);
 	
 	var ServerActions = {
 	  receiveSingleRequest: function (request) {
@@ -35535,6 +35556,27 @@
 	    AppDispatcher.dispatch({
 	      actionType: OfferConstants.RECEIVE_ALL_OFFERS,
 	      offers: offers
+	    });
+	  },
+	
+	  receiveAllDoers: function (doers) {
+	    AppDispatcher.dispatch({
+	      actionType: UserConstants.RECEIVE_ALL_DOERS,
+	      doers: doers
+	    });
+	  },
+	
+	  receiveSingleBooking: function (booking) {
+	    AppDispatcher.dispatch({
+	      actionType: BookingConstants.RECEIVE_SINGLE_BOOKING,
+	      booking: booking
+	    });
+	  },
+	
+	  receiveAllBookings: function (bookings) {
+	    AppDispatcher.dispatch({
+	      actionType: BookingConstants.RECEIVE_ALL_BOOKINGS,
+	      bookings: bookings
 	    });
 	  }
 	};
@@ -35583,20 +35625,24 @@
 	    OffersIndex = __webpack_require__(291),
 	    ClientActions = __webpack_require__(293),
 	    RequestStore = __webpack_require__(295),
-	    OfferStore = __webpack_require__(296);
+	    OfferStore = __webpack_require__(296),
+	    BookingStore = __webpack_require__(311);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
 	
 	  getInitialState: function () {
-	    return { requests: [], offers: [], focused: "requests" };
+	    return { requests: [], offers: [], bookings: [], acceptedOffers: [], focused: "requests" };
 	  },
 	
 	  componentDidMount: function () {
 	    this.requestListener = RequestStore.addListener(this.handleRequestChange);
 	    this.offerListener = OfferStore.addListener(this.handleOfferChange);
+	    this.bookingListener = BookingStore.addListener(this.handleBookingChange);
 	    ClientActions.fetchRequests();
 	    ClientActions.fetchOffers();
+	    ClientActions.fetchDoers();
+	    ClientActions.fetchBookings();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35609,7 +35655,13 @@
 	  },
 	
 	  handleOfferChange: function () {
+	    var acceptedOffers = OfferStore.acceptedOffers();
 	    this.setState({ offers: OfferStore.userOffers() });
+	    this.setState({ acceptedOffers: acceptedOffers });
+	  },
+	
+	  handleBookingChange: function () {
+	    this.setState({ bookings: BookingStore.userBookings() });
 	  },
 	
 	  renderDashboard: function () {
@@ -35619,6 +35671,9 @@
 	
 	      case "offers":
 	        return React.createElement(OffersIndex, { offers: this.state.offers });
+	
+	      case "bookings":
+	        return React.createElement(OffersIndex, { offers: this.state.acceptedOffers });
 	    }
 	  },
 	
@@ -35628,6 +35683,10 @@
 	
 	  handleRequestsClick: function (e) {
 	    this.setState({ focused: "requests" });
+	  },
+	
+	  handleBookingsClick: function (e) {
+	    this.setState({ focused: "bookings" });
 	  },
 	
 	  render: function () {
@@ -35650,7 +35709,7 @@
 	        ),
 	        React.createElement(
 	          'li',
-	          null,
+	          { onClick: this.handleBookingsClick },
 	          'Bookings'
 	        )
 	      ),
@@ -35697,26 +35756,55 @@
 /* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
+	var React = __webpack_require__(1),
+	    UserStore = __webpack_require__(307),
+	    BookingApiUtil = __webpack_require__(309),
+	    OfferApiUtil = __webpack_require__(285);
 	
 	var OfferDetail = React.createClass({
-	  displayName: "OfferDetail",
+	  displayName: 'OfferDetail',
+	
 	
 	  render: function () {
+	    var request = RequestStore.find(this.props.offer.request_id);
+	    var userImage = UserStore.doerImage(this.props.offer.doer_id);
 	    return React.createElement(
-	      "section",
-	      { className: "detail" },
-	      this.props.offer.doer_photo,
+	      'section',
+	      { className: 'detail' },
+	      React.createElement('img', { src: userImage }),
 	      React.createElement(
-	        "ul",
+	        'ul',
 	        null,
 	        React.createElement(
-	          "li",
+	          'li',
 	          null,
+	          'Subject: ',
+	          request.title
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          'Offer: ',
 	          this.props.offer.message
 	        )
+	      ),
+	      React.createElement(
+	        'button',
+	        { onClick: this.makeBooking, id: this.props.offer.id },
+	        'Accept Offer'
 	      )
 	    );
+	  },
+	
+	  makeBooking: function (e) {
+	    e.preventDefault();
+	    var offerData = {
+	      id: e.target.id,
+	      message: this.props.offer.message,
+	      request_id: this.props.offer.request_id,
+	      accepted: true
+	    };
+	    OfferApiUtil.updateOffer(offerData);
 	  }
 	});
 	
@@ -35730,6 +35818,7 @@
 
 	var RequestApiUtil = __webpack_require__(294);
 	var OfferApiUtil = __webpack_require__(285);
+	var UserApiUtil = __webpack_require__(280);
 	
 	var ClientActions = {
 	  fetchRequests: function () {
@@ -35738,6 +35827,14 @@
 	
 	  fetchOffers: function () {
 	    OfferApiUtil.fetchOffers();
+	  },
+	
+	  fetchDoers: function () {
+	    UserApiUtil.fetchDoers();
+	  },
+	
+	  fetchBookings: function () {
+	    BookingApiUtil.fetchBookings();
 	  }
 	
 	};
@@ -35815,7 +35912,6 @@
 	var _requests = {};
 	
 	var _addRequest = function (request) {
-	  debugger;
 	  _requests[request.id] = request;
 	};
 	
@@ -35830,6 +35926,10 @@
 	  return Object.keys(_requests).map(function (id) {
 	    return _requests[id];
 	  });
+	};
+	
+	RequestStore.find = function (id) {
+	  return _requests[id];
 	};
 	
 	RequestStore.allOtherRequests = function () {
@@ -35898,6 +35998,16 @@
 	  return Object.keys(_offers).map(function (id) {
 	    return _offers[id];
 	  });
+	};
+	
+	OfferStore.acceptedOffers = function () {
+	  var acceptedOffers = [];
+	  for (var key in _offers) {
+	    if (_offers[key].accepted === true) {
+	      acceptedOffers.push(_offers[key]);
+	    }
+	  }
+	  return acceptedOffers;
 	};
 	
 	OfferStore.__onDispatch = function (payload) {
@@ -36571,6 +36681,171 @@
 	});
 	
 	module.exports = UserEditForm;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(251);
+	var Store = __webpack_require__(259).Store;
+	
+	var UserStore = new Store(AppDispatcher);
+	
+	var _currentUser, _errors;
+	
+	var _doers = {};
+	
+	var addDoers = function (doers) {
+	  _doers = {};
+	  doers.forEach(function (doer) {
+	    _doers[doer.id] = doer;
+	  });
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case "LOGIN":
+	      UserStore.login(payload.user);
+	      break;
+	    case "LOGOUT":
+	      UserStore.logout();
+	      break;
+	    case "ERROR":
+	      UserStore.setErrors(payload.errors);
+	      break;
+	    case "RECEIVE_ALL_DOERS":
+	      addDoers(payload.doers);
+	      break;
+	  }
+	  UserStore.__emitChange();
+	};
+	
+	UserStore.login = function (user) {
+	  _currentUser = user;
+	  _errors = null;
+	};
+	
+	UserStore.logout = function () {
+	  _currentUser = null;
+	  _errors = null;
+	};
+	
+	UserStore.currentUser = function () {
+	  if (_currentUser) {
+	    return $.extend({}, _currentUser);
+	  }
+	};
+	
+	UserStore.doerImage = function (id) {
+	  var user = _doers[id];
+	  return user.image_url;
+	};
+	
+	UserStore.setErrors = function (errors) {
+	  _errors = errors;
+	};
+	
+	UserStore.errors = function () {
+	  if (_errors) {
+	    return [].slice.call(_errors);
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 308 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  RECEIVE_ALL_DOERS: "RECEIVE_ALL_DOERS"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports) {
+
+	var BookingApiUtil = {
+	  makeBooking: function (offerData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/offers" + offerData.id,
+	      data: { offer: offerData },
+	      success: function (offer) {}
+	    });
+	  },
+	
+	  fetchBookings: function () {
+	    $.ajax({
+	      url: "api/bookings",
+	      success: function (bookings) {
+	        ServerActions.receiveAllBookings(bookings);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = BookingApiUtil;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports) {
+
+	var BookingConstants = {
+	  RECEIVE_SINGLE_BOOKING: "RECEIVE_SINGLE_BOOKING",
+	  RECEIVE_ALL_BOOKINGS: "RECEIVE_ALL_BOOKINGS"
+	};
+	
+	module.exports = BookingConstants;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(251),
+	    Store = __webpack_require__(259).Store,
+	    BookingConstants = __webpack_require__(310),
+	    BookingStore = new Store(AppDispatcher);
+	
+	var _bookings = {};
+	
+	var addBooking = function (booking) {
+	  _bookings[booking.id] = booking;
+	};
+	
+	var addBookings = function (bookings) {
+	  _bookings = {};
+	  bookings.forEach(function (booking) {
+	    _bookings[booking.id] = booking;
+	  });
+	};
+	
+	BookingStore.userBookings = function () {
+	  var userBookings = [];
+	  for (var key in _bookings) {
+	    if (_bookings[key].requester_id === SessionStore.currentUser().id) {
+	      userBookings.push(_bookings[key]);
+	    }
+	  }
+	  return userRequests;
+	};
+	
+	BookingStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case BookingConstants.RECEIVE_SINGLE_BOOKING:
+	      addBooking(payload.booking);
+	      break;
+	
+	    case BookingConstants.RECEIVE_ALL_BOOKINGS:
+	      addBookings(bookings);
+	      break;
+	  }
+	  this.__emitChange();
+	};
+	
+	module.exports = BookingStore;
 
 /***/ }
 /******/ ]);

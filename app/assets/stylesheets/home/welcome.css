@@ -50,3 +50,7 @@
   font-family: "Proxima Alt Regular";
   float: right;
 }
+
+.favor-button:focus {
+  outline:0;
+}

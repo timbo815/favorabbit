@@ -2,6 +2,8 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var RequestConstants = require('../constants/request_constants');
 var CategoryConstants = require('../constants/category_constants');
 var OfferConstants = require('../constants/offer_constants');
+var UserConstants = require('../constants/user_constants');
+var BookingConstants = require('../constants/booking_constants');
 
 
 var ServerActions = {
@@ -44,6 +46,27 @@ var ServerActions = {
     AppDispatcher.dispatch({
       actionType: OfferConstants.RECEIVE_ALL_OFFERS,
       offers: offers
+    });
+  },
+
+  receiveAllDoers: function (doers) {
+    AppDispatcher.dispatch({
+      actionType: UserConstants.RECEIVE_ALL_DOERS,
+      doers: doers
+    });
+  },
+
+  receiveSingleBooking: function (booking) {
+    AppDispatcher.dispatch({
+      actionType: BookingConstants.RECEIVE_SINGLE_BOOKING,
+      booking: booking
+    });
+  },
+
+  receiveAllBookings: function (bookings) {
+    AppDispatcher.dispatch({
+      actionType: BookingConstants.RECEIVE_ALL_BOOKINGS,
+      bookings: bookings
     });
   }
 };

@@ -8,7 +8,6 @@ var AppDispatcher = require('../dispatcher/dispatcher.js'),
 var _requests = {};
 
 var _addRequest = function (request) {
-  debugger
   _requests[request.id] = request;
 };
 
@@ -23,6 +22,10 @@ RequestStore.all = function () {
   return Object.keys(_requests).map(function (id) {
     return _requests[id];
   });
+};
+
+RequestStore.find = function (id) {
+  return _requests[id];
 };
 
 RequestStore.allOtherRequests = function () {

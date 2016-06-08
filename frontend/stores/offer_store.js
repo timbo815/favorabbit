@@ -24,6 +24,16 @@ OfferStore.userOffers = function () {
   });
 };
 
+OfferStore.acceptedOffers = function () {
+  var acceptedOffers = [];
+  for (var key in _offers) {
+    if (_offers[key].accepted === true) {
+      acceptedOffers.push(_offers[key]);
+    }
+  }
+  return acceptedOffers;
+};
+
 OfferStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     // case OfferConstants.RECEIVE_SINGLE_OFFER:

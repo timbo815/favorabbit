@@ -3,19 +3,23 @@ var React = require('react'),
     OffersIndex = require('./OffersIndex'),
     ClientActions = require('../actions/client_actions.js'),
     RequestStore = require('../stores/request_store.js'),
-    OfferStore = require('../stores/offer_store.js');
+    OfferStore = require('../stores/offer_store.js'),
+    BookingStore = require('../stores/booking_store.js');
 
 
 var Dashboard = React.createClass({
   getInitialState: function () {
-    return ({ requests: [], offers: [], focused: "requests"});
+    return ({ requests: [], offers: [], bookings: [], acceptedOffers: [], focused: "requests"});
   },
 
   componentDidMount: function () {
     this.requestListener = RequestStore.addListener(this.handleRequestChange);
     this.offerListener = OfferStore.addListener(this.handleOfferChange);
+    this.bookingListener = BookingStore.addListener(this.handleBookingChange);
     ClientActions.fetchRequests();
     ClientActions.fetchOffers();
+    ClientActions.fetchDoers();
+    ClientActions.fetchBookings();
   },
 
   componentWillUnmount: function () {
@@ -28,7 +32,13 @@ var Dashboard = React.createClass({
   },
 
   handleOfferChange: function () {
+    var acceptedOffers = OfferStore.acceptedOffers();
     this.setState({ offers: OfferStore.userOffers()});
+    this.setState({ acceptedOffers: acceptedOffers});
+  },
+
+  handleBookingChange: function () {
+    this.setState({ bookings: BookingStore.userBookings()});
   },
 
   renderDashboard: function () {
@@ -38,6 +48,9 @@ var Dashboard = React.createClass({
 
       case "offers":
       return(<OffersIndex offers={this.state.offers}/>);
+
+      case "bookings":
+      return(<OffersIndex offers={this.state.acceptedOffers}/>);
     }
   },
 
@@ -47,6 +60,10 @@ var Dashboard = React.createClass({
 
   handleRequestsClick: function (e) {
     this.setState({ focused: "requests" });
+  },
+
+  handleBookingsClick: function (e) {
+    this.setState({ focused: "bookings" });
   },
 
   render: function () {
@@ -60,7 +77,7 @@ var Dashboard = React.createClass({
           <li onClick={this.handleOffersClick}>
             Pending Offers
           </li>
-          <li>
+          <li onClick={this.handleBookingsClick}>
             Bookings
           </li>
         </ul>

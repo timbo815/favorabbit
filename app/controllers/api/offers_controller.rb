@@ -19,6 +19,14 @@ class Api::OffersController < ApplicationController
   end
   # def destroy
   # end
+  def update
+    @offer = Offer.find(params[:id])
+    if @offer.update_attributes(offer_params)
+      render json: @offer
+    else
+      render json: @offer.errors, status: 422
+    end
+  end
 
   private
 

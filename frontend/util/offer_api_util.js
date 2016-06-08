@@ -26,6 +26,17 @@ var OfferApiUtil = {
         ErrorActions.setErrors("offer", errors);
         }
     });
+  },
+
+  updateOffer: function (offerData) {
+    $.ajax({
+      type: "PATCH",
+      url: "api/offers/" + offerData.id,
+      data: {offer: offerData},
+      success: function (offer) {
+
+      }
+    });
   }
 
 };

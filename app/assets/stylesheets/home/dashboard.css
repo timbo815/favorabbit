@@ -32,6 +32,11 @@
   width: 300px;
   text-align: center;
 }
+
+.tabs > li:hover {
+  cursor:pointer;
+}
+
 .group:after {
   display: block;
   clear: both;

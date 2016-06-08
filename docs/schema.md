@@ -27,8 +27,8 @@ accepted    | boolean   | default: false
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-request_id  | string    | not null
-offer_id    | text      | not null
+request_id  | integer   | not null
+offer_id    | integer   | not null
 
 ## users
 column name     | data type | details
