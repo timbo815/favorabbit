@@ -17,7 +17,7 @@ var addDoers = function (doers) {
 UserStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case "LOGIN":
-    	UserStore.login(payload.user);
+    	UserStore.login(payload.currentUser);
       break;
     case "LOGOUT":
     	UserStore.logout();
@@ -32,20 +32,24 @@ UserStore.__onDispatch = function (payload) {
   UserStore.__emitChange();
 };
 
-UserStore.login = function(user){
+UserStore.login = function (user){
 	_currentUser = user;
   _errors = null;
 };
 
-UserStore.logout = function(){
+UserStore.logout = function (){
   _currentUser = null;
   _errors = null;
 };
 
-UserStore.currentUser = function(){
+UserStore.currentUser = function (){
   if (_currentUser) {
   	return $.extend({}, _currentUser);
   }
+};
+
+UserStore.userOffers = function () {
+  return _currentUser.offers;
 };
 
 UserStore.doerImage = function (id) {
@@ -53,11 +57,11 @@ UserStore.doerImage = function (id) {
   return user.image_url;
 };
 
-UserStore.setErrors = function(errors){
+UserStore.setErrors = function (errors){
   _errors = errors;
 };
 
-UserStore.errors = function(){
+UserStore.errors = function (){
   if (_errors){
     return [].slice.call(_errors);
   }

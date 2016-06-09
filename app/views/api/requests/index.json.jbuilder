@@ -7,4 +7,5 @@ json.array!(@requests) do |request|
   json.location request.location
   json.category request.category
   json.requester_id request.requester_id
+  json.offers request.offers 
 end

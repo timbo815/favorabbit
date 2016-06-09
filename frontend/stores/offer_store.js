@@ -1,7 +1,7 @@
 var AppDispatcher = require('../dispatcher/dispatcher.js'),
     Store = require('flux/utils').Store,
     OfferConstants = require('../constants/offer_constants'),
-    SessionStore = require('./session_store');
+    SessionStore = require('./session_store'),
     OfferStore = new Store(AppDispatcher);
 
 

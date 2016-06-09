@@ -81,6 +81,7 @@
   height:46px;
   text-align: left;
   text-indent: 40px;
+  border-bottom: 1px solid #cfd2d3;
 }
 
 .react-search__input:focus {
@@ -93,8 +94,7 @@
 
 .react-search__menu--open {
   background:white;
-  z-index: 1;
-  border: 1px solid #cfd2d3;
+  z-index:1;
 }
 
 .react-search__menu {

@@ -35674,18 +35674,21 @@
 	    ClientActions = __webpack_require__(298),
 	    RequestStore = __webpack_require__(297),
 	    OfferStore = __webpack_require__(300),
-	    BookingStore = __webpack_require__(301);
+	    BookingStore = __webpack_require__(301),
+	    UserStore = __webpack_require__(295);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
 	
 	  getInitialState: function () {
-	    return { userRequests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests" };
+	    return { userRequests: [], pendingOffers: [], bookings: [], sentOffers: [],
+	      acceptedOffers: [], focused: "requests" };
 	  },
 	
 	  componentDidMount: function () {
 	    this.requestListener = RequestStore.addListener(this.handleRequestChange);
 	    this.offerListener = OfferStore.addListener(this.handleOfferChange);
+	    this.userOffersListener = UserStore.addListener(this.handleUserOfferChange);
 	    ClientActions.fetchRequests();
 	    ClientActions.fetchOffers();
 	    ClientActions.fetchDoers();
@@ -35694,6 +35697,7 @@
 	  componentWillUnmount: function () {
 	    this.requestListener.remove();
 	    this.offerListener.remove();
+	    this.userOffersListener.remove();
 	  },
 	
 	  handleRequestChange: function () {
@@ -35707,11 +35711,15 @@
 	    this.setState({ acceptedOffers: acceptedOffers });
 	  },
 	
+	  handleUserOfferChange: function () {
+	    this.setState({ sentOffers: UserStore.userOffers() });
+	  },
+	
 	  renderDashboard: function () {
 	    var requests = this.state.userRequests;
 	    var pendingOffers = this.state.pendingOffers;
 	    var acceptedOffers = this.state.acceptedOffers;
-	
+	    var sentOffers = this.state.sentOffers;
 	    switch (this.state.focused) {
 	      case "requests":
 	        return requests.length < 1 ? React.createElement(
@@ -35733,6 +35741,13 @@
 	          { className: 'empty' },
 	          'You currently have no bookings'
 	        ) : React.createElement(OffersIndex, { offers: acceptedOffers });
+	
+	      case "sent offers":
+	        return sentOffers.length < 1 ? React.createElement(
+	          'div',
+	          { className: 'empty' },
+	          'You currently have no sent offers'
+	        ) : React.createElement(OffersIndex, { offers: sentOffers });
 	    }
 	  },
 	
@@ -35746,6 +35761,10 @@
 	
 	  handleBookingsClick: function (e) {
 	    this.setState({ focused: "bookings" });
+	  },
+	
+	  handleSentOffersClick: function (e) {
+	    this.setState({ focused: "sent offers" });
 	  },
 	
 	  render: function () {
@@ -35764,7 +35783,12 @@
 	        React.createElement(
 	          'li',
 	          { onClick: this.handleOffersClick },
-	          'Pending Offers'
+	          'Offers Received'
+	        ),
+	        React.createElement(
+	          'li',
+	          { onClick: this.handleSentOffersClick },
+	          'Offers Sent'
 	        ),
 	        React.createElement(
 	          'li',
@@ -35900,7 +35924,7 @@
 	UserStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case "LOGIN":
-	      UserStore.login(payload.user);
+	      UserStore.login(payload.currentUser);
 	      break;
 	    case "LOGOUT":
 	      UserStore.logout();
@@ -35929,6 +35953,10 @@
 	  if (_currentUser) {
 	    return $.extend({}, _currentUser);
 	  }
+	};
+	
+	UserStore.userOffers = function () {
+	  return _currentUser.offers;
 	};
 	
 	UserStore.doerImage = function (id) {
@@ -36005,6 +36033,30 @@
 	
 	RequestStore.find = function (id) {
 	  return _requests[id];
+	};
+	
+	RequestStore.openRequests = function () {
+	  var requestsWithAcceptedOffers = [];
+	  otherRequests = this.allOtherRequests();
+	  otherRequests.forEach(function (request) {
+	    request.offers.forEach(function (offer) {
+	      if (offer.accepted === true) {
+	        requestsWithAcceptedOffers.push(request);
+	      }
+	    });
+	  });
+	  var openRequests = [];
+	  for (var i = 0; i < otherRequests.length; i++) {
+	    if (requestsWithAcceptedOffers.indexOf(otherRequests[i])) {
+	      openRequests.push(otherRequests[i]);
+	    }
+	  }
+	  // _requests.forEach(function(request) {
+	  //   if (requestsWithAcceptedOffers.indexOf(request) === -1) {
+	  //     openRequests.push(request);
+	  //   }
+	  // });
+	  return openRequests;
 	};
 	
 	RequestStore.allOtherRequests = function () {
@@ -36140,8 +36192,8 @@
 	var AppDispatcher = __webpack_require__(251),
 	    Store = __webpack_require__(259).Store,
 	    OfferConstants = __webpack_require__(284),
-	    SessionStore = __webpack_require__(258);
-	OfferStore = new Store(AppDispatcher);
+	    SessionStore = __webpack_require__(258),
+	    OfferStore = new Store(AppDispatcher);
 	
 	var _offers = {};
 	
@@ -36431,7 +36483,7 @@
 	  },
 	
 	  handleChange: function () {
-	    this.setState({ requests: RequestStore.allOtherRequests() });
+	    this.setState({ requests: RequestStore.openRequests() });
 	  },
 	
 	  render: function () {

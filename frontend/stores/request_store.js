@@ -28,6 +28,29 @@ RequestStore.find = function (id) {
   return _requests[id];
 };
 
+RequestStore.openRequests = function () {
+  var requestsWithAcceptedOffers = [];
+  otherRequests = this.allOtherRequests();
+  otherRequests.forEach(function (request) {
+    request.offers.forEach(function(offer) {
+      if (offer.accepted === true) {
+        requestsWithAcceptedOffers.push(request);
+      }
+    });
+  });
+  var openRequests = [];
+  for (var i = 0; i < otherRequests.length; i++) {
+    if (requestsWithAcceptedOffers.indexOf(otherRequests[i])) {
+      openRequests.push(otherRequests[i]);
+    }
+  }
+  // _requests.forEach(function(request) {
+  //   if (requestsWithAcceptedOffers.indexOf(request) === -1) {
+  //     openRequests.push(request);
+  //   }
+  // });
+  return openRequests;
+};
 
 RequestStore.allOtherRequests = function () {
   var otherRequests = [];

@@ -4,17 +4,20 @@ var React = require('react'),
     ClientActions = require('../actions/client_actions.js'),
     RequestStore = require('../stores/request_store.js'),
     OfferStore = require('../stores/offer_store.js'),
-    BookingStore = require('../stores/booking_store.js');
+    BookingStore = require('../stores/booking_store.js'),
+    UserStore = require('../stores/user_store.js');
 
 
 var Dashboard = React.createClass({
   getInitialState: function () {
-    return ({ userRequests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests"});
+    return ({ userRequests: [], pendingOffers: [], bookings: [], sentOffers: [],
+              acceptedOffers: [], focused: "requests"});
   },
 
   componentDidMount: function () {
     this.requestListener = RequestStore.addListener(this.handleRequestChange);
     this.offerListener = OfferStore.addListener(this.handleOfferChange);
+    this.userOffersListener = UserStore.addListener(this.handleUserOfferChange);
     ClientActions.fetchRequests();
     ClientActions.fetchOffers();
     ClientActions.fetchDoers();
@@ -23,6 +26,7 @@ var Dashboard = React.createClass({
   componentWillUnmount: function () {
     this.requestListener.remove();
     this.offerListener.remove();
+    this.userOffersListener.remove();
   },
 
   handleRequestChange: function () {
@@ -36,11 +40,15 @@ var Dashboard = React.createClass({
     this.setState({ acceptedOffers: acceptedOffers});
   },
 
+  handleUserOfferChange: function () {
+    this.setState({ sentOffers: UserStore.userOffers() });
+  },
+
   renderDashboard: function () {
     var requests = this.state.userRequests;
     var pendingOffers = this.state.pendingOffers;
     var acceptedOffers = this.state.acceptedOffers;
-
+    var sentOffers = this.state.sentOffers;
     switch(this.state.focused) {
       case "requests":
       return requests.length < 1 ? <div className="empty">You currently have no open requests</div> : <RequestsIndex requests={requests}/>;
@@ -50,6 +58,9 @@ var Dashboard = React.createClass({
 
       case "bookings":
       return acceptedOffers.length < 1 ? <div className="empty">You currently have no bookings</div> : <OffersIndex offers={acceptedOffers}/>;
+
+      case "sent offers":
+      return sentOffers.length < 1 ? <div className="empty">You currently have no sent offers</div> : <OffersIndex offers={sentOffers}/>;
     }
   },
 
@@ -65,6 +76,10 @@ var Dashboard = React.createClass({
     this.setState({ focused: "bookings" });
   },
 
+  handleSentOffersClick: function (e) {
+    this.setState({ focused: "sent offers" });
+  },
+
   render: function () {
 
     return (
@@ -74,7 +89,10 @@ var Dashboard = React.createClass({
             Your Open Requests
           </li>
           <li onClick={this.handleOffersClick}>
-            Pending Offers
+            Offers Received
+          </li>
+          <li onClick={this.handleSentOffersClick}>
+            Offers Sent
           </li>
           <li onClick={this.handleBookingsClick}>
             Bookings

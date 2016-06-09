@@ -3,6 +3,12 @@ class Request < ActiveRecord::Base
 
   has_many :offers
 
+  belongs_to(
+    :user,
+    class_name: "User",
+    foreign_key: :requester_id,
+    primary_key: :id
+  )
 
 
 end

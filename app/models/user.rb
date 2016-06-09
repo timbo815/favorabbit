@@ -11,6 +11,19 @@ class User < ActiveRecord::Base
   # :styles => {thumb: "100x100#" }
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 
+  has_many(
+    :offers,
+    class_name: "Offer",
+    foreign_key: :doer_id,
+    primary_key: :id
+  )
+
+  has_many(
+    :requests,
+    class_name: "Request",
+    foreign_key: :requester_id,
+    primary_key: :id
+  )
 
 def password= password
   self.password_digest = BCrypt::Password.create(password)

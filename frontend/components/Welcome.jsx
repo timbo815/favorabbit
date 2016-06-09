@@ -49,7 +49,7 @@ var Welcome = React.createClass({
   },
 
   handleChange: function () {
-    this.setState({requests: RequestStore.allOtherRequests()});
+    this.setState({requests: RequestStore.openRequests()});
   },
 
   render: function () {
