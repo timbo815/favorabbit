@@ -9,7 +9,7 @@ var React = require('react'),
 
 var Dashboard = React.createClass({
   getInitialState: function () {
-    return ({ requests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests"});
+    return ({ userRequests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests"});
   },
 
   componentDidMount: function () {
@@ -28,7 +28,7 @@ var Dashboard = React.createClass({
   },
 
   handleRequestChange: function () {
-    this.setState({ requests: RequestStore.userRequests()});
+    this.setState({ userRequests: RequestStore.userRequests()});
   },
 
   handleOfferChange: function () {
@@ -45,7 +45,7 @@ var Dashboard = React.createClass({
   renderDashboard: function () {
     switch(this.state.focused) {
       case "requests":
-      return(<RequestsIndex requests={this.state.requests}/>);
+      return(<RequestsIndex requests={this.state.userRequests}/>);
 
       case "offers":
       return(<OffersIndex offers={this.state.pendingOffers}/>);

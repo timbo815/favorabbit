@@ -59,7 +59,7 @@
 	    SignUpForm = __webpack_require__(279),
 	    Home = __webpack_require__(287),
 	    OfferForm = __webpack_require__(290),
-	    Account = __webpack_require__(310);
+	    Account = __webpack_require__(311);
 	
 	var routes = React.createElement(
 	  Route,
@@ -35307,7 +35307,7 @@
 	    HowItWorks = __webpack_require__(302),
 	    Header = __webpack_require__(303),
 	    Welcome = __webpack_require__(304);
-	PopularCategories = __webpack_require__(312);
+	PopularCategories = __webpack_require__(310);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -35666,8 +35666,8 @@
 	var React = __webpack_require__(1),
 	    RequestsIndex = __webpack_require__(288),
 	    OffersIndex = __webpack_require__(293),
-	    ClientActions = __webpack_require__(297),
-	    RequestStore = __webpack_require__(299),
+	    ClientActions = __webpack_require__(298),
+	    RequestStore = __webpack_require__(297),
 	    OfferStore = __webpack_require__(300),
 	    BookingStore = __webpack_require__(301);
 	
@@ -35675,7 +35675,7 @@
 	  displayName: 'Dashboard',
 	
 	  getInitialState: function () {
-	    return { requests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests" };
+	    return { userRequests: [], pendingOffers: [], bookings: [], acceptedOffers: [], focused: "requests" };
 	  },
 	
 	  componentDidMount: function () {
@@ -35694,7 +35694,7 @@
 	  },
 	
 	  handleRequestChange: function () {
-	    this.setState({ requests: RequestStore.userRequests() });
+	    this.setState({ userRequests: RequestStore.userRequests() });
 	  },
 	
 	  handleOfferChange: function () {
@@ -35711,7 +35711,7 @@
 	  renderDashboard: function () {
 	    switch (this.state.focused) {
 	      case "requests":
-	        return React.createElement(RequestsIndex, { requests: this.state.requests });
+	        return React.createElement(RequestsIndex, { requests: this.state.userRequests });
 	
 	      case "offers":
 	        return React.createElement(OffersIndex, { offers: this.state.pendingOffers });
@@ -35804,7 +35804,7 @@
 	    UserStore = __webpack_require__(295),
 	    BookingApiUtil = __webpack_require__(296),
 	    OfferApiUtil = __webpack_require__(291),
-	    RequestStore = __webpack_require__(299);
+	    RequestStore = __webpack_require__(297);
 	
 	var OfferDetail = React.createClass({
 	  displayName: 'OfferDetail',
@@ -35963,93 +35963,6 @@
 /* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var RequestApiUtil = __webpack_require__(298);
-	var OfferApiUtil = __webpack_require__(291);
-	var UserApiUtil = __webpack_require__(280);
-	
-	var ClientActions = {
-	  fetchRequests: function () {
-	    RequestApiUtil.fetchRequests();
-	  },
-	
-	  fetchOffers: function () {
-	    OfferApiUtil.fetchOffers();
-	  },
-	
-	  fetchDoers: function () {
-	    UserApiUtil.fetchDoers();
-	  }
-	
-	};
-	
-	// fetchBookings: function () {
-	//   BookingApiUtil.fetchBookings();
-	// }
-	
-	module.exports = ClientActions;
-
-/***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ServerActions = __webpack_require__(281);
-	var ErrorActions = __webpack_require__(256);
-	
-	var RequestApiUtil = {
-	  fetchRequests: function () {
-	    $.ajax({
-	      url: "api/requests",
-	      success: function (requests) {
-	        ServerActions.receiveAllRequests(requests);
-	      }
-	    });
-	  },
-	
-	  createRequest: function (requestData, callback) {
-	    $.ajax({
-	      type: "POST",
-	      url: "api/requests",
-	      data: { request: requestData },
-	      success: function (request) {
-	        ServerActions.receiveSingleRequest(request);
-	        callback();
-	      },
-	      error: function (xhr) {
-	        console.log("create request error in RequestApiUtil#createRequest");
-	        var errors = xhr.responseJSON;
-	        ErrorActions.setErrors("request", errors);
-	      }
-	    });
-	  },
-	
-	  updateRequest: function (requestData) {
-	    $.ajax({
-	      type: "PATCH",
-	      url: "api/requests" + requestData.id,
-	      data: { request: requestData },
-	      success: function (request) {
-	        ServerActions.receiveSingleRequest(request);
-	      }
-	    });
-	  },
-	
-	  deleteRequest: function (id) {
-	    $.ajax({
-	      type: "DELETE",
-	      url: "api/requests" + id,
-	      sucess: function (request) {
-	        ServerActions.removeRequest(request);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = RequestApiUtil;
-
-/***/ },
-/* 299 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var AppDispatcher = __webpack_require__(251),
 	    Store = __webpack_require__(259).Store,
 	    RequestConstants = __webpack_require__(282),
@@ -36117,6 +36030,93 @@
 	};
 	
 	module.exports = RequestStore;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var RequestApiUtil = __webpack_require__(299);
+	var OfferApiUtil = __webpack_require__(291);
+	var UserApiUtil = __webpack_require__(280);
+	
+	var ClientActions = {
+	  fetchRequests: function () {
+	    RequestApiUtil.fetchRequests();
+	  },
+	
+	  fetchOffers: function () {
+	    OfferApiUtil.fetchOffers();
+	  },
+	
+	  fetchDoers: function () {
+	    UserApiUtil.fetchDoers();
+	  }
+	
+	};
+	
+	// fetchBookings: function () {
+	//   BookingApiUtil.fetchBookings();
+	// }
+	
+	module.exports = ClientActions;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(281);
+	var ErrorActions = __webpack_require__(256);
+	
+	var RequestApiUtil = {
+	  fetchRequests: function () {
+	    $.ajax({
+	      url: "api/requests",
+	      success: function (requests) {
+	        ServerActions.receiveAllRequests(requests);
+	      }
+	    });
+	  },
+	
+	  createRequest: function (requestData, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "api/requests",
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	        callback();
+	      },
+	      error: function (xhr) {
+	        console.log("create request error in RequestApiUtil#createRequest");
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("request", errors);
+	      }
+	    });
+	  },
+	
+	  updateRequest: function (requestData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/requests" + requestData.id,
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	      }
+	    });
+	  },
+	
+	  deleteRequest: function (id) {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "api/requests" + id,
+	      sucess: function (request) {
+	        ServerActions.removeRequest(request);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = RequestApiUtil;
 
 /***/ },
 /* 300 */
@@ -36365,11 +36365,11 @@
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
-	    RequestStore = __webpack_require__(299),
+	    RequestStore = __webpack_require__(297),
 	    RequestButton = __webpack_require__(305),
 	    FavorButton = __webpack_require__(309),
-	    ClientActions = __webpack_require__(297);
-	
+	    ClientActions = __webpack_require__(298);
+	// SearchBar = require('react-search-bar'),
 	var Welcome = React.createClass({
 	  displayName: 'Welcome',
 	
@@ -36410,6 +36410,12 @@
 	});
 	
 	module.exports = Welcome;
+	//
+	// categories = {["Career", "Child Care", "Cleaning", "Computer Help",
+	//                   "Cooking", "Delivery", "Design", "Donations", "Education",
+	//                   "Errands", "Furniture Assembly", "General Help", "Handyman",
+	//                    "Hang Pictures", "Heavy Lifting", "Moving Help", "Painting", "Pet Care",
+	//                   "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"]}
 
 /***/ },
 /* 305 */
@@ -36482,7 +36488,7 @@
 	var React = __webpack_require__(1),
 	    CategoryStore = __webpack_require__(307),
 	    CategoryApiUtil = __webpack_require__(308),
-	    RequestApiUtil = __webpack_require__(298),
+	    RequestApiUtil = __webpack_require__(299),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278);
 	
@@ -36577,7 +36583,7 @@
 	  },
 	
 	  render: function () {
-	    var categories = ["Career", "Child Care", "Computer Help", "Cooking", "Education", "Furniture Assembly", "Cleaning", "General Help", "Handyman", "General Help", "Moving Help", "Pet Care", "Shopping + Delivery", "Transportation"];
+	    var categories = ["Career", "Child Care", "Cleaning", "Computer Help", "Cooking", "Delivery", "Design", "Donations", "Education", "Errands", "Furniture Assembly", "General Help", "Handyman", "Hang Pictures", "Heavy Lifting", "Moving Help", "Painting", "Pet Care", "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"];
 	    return React.createElement(
 	      'form',
 	      { onSubmit: this.handleSubmit, className: 'request-form' },
@@ -36792,105 +36798,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserEditForm = __webpack_require__(311),
-	    Header = __webpack_require__(303);
-	
-	var Account = React.createClass({
-	  displayName: 'Account',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'account' },
-	      React.createElement(Header, null),
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Your Account'
-	      ),
-	      React.createElement(UserEditForm, null)
-	    );
-	  }
-	});
-	
-	module.exports = Account;
-
-/***/ },
-/* 311 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    UserApiUtil = __webpack_require__(280),
-	    SessionStore = __webpack_require__(258);
-	
-	var UserEditForm = React.createClass({
-	  displayName: 'UserEditForm',
-	
-	  getInitialState: function () {
-	    return {
-	      username: SessionStore.currentUser().username,
-	      imageFile: null,
-	      imageUrl: null
-	    };
-	  },
-	
-	  updateFile: function (e) {
-	    var file = e.currentTarget.files[0];
-	    var fileReader = new FileReader();
-	    fileReader.onloadend = function () {
-	      this.setState({ imageFile: file, imageUrl: fileReader.result });
-	    }.bind(this);
-	
-	    if (file) {
-	      fileReader.readAsDataURL(file);
-	    }
-	  },
-	
-	  updateUsername: function (e) {
-	    this.setState({ username: e.target.value });
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var formData = new FormData();
-	    formData.append('user[username]', this.state.username);
-	    formData.append('user[image]', this.state.imageFile);
-	    UserApiUtil.editUser(formData);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'user-edit' },
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'label',
-	          null,
-	          'Username',
-	          React.createElement('input', { type: 'text', value: this.state.username, onChange: this.updateUsername, className: 'edit-username' })
-	        ),
-	        React.createElement(
-	          'label',
-	          null,
-	          'Upload a new photo',
-	          React.createElement('input', { type: 'file', onChange: this.updateFile })
-	        ),
-	        React.createElement('input', { type: 'submit', value: 'Save Changes', className: 'user-edit-submit' })
-	      ),
-	      React.createElement('img', { src: this.state.imageUrl })
-	    );
-	  }
-	});
-	
-	module.exports = UserEditForm;
-
-/***/ },
-/* 312 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
 	    RequestForm = __webpack_require__(306);
 	
@@ -36989,6 +36896,105 @@
 	});
 	
 	module.exports = PopularCategories;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    UserEditForm = __webpack_require__(312),
+	    Header = __webpack_require__(303);
+	
+	var Account = React.createClass({
+	  displayName: 'Account',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'account' },
+	      React.createElement(Header, null),
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Your Account'
+	      ),
+	      React.createElement(UserEditForm, null)
+	    );
+	  }
+	});
+	
+	module.exports = Account;
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    UserApiUtil = __webpack_require__(280),
+	    SessionStore = __webpack_require__(258);
+	
+	var UserEditForm = React.createClass({
+	  displayName: 'UserEditForm',
+	
+	  getInitialState: function () {
+	    return {
+	      username: SessionStore.currentUser().username,
+	      imageFile: null,
+	      imageUrl: null
+	    };
+	  },
+	
+	  updateFile: function (e) {
+	    var file = e.currentTarget.files[0];
+	    var fileReader = new FileReader();
+	    fileReader.onloadend = function () {
+	      this.setState({ imageFile: file, imageUrl: fileReader.result });
+	    }.bind(this);
+	
+	    if (file) {
+	      fileReader.readAsDataURL(file);
+	    }
+	  },
+	
+	  updateUsername: function (e) {
+	    this.setState({ username: e.target.value });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var formData = new FormData();
+	    formData.append('user[username]', this.state.username);
+	    formData.append('user[image]', this.state.imageFile);
+	    UserApiUtil.editUser(formData);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'user-edit' },
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          null,
+	          'Username',
+	          React.createElement('input', { type: 'text', value: this.state.username, onChange: this.updateUsername, className: 'edit-username' })
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Upload a new photo',
+	          React.createElement('input', { type: 'file', onChange: this.updateFile })
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'Save Changes', className: 'user-edit-submit' })
+	      ),
+	      React.createElement('img', { src: this.state.imageUrl })
+	    );
+	  }
+	});
+	
+	module.exports = UserEditForm;
 
 /***/ }
 /******/ ]);

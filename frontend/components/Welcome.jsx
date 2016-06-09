@@ -4,7 +4,7 @@ var React = require('react'),
     RequestButton = require('./RequestButton'),
     FavorButton = require('./FavorButton'),
     ClientActions = require('../actions/client_actions.js');
-
+    // SearchBar = require('react-search-bar'),
 var Welcome = React.createClass({
 
   getInitialState: function () {
@@ -37,3 +37,9 @@ var Welcome = React.createClass({
 });
 
 module.exports = Welcome;
+//
+// categories = {["Career", "Child Care", "Cleaning", "Computer Help",
+//                   "Cooking", "Delivery", "Design", "Donations", "Education",
+//                   "Errands", "Furniture Assembly", "General Help", "Handyman",
+//                    "Hang Pictures", "Heavy Lifting", "Moving Help", "Painting", "Pet Care",
+//                   "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"]}

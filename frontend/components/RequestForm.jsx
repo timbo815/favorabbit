@@ -82,9 +82,11 @@ var RequestForm = React.createClass({
   },
 
   render: function () {
-    var categories = ["Career", "Child Care", "Computer Help", "Cooking", "Education", "Furniture Assembly",
-                      "Cleaning", "General Help", "Handyman", "General Help", "Moving Help", "Pet Care",
-                      "Shopping + Delivery", "Transportation"];
+    var categories = ["Career", "Child Care", "Cleaning", "Computer Help",
+                      "Cooking", "Delivery", "Design", "Donations", "Education",
+                      "Errands", "Furniture Assembly", "General Help", "Handyman",
+                       "Hang Pictures", "Heavy Lifting", "Moving Help", "Painting", "Pet Care",
+                      "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"];
     return (
       <form onSubmit={this.handleSubmit} className="request-form">
         <label for="category">Category</label>
