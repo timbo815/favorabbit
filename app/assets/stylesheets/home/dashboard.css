@@ -13,8 +13,6 @@
   width: 920px;
   background: white;
   color: #1da3bf;
-  padding-top: 10px;
-  padding-bottom: 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom: 1px solid #1da3bf;
@@ -28,6 +26,7 @@
   float: left;
   width: 230px;
   text-align: center;
+  padding: 15px 0;
 }
 
 .group:after {
@@ -163,7 +162,9 @@
   color: white;
   background: #1da3bf;
 }
-
+.submit-request:focus {
+  outline: none;
+}
 .close-x {
   font-family: "Proma Alt Light";
   position: absolute;

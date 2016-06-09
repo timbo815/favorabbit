@@ -1,9 +1,11 @@
-var AppDispatcher = require('../dispatcher/dispatcher.js'),
-    Store = require('flux/utils').Store,
+var AppDispatcher = require('../dispatcher/dispatcher');
+var Store = require('flux/utils').Store,
     OfferConstants = require('../constants/offer_constants'),
     SessionStore = require('./session_store'),
-    OfferStore = new Store(AppDispatcher);
+    UserStore = require('./user_store'),
+    RequestStore = require('./request_store');
 
+var OfferStore = new Store(AppDispatcher);
 
 var _offers = {};
 
@@ -24,23 +26,26 @@ OfferStore.userOffers = function () {
   });
 };
 
-OfferStore.acceptedOffers = function () {
-  var acceptedOffers = [];
+OfferStore.bookings = function () {
+  var bookings = [];
   for (var key in _offers) {
     if (_offers[key].accepted === true) {
-      acceptedOffers.push(_offers[key]);
+      bookings.push(_offers[key]);
     }
   }
-  return acceptedOffers;
+  return bookings;
 };
 
 OfferStore.pendingOffers = function () {
-  var pendingOffers = [];
-  for (var key in _offers) {
-    if (_offers[key].accepted === false) {
-      pendingOffers.push(_offers[key]);
-    }
+  var userRequests = RequestStore.userRequests();
+  var userOffers = {};
+  for (var i = 0; i < userRequests.length; i++) {
+    userOffers[i] = (userRequests[i].offers);
   }
+  pendingOffers = [];
+  for (var key in userOffers) {
+    pendingOffers.push(userOffers[key]);
+    }
   return pendingOffers;
 };
 

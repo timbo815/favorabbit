@@ -10,8 +10,8 @@ var React = require('react'),
 
 var Dashboard = React.createClass({
   getInitialState: function () {
-    return ({ userRequests: [], pendingOffers: [], bookings: [], sentOffers: [],
-              acceptedOffers: [], focused: "requests"});
+    return ({ userRequests: [], pendingOffers: [], sentOffers: [], bookings: [],
+      focused: "requests"});
   },
 
   componentDidMount: function () {
@@ -34,10 +34,14 @@ var Dashboard = React.createClass({
   },
 
   handleOfferChange: function () {
-    var acceptedOffers = OfferStore.acceptedOffers();
+    var bookings = OfferStore.bookings();
     var pendingOffers = OfferStore.pendingOffers();
-    this.setState({ pendingOffers: OfferStore.pendingOffers()});
-    this.setState({ acceptedOffers: acceptedOffers});
+    pendingOffersArray = [];
+    for (var key in pendingOffers) {
+      pendingOffersArray.push(pendingOffers[key][0]);
+    }
+    this.setState({ pendingOffers: pendingOffersArray});
+    this.setState({ bookings: bookings});
   },
 
   handleUserOfferChange: function () {
@@ -47,7 +51,7 @@ var Dashboard = React.createClass({
   renderDashboard: function () {
     var requests = this.state.userRequests;
     var pendingOffers = this.state.pendingOffers;
-    var acceptedOffers = this.state.acceptedOffers;
+    var bookings = this.state.bookings;
     var sentOffers = this.state.sentOffers;
     switch(this.state.focused) {
       case "requests":
@@ -57,7 +61,7 @@ var Dashboard = React.createClass({
       return pendingOffers.length < 1 ? <div className="empty">You currently have no pending offers</div> : <OffersIndex offers={pendingOffers}/>;
 
       case "bookings":
-      return acceptedOffers.length < 1 ? <div className="empty">You currently have no bookings</div> : <OffersIndex offers={acceptedOffers}/>;
+      return bookings.length < 1 ? <div className="empty">You currently have no bookings</div> : <OffersIndex offers={bookings}/>;
 
       case "sent offers":
       return sentOffers.length < 1 ? <div className="empty">You currently have no sent offers</div> : <OffersIndex offers={sentOffers}/>;

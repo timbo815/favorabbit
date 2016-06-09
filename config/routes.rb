@@ -9,4 +9,6 @@ Rails.application.routes.draw do
     resources :bookings, only: [:create, :show, :index]
   end
   root "static_pages#root"
+  
+  get '/auth/:provider/callback', to: 'sessions#create'
 end

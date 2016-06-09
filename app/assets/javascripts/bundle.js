@@ -35681,8 +35681,8 @@
 	  displayName: 'Dashboard',
 	
 	  getInitialState: function () {
-	    return { userRequests: [], pendingOffers: [], bookings: [], sentOffers: [],
-	      acceptedOffers: [], focused: "requests" };
+	    return { userRequests: [], pendingOffers: [], sentOffers: [], bookings: [],
+	      focused: "requests" };
 	  },
 	
 	  componentDidMount: function () {
@@ -35705,10 +35705,14 @@
 	  },
 	
 	  handleOfferChange: function () {
-	    var acceptedOffers = OfferStore.acceptedOffers();
+	    var bookings = OfferStore.bookings();
 	    var pendingOffers = OfferStore.pendingOffers();
-	    this.setState({ pendingOffers: OfferStore.pendingOffers() });
-	    this.setState({ acceptedOffers: acceptedOffers });
+	    pendingOffersArray = [];
+	    for (var key in pendingOffers) {
+	      pendingOffersArray.push(pendingOffers[key][0]);
+	    }
+	    this.setState({ pendingOffers: pendingOffersArray });
+	    this.setState({ bookings: bookings });
 	  },
 	
 	  handleUserOfferChange: function () {
@@ -35718,7 +35722,7 @@
 	  renderDashboard: function () {
 	    var requests = this.state.userRequests;
 	    var pendingOffers = this.state.pendingOffers;
-	    var acceptedOffers = this.state.acceptedOffers;
+	    var bookings = this.state.bookings;
 	    var sentOffers = this.state.sentOffers;
 	    switch (this.state.focused) {
 	      case "requests":
@@ -35736,11 +35740,11 @@
 	        ) : React.createElement(OffersIndex, { offers: pendingOffers });
 	
 	      case "bookings":
-	        return acceptedOffers.length < 1 ? React.createElement(
+	        return bookings.length < 1 ? React.createElement(
 	          'div',
 	          { className: 'empty' },
 	          'You currently have no bookings'
-	        ) : React.createElement(OffersIndex, { offers: acceptedOffers });
+	        ) : React.createElement(OffersIndex, { offers: bookings });
 	
 	      case "sent offers":
 	        return sentOffers.length < 1 ? React.createElement(
@@ -35864,10 +35868,10 @@
 	    return React.createElement(
 	      'section',
 	      { className: 'detail' },
-	      React.createElement('img', { src: userImage, className: 'user-photo' }),
 	      React.createElement(
 	        'ul',
 	        null,
+	        React.createElement('img', { src: userImage, className: 'user-photo' }),
 	        React.createElement(
 	          'li',
 	          null,
@@ -36189,11 +36193,14 @@
 /* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(251),
-	    Store = __webpack_require__(259).Store,
+	var AppDispatcher = __webpack_require__(251);
+	var Store = __webpack_require__(259).Store,
 	    OfferConstants = __webpack_require__(284),
 	    SessionStore = __webpack_require__(258),
-	    OfferStore = new Store(AppDispatcher);
+	    UserStore = __webpack_require__(295),
+	    RequestStore = __webpack_require__(297);
+	
+	var OfferStore = new Store(AppDispatcher);
 	
 	var _offers = {};
 	
@@ -36214,22 +36221,25 @@
 	  });
 	};
 	
-	OfferStore.acceptedOffers = function () {
-	  var acceptedOffers = [];
+	OfferStore.bookings = function () {
+	  var bookings = [];
 	  for (var key in _offers) {
 	    if (_offers[key].accepted === true) {
-	      acceptedOffers.push(_offers[key]);
+	      bookings.push(_offers[key]);
 	    }
 	  }
-	  return acceptedOffers;
+	  return bookings;
 	};
 	
 	OfferStore.pendingOffers = function () {
-	  var pendingOffers = [];
-	  for (var key in _offers) {
-	    if (_offers[key].accepted === false) {
-	      pendingOffers.push(_offers[key]);
-	    }
+	  var userRequests = RequestStore.userRequests();
+	  var userOffers = {};
+	  for (var i = 0; i < userRequests.length; i++) {
+	    userOffers[i] = userRequests[i].offers;
+	  }
+	  pendingOffers = [];
+	  for (var key in userOffers) {
+	    pendingOffers.push(userOffers[key]);
 	  }
 	  return pendingOffers;
 	};
