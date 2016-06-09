@@ -15,11 +15,9 @@ var Dashboard = React.createClass({
   componentDidMount: function () {
     this.requestListener = RequestStore.addListener(this.handleRequestChange);
     this.offerListener = OfferStore.addListener(this.handleOfferChange);
-    // this.bookingListener = BookingStore.addListener(this.handleBookingChange);
     ClientActions.fetchRequests();
     ClientActions.fetchOffers();
     ClientActions.fetchDoers();
-    // ClientActions.fetchBookings();
   },
 
   componentWillUnmount: function () {
@@ -37,21 +35,21 @@ var Dashboard = React.createClass({
     this.setState({ pendingOffers: OfferStore.pendingOffers()});
     this.setState({ acceptedOffers: acceptedOffers});
   },
-  //
-  // handleBookingChange: function () {
-  //   this.setState({ bookings: BookingStore.userBookings()});
-  // },
 
   renderDashboard: function () {
+    var requests = this.state.userRequests;
+    var pendingOffers = this.state.pendingOffers;
+    var acceptedOffers = this.state.acceptedOffers;
+
     switch(this.state.focused) {
       case "requests":
-      return(<RequestsIndex requests={this.state.userRequests}/>);
+      return requests.length < 1 ? <div className="empty">You currently have no open requests</div> : <RequestsIndex requests={requests}/>;
 
       case "offers":
-      return(<OffersIndex offers={this.state.pendingOffers}/>);
+      return pendingOffers.length < 1 ? <div className="empty">You currently have no pending offers</div> : <OffersIndex offers={pendingOffers}/>;
 
       case "bookings":
-      return(<OffersIndex offers={this.state.acceptedOffers}/>);
+      return acceptedOffers.length < 1 ? <div className="empty">You currently have no bookings</div> : <OffersIndex offers={acceptedOffers}/>;
     }
   },
 

@@ -1,8 +1,14 @@
 var React = require('react'),
     UserApiUtil = require('../util/user_api_util.js'),
-    SessionStore = require('../stores/session_store.js');
+    SessionStore = require('../stores/session_store.js'),
+    Link = require('react-router').Link;
 
 var UserEditForm = React.createClass({
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function () {
     return({
       username: SessionStore.currentUser().username,
@@ -27,12 +33,20 @@ var UserEditForm = React.createClass({
     this.setState({username: e.target.value});
   },
 
+  editSuccess:function () {
+    this.context.router.push("home");
+    // $("<div>Successfully updated!</div>").addClass("success").insertBefore(".home");
+    // window.setTimeout(function() {
+    //   $(".success").removeClass(".success"), 3000)
+    // });
+  },
+
   handleSubmit: function (e) {
     e.preventDefault();
     var formData = new FormData();
     formData.append('user[username]', this.state.username);
     formData.append('user[image]', this.state.imageFile);
-    UserApiUtil.editUser(formData);
+    UserApiUtil.editUser(formData, this.editSuccess);
   },
 
   render: function () {
@@ -47,7 +61,7 @@ var UserEditForm = React.createClass({
           </label>
           <input type='submit' value='Save Changes' className="user-edit-submit"/>
         </form>
-        <img src={this.state.imageUrl}/>
+        <img src={this.state.imageUrl} className="user-photo-preview"/>
       </div>
     );
   }

@@ -1,25 +1,32 @@
 .account {
   color: #323a3b;
-
+  font-family: "Proxima Alt Light";
 }
 
 .account > h1 {
   font-family: "Proxima Alt Semibold";
-  font-size:40px;
+  font-size: 40px;
+  width: 298px;
+  margin-left: 200px;
 }
 
 .user-edit > form {
   width: 960px;
   margin: 0 auto;
   border: 1px solid #cfd2d3;
-  height:300px;
+  height:340px;
   font-size:20px;
+}
+
+.user-edit input {
+  margin-top: 15px
 }
 
 .user-edit label {
   padding: 20px;
-display: block;
-    width: 165px;
+  display: block;
+  width: 190px;
+  margin: 15px;
 }
 
 .user-edit-submit {
@@ -40,7 +47,16 @@ display: block;
 }
 
 .edit-username {
-    border: 1px solid #cfd2d3;
-    text-indent:10px;
-    margin-top: 15px;
+  border: 1px solid #cfd2d3;
+  text-indent:10px;
+  margin-top: 15px;
+}
+
+.user-photo-preview {
+  border-radius: 50%;
+  height: 86px;
+  position: absolute;
+  top: 310px;
+  left: 600px;
+  border: 1px solid #ece9e9;
 }

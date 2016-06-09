@@ -12,7 +12,7 @@
   font-weight: normal;
   font-size: 40px;
   font-family: "Proxima Alt Semibold";
-  width: 675px;
+  width: 800px;
 }
 .welcome-button {
   float:left;
@@ -64,4 +64,53 @@
 .favor-button:hover {
   background:#00964b;
   color:white;
+}
+
+.react-search{
+  border-radius: 4px;
+  width: 480px;
+  height: 48px;
+  margin: auto;
+  background: white;
+  font-size:20px;
+  font-family: "Proxima Alt Light";
+}
+
+.react-search__input {
+  width: 460px;
+  height:46px;
+  text-align: left;
+  text-indent: 40px;
+}
+
+.react-search__input:focus {
+  outline:0;
+}
+
+.react-search > li {
+  background: yellow;
+}
+
+.react-search__menu--open {
+  background:white;
+  z-index: 1;
+  border: 1px solid #cfd2d3;
+}
+
+.react-search__menu {
+  position: absolute;
+  background: white;
+  width: 478px;
+}
+
+.react-search__menu-item {
+  cursor:pointer;
+  background: white;
+}
+
+.search-icon {
+  width: 35px;
+  position: absolute;
+  left: 210px;
+  top: 210px;
 }

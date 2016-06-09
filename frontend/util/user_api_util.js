@@ -19,7 +19,7 @@ var UserApiUtil = {
     });
   },
 
-  editUser: function (formData) {
+  editUser: function (formData, callback) {
     $.ajax({
       url: "api/user",
       type: "PATCH",
@@ -27,7 +27,10 @@ var UserApiUtil = {
       processData: false,
       data: formData,
       success: function () {
-
+        callback();
+      },
+      error: function () {
+        console.log("error in UserApiUtil");
       }
     });
   },

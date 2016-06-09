@@ -35140,14 +35140,19 @@
 	    });
 	  },
 	
-	  editUser: function (formData) {
+	  editUser: function (formData, callback) {
 	    $.ajax({
 	      url: "api/user",
 	      type: "PATCH",
 	      contentType: false,
 	      processData: false,
 	      data: formData,
-	      success: function () {}
+	      success: function () {
+	        callback();
+	      },
+	      error: function () {
+	        console.log("error in UserApiUtil");
+	      }
 	    });
 	  },
 	
@@ -35681,11 +35686,9 @@
 	  componentDidMount: function () {
 	    this.requestListener = RequestStore.addListener(this.handleRequestChange);
 	    this.offerListener = OfferStore.addListener(this.handleOfferChange);
-	    // this.bookingListener = BookingStore.addListener(this.handleBookingChange);
 	    ClientActions.fetchRequests();
 	    ClientActions.fetchOffers();
 	    ClientActions.fetchDoers();
-	    // ClientActions.fetchBookings();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35703,21 +35706,33 @@
 	    this.setState({ pendingOffers: OfferStore.pendingOffers() });
 	    this.setState({ acceptedOffers: acceptedOffers });
 	  },
-	  //
-	  // handleBookingChange: function () {
-	  //   this.setState({ bookings: BookingStore.userBookings()});
-	  // },
 	
 	  renderDashboard: function () {
+	    var requests = this.state.userRequests;
+	    var pendingOffers = this.state.pendingOffers;
+	    var acceptedOffers = this.state.acceptedOffers;
+	
 	    switch (this.state.focused) {
 	      case "requests":
-	        return React.createElement(RequestsIndex, { requests: this.state.userRequests });
+	        return requests.length < 1 ? React.createElement(
+	          'div',
+	          { className: 'empty' },
+	          'You currently have no open requests'
+	        ) : React.createElement(RequestsIndex, { requests: requests });
 	
 	      case "offers":
-	        return React.createElement(OffersIndex, { offers: this.state.pendingOffers });
+	        return pendingOffers.length < 1 ? React.createElement(
+	          'div',
+	          { className: 'empty' },
+	          'You currently have no pending offers'
+	        ) : React.createElement(OffersIndex, { offers: pendingOffers });
 	
 	      case "bookings":
-	        return React.createElement(OffersIndex, { offers: this.state.acceptedOffers });
+	        return acceptedOffers.length < 1 ? React.createElement(
+	          'div',
+	          { className: 'empty' },
+	          'You currently have no bookings'
+	        ) : React.createElement(OffersIndex, { offers: acceptedOffers });
 	    }
 	  },
 	
@@ -36368,14 +36383,43 @@
 	    RequestStore = __webpack_require__(297),
 	    RequestButton = __webpack_require__(305),
 	    FavorButton = __webpack_require__(309),
-	    ClientActions = __webpack_require__(298);
-	// SearchBar = require('react-search-bar'),
+	    ClientActions = __webpack_require__(298),
+	    SearchBar = __webpack_require__(313),
+	    Modal = __webpack_require__(229),
+	    RequestForm = __webpack_require__(306);
+	
+	var style = {
+	  overlay: {
+	    position: 'absolute',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    margin: 'auto',
+	    width: '830px',
+	    height: '502px',
+	    border: '1px solid #ccc',
+	    padding: '20px'
+	  }
+	};
+	
 	var Welcome = React.createClass({
 	  displayName: 'Welcome',
 	
 	
 	  getInitialState: function () {
-	    return { requests: [] };
+	    return { requests: [], modalOpen: false };
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
 	  },
 	
 	  componentDidMount: function () {
@@ -36391,6 +36435,9 @@
 	  },
 	
 	  render: function () {
+	
+	    var categories = ["Career", "Child Care", "Cleaning", "Computer Help", "Cooking", "Delivery", "Design", "Donations", "Education", "Errands", "Furniture Assembly", "General Help", "Handyman", "Hang Pictures", "Heavy Lifting", "Moving Help", "Painting", "Pet Care", "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"];
+	
 	    var currentUser = SessionStore.currentUser();
 	    return React.createElement(
 	      'div',
@@ -36403,6 +36450,18 @@
 	        currentUser.username,
 	        '!'
 	      ),
+	      React.createElement('img', { src: search_icon_url, className: 'search-icon' }),
+	      React.createElement(SearchBar, { placeholder: 'What do you need help with?',
+	        items: categories,
+	        onClick: this.openModal }),
+	      React.createElement(
+	        Modal,
+	        {
+	          style: style,
+	          isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal },
+	        React.createElement(RequestForm, { closeModal: this.closeModal })
+	      ),
 	      React.createElement(RequestButton, null),
 	      React.createElement(FavorButton, { requests: this.state.requests })
 	    );
@@ -36410,12 +36469,6 @@
 	});
 	
 	module.exports = Welcome;
-	//
-	// categories = {["Career", "Child Care", "Cleaning", "Computer Help",
-	//                   "Cooking", "Delivery", "Design", "Donations", "Education",
-	//                   "Errands", "Furniture Assembly", "General Help", "Handyman",
-	//                    "Hang Pictures", "Heavy Lifting", "Moving Help", "Painting", "Pet Care",
-	//                   "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"]}
 
 /***/ },
 /* 305 */
@@ -36502,7 +36555,7 @@
 	      date: "",
 	      time: "",
 	      location: "",
-	      category: "Cleaning"
+	      category: "Career"
 	    };
 	  },
 	
@@ -36803,11 +36856,6 @@
 	
 	var style = {
 	  overlay: {
-	    position: 'absolute',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
 	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
 	  },
 	  content: {
@@ -36931,10 +36979,16 @@
 
 	var React = __webpack_require__(1),
 	    UserApiUtil = __webpack_require__(280),
-	    SessionStore = __webpack_require__(258);
+	    SessionStore = __webpack_require__(258),
+	    Link = __webpack_require__(168).Link;
 	
 	var UserEditForm = React.createClass({
 	  displayName: 'UserEditForm',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -36960,12 +37014,20 @@
 	    this.setState({ username: e.target.value });
 	  },
 	
+	  editSuccess: function () {
+	    this.context.router.push("home");
+	    // $("<div>Successfully updated!</div>").addClass("success").insertBefore(".home");
+	    // window.setTimeout(function() {
+	    //   $(".success").removeClass(".success"), 3000)
+	    // });
+	  },
+	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
 	    var formData = new FormData();
 	    formData.append('user[username]', this.state.username);
 	    formData.append('user[image]', this.state.imageFile);
-	    UserApiUtil.editUser(formData);
+	    UserApiUtil.editUser(formData, this.editSuccess);
 	  },
 	
 	  render: function () {
@@ -36989,12 +37051,230 @@
 	        ),
 	        React.createElement('input', { type: 'submit', value: 'Save Changes', className: 'user-edit-submit' })
 	      ),
-	      React.createElement('img', { src: this.state.imageUrl })
+	      React.createElement('img', { src: this.state.imageUrl, className: 'user-photo-preview' })
 	    );
 	  }
 	});
 	
 	module.exports = UserEditForm;
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _SearchItemInArray = __webpack_require__(314);
+	
+	var _SearchItemInArray2 = _interopRequireDefault(_SearchItemInArray);
+	
+	var _SearchItemInArrayObjects = __webpack_require__(315);
+	
+	var _SearchItemInArrayObjects2 = _interopRequireDefault(_SearchItemInArrayObjects);
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Search component
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * A simple search component.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               **/
+	
+	var Search = (function (_Component) {
+	  _inherits(Search, _Component);
+	
+	  _createClass(Search, null, [{
+	    key: 'defaultProps',
+	    get: function get() {
+	      return {
+	        ItemElement: 'a',
+	        classPrefix: 'react-search'
+	      };
+	    }
+	  }, {
+	    key: 'propTypes',
+	    get: function get() {
+	      return {
+	        classPrefix: _react.PropTypes.string,
+	        items: _react.PropTypes.array.isRequired,
+	        searchKey: _react.PropTypes.string,
+	        keys: _react.PropTypes.array,
+	        placeholder: _react.PropTypes.string,
+	        onChange: _react.PropTypes.func,
+	        onClick: _react.PropTypes.func,
+	        ItemElement: _react.PropTypes.oneOfType([_react.PropTypes.element, _react.PropTypes.string])
+	      };
+	    }
+	  }]);
+	
+	  function Search(props) {
+	    _classCallCheck(this, Search);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Search).call(this, props));
+	
+	    _this.state = { matchingItems: [] };
+	    return _this;
+	  }
+	
+	  _createClass(Search, [{
+	    key: 'changeInput',
+	    value: function changeInput(e) {
+	      this.refs.autocomplete.className = this.props.classPrefix + '__menu ' + this.props.classPrefix + '__menu--open';
+	      var searchValue = this.refs.searchInput.value;
+	
+	      var result = undefined;
+	
+	      if (this.props.keys !== undefined && this.props.searchKey !== undefined) {
+	        /* hash */
+	        result = (0, _SearchItemInArrayObjects2.default)(this.props.items, searchValue, this.props.searchKey);
+	      } else {
+	        /* array */
+	        result = (0, _SearchItemInArray2.default)(this.props.items, searchValue);
+	      }
+	
+	      this.setState({ matchingItems: result });
+	
+	      if (this.props.onChange !== undefined) {
+	        this.props.onChange(e, result);
+	      }
+	    }
+	  }, {
+	    key: 'selectAutoComplete',
+	    value: function selectAutoComplete(e) {
+	      this.refs.autocomplete.className = this.props.classPrefix + '__menu ' + this.props.classPrefix + '__menu--hidden';
+	      var result = undefined;
+	      if (e.currentTarget.children.length) {
+	        result = e.currentTarget.children[0].innerHTML;
+	      } else {
+	        result = e.currentTarget.innerHTML;
+	      }
+	      this.refs.searchInput.value = result;
+	
+	      if (this.props.onClick !== undefined) {
+	        this.props.onClick(e, result);
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      var ItemElement = this.props.ItemElement;
+	
+	      var inputClassName = this.props.classPrefix + '__input';
+	      var menuClassName = this.props.classPrefix + '__menu ' + this.props.classPrefix + '__menu--hidden';
+	
+	      var items = [];
+	
+	      if (this.props.keys !== undefined) {
+	        /* items for hash results */
+	        items = this.state.matchingItems.map(function (item, i) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: i,
+	              className: _this2.props.classPrefix + '__menu-item',
+	              onClick: _this2.selectAutoComplete.bind(_this2) },
+	            _this2.props.keys.map(function (itemKey, j) {
+	              return _react2.default.createElement(
+	                ItemElement,
+	                { key: j },
+	                item[itemKey]
+	              );
+	            })
+	          );
+	        });
+	      } else {
+	        /* items for a simple array */
+	        items = this.state.matchingItems.map(function (item, i) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: i, className: _this2.props.classPrefix + '__menu-item' },
+	            _react2.default.createElement(
+	              ItemElement,
+	              { onClick: _this2.selectAutoComplete.bind(_this2) },
+	              item
+	            )
+	          );
+	        });
+	      }
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: this.props.classPrefix },
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          className: inputClassName,
+	          placeholder: this.props.placeholder,
+	          ref: 'searchInput',
+	          onKeyUp: this.changeInput.bind(this) }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: menuClassName, ref: 'autocomplete' },
+	          _react2.default.createElement(
+	            'ul',
+	            { className: this.props.classPrefix + '__menu-items' },
+	            items
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Search;
+	})(_react.Component);
+	
+	module.exports = Search;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var SearchItemInArray = function SearchItemInArray(items, input) {
+	  if (input.trim() === '') {
+	    return [];
+	  }
+	  var reg = new RegExp(input.split('').join('\\w*').replace(/\W/, ''), 'i');
+	
+	  return items.filter(function (item) {
+	    if (reg.test(item)) {
+	      return item;
+	    }
+	  });
+	};
+	
+	module.exports = SearchItemInArray;
+
+/***/ },
+/* 315 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var SearchItemInArrayObjects = function SearchItemInArrayObjects(items, input, searchKey) {
+	  if (input.trim() === '' || searchKey === undefined) {
+	    return [];
+	  }
+	  var reg = new RegExp(input.split('').join('\\w*').replace(/\W/, ''), 'i');
+	
+	  return items.filter(function (item) {
+	    if (reg.test(item[searchKey])) {
+	      return item;
+	    }
+	  });
+	};
+	
+	module.exports = SearchItemInArrayObjects;
 
 /***/ }
 /******/ ]);

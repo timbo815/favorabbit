@@ -1,11 +1,13 @@
 .header {
   display: block;
+  min-width: 1200px;
   background: white;
   height: 60px;
 }
 
 .header-links {
   float:right;
+  width: 300px;
   margin-right:175px;
   font-family: "Proxima Alt Light"
 }
@@ -51,4 +53,8 @@
   color:#00964b;
   font-size: 28px;
   margin-top: 10px;
+}
+
+.success {
+  background: blue;
 }

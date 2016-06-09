@@ -2,18 +2,11 @@
   border: solid 1px #cfd2d3;
   background: white;
   width: 920px;
-  height: 500px;
+  height: 350px;
   margin: 0 auto;
   font-family: "Proxima Alt Regular";
   overflow: auto;
 }
-/*
-.dashboard > ul > li {
-  display: block;
-  float: left;
-  width: 300px;
-  text-align: center;
-}*/
 
 .tabs {
   margin: 0 auto;
@@ -27,14 +20,14 @@
   border-bottom: 1px solid #1da3bf;
 }
 
+.tabs:hover {
+  cursor: pointer;
+}
+
 .tabs > li {
   float: left;
   width: 300px;
   text-align: center;
-}
-
-.tabs > li:hover {
-  cursor:pointer;
 }
 
 .group:after {
@@ -50,6 +43,16 @@
   margin: 20px;
   font-family: "Proxima Alt Light";
   overflow-wrap: break-word;
+  box-shadow: 0 10px 6px -6px #777;
+}
+
+.empty {
+  background: #e2e6e6;
+  width: 700px;
+  margin: 35px auto;
+  padding: 35px;
+  text-align: center;
+  height: 200px;
   box-shadow: 0 10px 6px -6px #777;
 }
 
@@ -72,7 +75,6 @@
 
 .request-form {
   background: #f5f6f6;
-  border: 1px solid gray;
   border-radius: 5px;
   width: 820px;
   height: 500px;
@@ -80,7 +82,7 @@
   min-width: 825px;
   margin: 0 auto;
   font-size: 20px;
-  font-family: sans-serif;
+  font-family: "Proxima Alt Light";
   position: relative;
 }
 
@@ -148,17 +150,22 @@
 }
 
 .submit-request {
-  background-color: #1da3bf;
-  color: white;
+  color: #1da3bf;
   position: absolute;
   left: 625px;
   bottom: 25px;
   padding: 15px;
   border-radius: 10px;
-  border: 1px solid #C4B9B9;
+  border: 1px solid #1da3bf;
+}
+
+.submit-request:hover {
+  color: white;
+  background: #1da3bf;
 }
 
 .close-x {
+  font-family: "Proma Alt Light";
   position: absolute;
   right: 40px;
   top: 10px;
