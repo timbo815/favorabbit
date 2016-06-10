@@ -30,18 +30,17 @@ var Dashboard = React.createClass({
   },
 
   handleRequestChange: function () {
-    this.setState({ userRequests: RequestStore.userRequests()});
+    this.setState({ userRequests: RequestStore.myOpenRequests()});
   },
 
   handleOfferChange: function () {
     var bookings = OfferStore.bookings();
     var pendingOffers = OfferStore.pendingOffers();
-    pendingOffersArray = [];
-    for (var key in pendingOffers) {
-      pendingOffersArray.push(pendingOffers[key][0]);
-    }
-    this.setState({ pendingOffers: pendingOffersArray});
+    var sentOffers = OfferStore.sentOffers();
+    
+    this.setState({ pendingOffers: pendingOffers });
     this.setState({ bookings: bookings});
+    this.setState({ sentOffers: sentOffers});
   },
 
   handleUserOfferChange: function () {

@@ -59,7 +59,7 @@
 	    SignUpForm = __webpack_require__(279),
 	    Home = __webpack_require__(287),
 	    OfferForm = __webpack_require__(290),
-	    Account = __webpack_require__(311);
+	    Account = __webpack_require__(314);
 	
 	var routes = React.createElement(
 	  Route,
@@ -27894,7 +27894,7 @@
 	
 	  removeCurrentUser: function (currentUser) {
 	    AppDispatcher.dispatch({
-	      actionType: SessionContants.LOGOUT,
+	      actionType: SessionConstants.LOGOUT,
 	      currentUser: currentUser
 	    });
 	  }
@@ -35312,7 +35312,7 @@
 	    HowItWorks = __webpack_require__(302),
 	    Header = __webpack_require__(303),
 	    Welcome = __webpack_require__(304);
-	PopularCategories = __webpack_require__(310);
+	PopularCategories = __webpack_require__(313);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -35517,7 +35517,6 @@
 	    var formData = {
 	      message: this.state.message,
 	      request_id: this.props.request.id
-	      // doer_id: SessionStore.currentUser().id,
 	    };
 	    OfferApiUtil.createOffer(formData, this.props.closeModal);
 	  },
@@ -35701,18 +35700,17 @@
 	  },
 	
 	  handleRequestChange: function () {
-	    this.setState({ userRequests: RequestStore.userRequests() });
+	    this.setState({ userRequests: RequestStore.myOpenRequests() });
 	  },
 	
 	  handleOfferChange: function () {
 	    var bookings = OfferStore.bookings();
 	    var pendingOffers = OfferStore.pendingOffers();
-	    pendingOffersArray = [];
-	    for (var key in pendingOffers) {
-	      pendingOffersArray.push(pendingOffers[key][0]);
-	    }
-	    this.setState({ pendingOffers: pendingOffersArray });
+	    var sentOffers = OfferStore.sentOffers();
+	
+	    this.setState({ pendingOffers: pendingOffers });
 	    this.setState({ bookings: bookings });
+	    this.setState({ sentOffers: sentOffers });
 	  },
 	
 	  handleUserOfferChange: function () {
@@ -35853,7 +35851,7 @@
 	  displayName: 'OfferDetail',
 	
 	  renderAcceptButton: function () {
-	    if (this.props.offer.accepted === false) {
+	    if (this.props.offer.accepted === false && this.props.offer.doer_id !== UserStore.currentUser().id) {
 	      return React.createElement(
 	        'button',
 	        { onClick: this.makeBooking, id: this.props.offer.id, className: 'accept-offer-button' },
@@ -35960,7 +35958,13 @@
 	};
 	
 	UserStore.userOffers = function () {
-	  return _currentUser.offers;
+	  var sentUserOffers = [];
+	  for (var i = 0; i < _currentUser.offers.length; i++) {
+	    if (_currentUser.offers[i].accepted === false) {
+	      sentUserOffers.push(_currentUser.offers[i]);
+	    }
+	  }
+	  return sentUserOffers;
 	};
 	
 	UserStore.doerImage = function (id) {
@@ -36039,6 +36043,27 @@
 	  return _requests[id];
 	};
 	
+	RequestStore.myOpenRequests = function () {
+	  var myClosedRequests = [];
+	  myRequests = RequestStore.userRequests();
+	  myRequests.forEach(function (request) {
+	    if (request.offers) {
+	      request.offers.forEach(function (offer) {
+	        if (offer.accepted === true) {
+	          myClosedRequests.push(request);
+	        }
+	      });
+	    }
+	  });
+	  var myOpenRequests = [];
+	  for (var i = 0; i < myRequests.length; i++) {
+	    if (myClosedRequests.indexOf(myRequests[i]) === -1) {
+	      myOpenRequests.push(myRequests[i]);
+	    }
+	  }
+	  return myOpenRequests;
+	};
+	
 	RequestStore.openRequests = function () {
 	  var requestsWithAcceptedOffers = [];
 	  otherRequests = this.allOtherRequests();
@@ -36051,15 +36076,10 @@
 	  });
 	  var openRequests = [];
 	  for (var i = 0; i < otherRequests.length; i++) {
-	    if (requestsWithAcceptedOffers.indexOf(otherRequests[i])) {
+	    if (requestsWithAcceptedOffers.indexOf(otherRequests[i]) === -1) {
 	      openRequests.push(otherRequests[i]);
 	    }
 	  }
-	  // _requests.forEach(function(request) {
-	  //   if (requestsWithAcceptedOffers.indexOf(request) === -1) {
-	  //     openRequests.push(request);
-	  //   }
-	  // });
 	  return openRequests;
 	};
 	
@@ -36222,26 +36242,57 @@
 	};
 	
 	OfferStore.bookings = function () {
-	  var bookings = [];
-	  for (var key in _offers) {
-	    if (_offers[key].accepted === true) {
-	      bookings.push(_offers[key]);
+	  var userRequests = RequestStore.userRequests();
+	  var userOffers = [];
+	  for (var i = 0; i < userRequests.length; i++) {
+	    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
+	      userOffers.push(userRequests[i].offers);
 	    }
 	  }
+	  bookings = [];
+	  for (var i = 0; i < userOffers.length; i++) {
+	    for (var key in userOffers[i]) {
+	      if (userOffers[i][key].accepted === true) {
+	        bookings.push(userOffers[i][key]);
+	      }
+	    }
+	  }
+	  // for (var key in userOffers) {
+	  //   if (userOffers[key].accepted === false) {
+	  //     bookings.push(userOffers[key]);
+	  //   }
+	  //   }
 	  return bookings;
 	};
 	
 	OfferStore.pendingOffers = function () {
 	  var userRequests = RequestStore.userRequests();
-	  var userOffers = {};
+	  var userOffers = [];
 	  for (var i = 0; i < userRequests.length; i++) {
-	    userOffers[i] = userRequests[i].offers;
+	    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
+	      userOffers.push(userRequests[i].offers);
+	    }
 	  }
 	  pendingOffers = [];
-	  for (var key in userOffers) {
-	    pendingOffers.push(userOffers[key]);
+	  for (var i = 0; i < userOffers.length; i++) {
+	    for (var key in userOffers[i]) {
+	      if (userOffers[i][key].accepted === false) {
+	        pendingOffers.push(userOffers[i][key]);
+	      }
+	    }
 	  }
 	  return pendingOffers;
+	};
+	
+	OfferStore.sentOffers = function () {
+	  var currentUser = UserStore.currentUser();
+	  var sentUserOffers = [];
+	  for (var i = 0; i < currentUser.offers.length; i++) {
+	    if (currentUser.offers[i].accepted === false) {
+	      sentUserOffers.push(currentUser.offers[i]);
+	    }
+	  }
+	  return sentUserOffers;
 	};
 	
 	OfferStore.__onDispatch = function (payload) {
@@ -36446,7 +36497,7 @@
 	    RequestButton = __webpack_require__(305),
 	    FavorButton = __webpack_require__(309),
 	    ClientActions = __webpack_require__(298),
-	    SearchBar = __webpack_require__(313),
+	    SearchBar = __webpack_require__(310),
 	    Modal = __webpack_require__(229),
 	    RequestForm = __webpack_require__(306);
 	
@@ -36912,227 +36963,15 @@
 /* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1),
-	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(306);
-	
-	var style = {
-	  overlay: {
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
-	  },
-	  content: {
-	    margin: 'auto',
-	    width: '830px',
-	    height: '502px',
-	    border: '1px solid #ccc',
-	    padding: '20px'
-	  }
-	};
-	
-	var PopularCategories = React.createClass({
-	  displayName: 'PopularCategories',
-	
-	  getInitialState: function () {
-	    return { modalOpen: false };
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'popular-categories group' },
-	      React.createElement(
-	        'h2',
-	        null,
-	        'Popular Categories'
-	      ),
-	      React.createElement(
-	        'ul',
-	        { onClick: this.openModal },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement('img', { src: moving_help_url, className: 'moving-help' }),
-	          'Moving Help'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement('img', { src: transportation_url, className: 'transportation' }),
-	          'Transportation'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement('img', { src: pet_care_url, className: 'pet-care' }),
-	          'Pet Care'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement('img', { src: general_help_url, className: 'general-help' }),
-	          'General Help'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement('img', { src: computer_help_url, className: 'computer-help' }),
-	          'Computer Help'
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement('img', { src: furniture_assembly_url, className: 'furniture-assembly' }),
-	          'Furniture Assembly'
-	        )
-	      ),
-	      React.createElement(
-	        Modal,
-	        {
-	          style: style,
-	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal },
-	        React.createElement(RequestForm, { closeModal: this.closeModal })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = PopularCategories;
-
-/***/ },
-/* 311 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    UserEditForm = __webpack_require__(312),
-	    Header = __webpack_require__(303);
-	
-	var Account = React.createClass({
-	  displayName: 'Account',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'account' },
-	      React.createElement(Header, null),
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Your Account'
-	      ),
-	      React.createElement(UserEditForm, null)
-	    );
-	  }
-	});
-	
-	module.exports = Account;
-
-/***/ },
-/* 312 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    UserApiUtil = __webpack_require__(280),
-	    SessionStore = __webpack_require__(258),
-	    Link = __webpack_require__(168).Link;
-	
-	var UserEditForm = React.createClass({
-	  displayName: 'UserEditForm',
-	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      username: SessionStore.currentUser().username,
-	      imageFile: null,
-	      imageUrl: null
-	    };
-	  },
-	
-	  updateFile: function (e) {
-	    var file = e.currentTarget.files[0];
-	    var fileReader = new FileReader();
-	    fileReader.onloadend = function () {
-	      this.setState({ imageFile: file, imageUrl: fileReader.result });
-	    }.bind(this);
-	
-	    if (file) {
-	      fileReader.readAsDataURL(file);
-	    }
-	  },
-	
-	  updateUsername: function (e) {
-	    this.setState({ username: e.target.value });
-	  },
-	
-	  editSuccess: function () {
-	    this.context.router.push("home");
-	    // $("<div>Successfully updated!</div>").addClass("success").insertBefore(".home");
-	    // window.setTimeout(function() {
-	    //   $(".success").removeClass(".success"), 3000)
-	    // });
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var formData = new FormData();
-	    formData.append('user[username]', this.state.username);
-	    formData.append('user[image]', this.state.imageFile);
-	    UserApiUtil.editUser(formData, this.editSuccess);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'user-edit' },
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'label',
-	          null,
-	          'Username',
-	          React.createElement('input', { type: 'text', value: this.state.username, onChange: this.updateUsername, className: 'edit-username' })
-	        ),
-	        React.createElement(
-	          'label',
-	          null,
-	          'Upload a new photo',
-	          React.createElement('input', { type: 'file', onChange: this.updateFile })
-	        ),
-	        React.createElement('input', { type: 'submit', value: 'Save Changes', className: 'user-edit-submit' })
-	      ),
-	      React.createElement('img', { src: this.state.imageUrl, className: 'user-photo-preview' })
-	    );
-	  }
-	});
-	
-	module.exports = UserEditForm;
-
-/***/ },
-/* 313 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var _SearchItemInArray = __webpack_require__(314);
+	var _SearchItemInArray = __webpack_require__(311);
 	
 	var _SearchItemInArray2 = _interopRequireDefault(_SearchItemInArray);
 	
-	var _SearchItemInArrayObjects = __webpack_require__(315);
+	var _SearchItemInArrayObjects = __webpack_require__(312);
 	
 	var _SearchItemInArrayObjects2 = _interopRequireDefault(_SearchItemInArrayObjects);
 	
@@ -37297,7 +37136,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 314 */
+/* 311 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37318,7 +37157,7 @@
 	module.exports = SearchItemInArray;
 
 /***/ },
-/* 315 */
+/* 312 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37337,6 +37176,218 @@
 	};
 	
 	module.exports = SearchItemInArrayObjects;
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    Modal = __webpack_require__(229),
+	    RequestForm = __webpack_require__(306);
+	
+	var style = {
+	  overlay: {
+	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    margin: 'auto',
+	    width: '830px',
+	    height: '502px',
+	    border: '1px solid #ccc',
+	    padding: '20px'
+	  }
+	};
+	
+	var PopularCategories = React.createClass({
+	  displayName: 'PopularCategories',
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'popular-categories group' },
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Popular Categories'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { onClick: this.openModal },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement('img', { src: moving_help_url, className: 'moving-help' }),
+	          'Moving Help'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement('img', { src: transportation_url, className: 'transportation' }),
+	          'Transportation'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement('img', { src: pet_care_url, className: 'pet-care' }),
+	          'Pet Care'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement('img', { src: general_help_url, className: 'general-help' }),
+	          'General Help'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement('img', { src: computer_help_url, className: 'computer-help' }),
+	          'Computer Help'
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement('img', { src: furniture_assembly_url, className: 'furniture-assembly' }),
+	          'Furniture Assembly'
+	        )
+	      ),
+	      React.createElement(
+	        Modal,
+	        {
+	          style: style,
+	          isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal },
+	        React.createElement(RequestForm, { closeModal: this.closeModal })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = PopularCategories;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    UserEditForm = __webpack_require__(315),
+	    Header = __webpack_require__(303);
+	
+	var Account = React.createClass({
+	  displayName: 'Account',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'account' },
+	      React.createElement(Header, null),
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Your Account'
+	      ),
+	      React.createElement(UserEditForm, null)
+	    );
+	  }
+	});
+	
+	module.exports = Account;
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    UserApiUtil = __webpack_require__(280),
+	    SessionStore = __webpack_require__(258),
+	    Link = __webpack_require__(168).Link;
+	
+	var UserEditForm = React.createClass({
+	  displayName: 'UserEditForm',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      username: SessionStore.currentUser().username,
+	      imageFile: null,
+	      imageUrl: null
+	    };
+	  },
+	
+	  updateFile: function (e) {
+	    var file = e.currentTarget.files[0];
+	    var fileReader = new FileReader();
+	    fileReader.onloadend = function () {
+	      this.setState({ imageFile: file, imageUrl: fileReader.result });
+	    }.bind(this);
+	
+	    if (file) {
+	      fileReader.readAsDataURL(file);
+	    }
+	  },
+	
+	  updateUsername: function (e) {
+	    this.setState({ username: e.target.value });
+	  },
+	
+	  editSuccess: function () {
+	    this.context.router.push("home");
+	    // $("<div>Successfully updated!</div>").addClass("success").insertBefore(".home");
+	    // window.setTimeout(function() {
+	    //   $(".success").removeClass(".success"), 3000)
+	    // });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var formData = new FormData();
+	    formData.append('user[username]', this.state.username);
+	    formData.append('user[image]', this.state.imageFile);
+	    UserApiUtil.editUser(formData, this.editSuccess);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'user-edit' },
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          null,
+	          'Username',
+	          React.createElement('input', { type: 'text', value: this.state.username, onChange: this.updateUsername, className: 'edit-username' })
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Upload a new photo',
+	          React.createElement('input', { type: 'file', onChange: this.updateFile })
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'Save Changes', className: 'user-edit-submit' })
+	      ),
+	      React.createElement('img', { src: this.state.imageUrl, className: 'user-photo-preview' })
+	    );
+	  }
+	});
+	
+	module.exports = UserEditForm;
 
 /***/ }
 /******/ ]);

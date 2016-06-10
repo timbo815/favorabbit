@@ -49,7 +49,13 @@ UserStore.currentUser = function (){
 };
 
 UserStore.userOffers = function () {
-  return _currentUser.offers;
+  var sentUserOffers = [];
+    for (var i = 0; i < _currentUser.offers.length; i++) {
+      if (_currentUser.offers[i].accepted === false) {
+        sentUserOffers.push(_currentUser.offers[i]);
+      }
+    }
+  return sentUserOffers;
 };
 
 UserStore.doerImage = function (id) {

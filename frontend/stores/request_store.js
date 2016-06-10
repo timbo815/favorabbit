@@ -28,6 +28,27 @@ RequestStore.find = function (id) {
   return _requests[id];
 };
 
+RequestStore.myOpenRequests = function () {
+  var myClosedRequests = [];
+  myRequests = RequestStore.userRequests();
+  myRequests.forEach(function (request) {
+    if (request.offers) {
+      request.offers.forEach(function(offer) {
+        if (offer.accepted === true) {
+          myClosedRequests.push(request);
+        }
+      });
+    }
+  });
+  var myOpenRequests = [];
+  for (var i = 0; i < myRequests.length; i++) {
+    if (myClosedRequests.indexOf(myRequests[i]) === -1) {
+      myOpenRequests.push(myRequests[i]);
+    }
+  }
+  return myOpenRequests;
+};
+
 RequestStore.openRequests = function () {
   var requestsWithAcceptedOffers = [];
   otherRequests = this.allOtherRequests();
@@ -40,15 +61,10 @@ RequestStore.openRequests = function () {
   });
   var openRequests = [];
   for (var i = 0; i < otherRequests.length; i++) {
-    if (requestsWithAcceptedOffers.indexOf(otherRequests[i])) {
+    if (requestsWithAcceptedOffers.indexOf(otherRequests[i]) === -1) {
       openRequests.push(otherRequests[i]);
     }
   }
-  // _requests.forEach(function(request) {
-  //   if (requestsWithAcceptedOffers.indexOf(request) === -1) {
-  //     openRequests.push(request);
-  //   }
-  // });
   return openRequests;
 };
 

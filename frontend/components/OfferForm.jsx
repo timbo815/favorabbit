@@ -26,7 +26,6 @@ var OfferForm = React.createClass({
     var formData = {
       message: this.state.message,
       request_id: this.props.request.id
-      // doer_id: SessionStore.currentUser().id,
     };
     OfferApiUtil.createOffer(formData, this.props.closeModal);
   },

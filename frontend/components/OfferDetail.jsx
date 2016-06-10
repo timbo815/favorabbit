@@ -6,7 +6,7 @@ var React = require('react'),
 
 var OfferDetail = React.createClass({
   renderAcceptButton: function () {
-    if(this.props.offer.accepted === false) {
+    if(this.props.offer.accepted === false && this.props.offer.doer_id !== UserStore.currentUser().id) {
       return(<button onClick={this.makeBooking} id={this.props.offer.id} className="accept-offer-button">Accept Offer</button>);
     }
   },

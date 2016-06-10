@@ -27,26 +27,57 @@ OfferStore.userOffers = function () {
 };
 
 OfferStore.bookings = function () {
-  var bookings = [];
-  for (var key in _offers) {
-    if (_offers[key].accepted === true) {
-      bookings.push(_offers[key]);
+  var userRequests = RequestStore.userRequests();
+  var userOffers = [];
+  for (var i = 0; i < userRequests.length; i++) {
+    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
+      userOffers.push(userRequests[i].offers);
     }
   }
+  bookings = [];
+  for (var i = 0; i < userOffers.length; i++) {
+    for (var key in userOffers[i]) {
+      if (userOffers[i][key].accepted === true) {
+        bookings.push(userOffers[i][key]);
+      }
+    }
+  }
+  // for (var key in userOffers) {
+  //   if (userOffers[key].accepted === false) {
+  //     bookings.push(userOffers[key]);
+  //   }
+  //   }
   return bookings;
 };
 
 OfferStore.pendingOffers = function () {
   var userRequests = RequestStore.userRequests();
-  var userOffers = {};
+  var userOffers = [];
   for (var i = 0; i < userRequests.length; i++) {
-    userOffers[i] = (userRequests[i].offers);
+    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
+      userOffers.push(userRequests[i].offers);
+    }
   }
   pendingOffers = [];
-  for (var key in userOffers) {
-    pendingOffers.push(userOffers[key]);
+  for (var i = 0; i < userOffers.length; i++) {
+    for (var key in userOffers[i]) {
+      if (userOffers[i][key].accepted === false) {
+        pendingOffers.push(userOffers[i][key]);
+      }
     }
+  }
   return pendingOffers;
+};
+
+OfferStore.sentOffers = function () {
+  var currentUser = UserStore.currentUser();
+  var sentUserOffers = [];
+    for (var i = 0; i < currentUser.offers.length; i++) {
+      if (currentUser.offers[i].accepted === false) {
+        sentUserOffers.push(currentUser.offers[i]);
+      }
+    }
+  return sentUserOffers;
 };
 
 OfferStore.__onDispatch = function (payload) {

@@ -14,7 +14,7 @@ var SessionActions = {
 
   removeCurrentUser: function (currentUser) {
     AppDispatcher.dispatch({
-      actionType: SessionContants.LOGOUT,
+      actionType: SessionConstants.LOGOUT,
       currentUser: currentUser
     });
   }
