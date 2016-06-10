@@ -35546,7 +35546,8 @@
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278),
-	    OfferApiUtil = __webpack_require__(291);
+	    OfferApiUtil = __webpack_require__(291),
+	    ClientActions = __webpack_require__(298);
 	
 	var OfferForm = React.createClass({
 	  displayName: 'OfferForm',
@@ -35574,6 +35575,7 @@
 	      request_id: this.props.request.id
 	    };
 	    OfferApiUtil.createOffer(formData, this.props.closeModal);
+	    ClientActions.fetchOffers();
 	  },
 	
 	  fieldErrors: function (field) {
@@ -35769,6 +35771,7 @@
 	  },
 	
 	  handleOfferChange: function () {
+	
 	    var bookings = OfferStore.bookings();
 	    var pendingOffers = OfferStore.pendingOffers();
 	    var sentOffers = OfferStore.sentOffers();
@@ -36398,11 +36401,7 @@
 	      }
 	    }
 	  }
-	  // for (var key in userOffers) {
-	  //   if (userOffers[key].accepted === false) {
-	  //     bookings.push(userOffers[key]);
-	  //   }
-	  //   }
+	
 	  return bookings;
 	};
 	

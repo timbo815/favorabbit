@@ -34,10 +34,11 @@ var Dashboard = React.createClass({
   },
 
   handleOfferChange: function () {
+
     var bookings = OfferStore.bookings();
     var pendingOffers = OfferStore.pendingOffers();
     var sentOffers = OfferStore.sentOffers();
-    
+
     this.setState({ pendingOffers: pendingOffers });
     this.setState({ bookings: bookings});
     this.setState({ sentOffers: sentOffers});

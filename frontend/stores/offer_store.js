@@ -46,11 +46,7 @@ OfferStore.bookings = function () {
       }
     }
   }
-  // for (var key in userOffers) {
-  //   if (userOffers[key].accepted === false) {
-  //     bookings.push(userOffers[key]);
-  //   }
-  //   }
+
   return bookings;
 };
 

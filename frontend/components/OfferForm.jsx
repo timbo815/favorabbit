@@ -1,7 +1,8 @@
 var React = require('react'),
     SessionStore = require('../stores/session_store.js'),
     ErrorStore = require('../stores/error_store.js'),
-    OfferApiUtil = require('../util/offer_api_util.js');
+    OfferApiUtil = require('../util/offer_api_util.js'),
+    ClientActions = require('../actions/client_actions.js');
 
 
 var OfferForm = React.createClass({
@@ -28,6 +29,7 @@ var OfferForm = React.createClass({
       request_id: this.props.request.id
     };
     OfferApiUtil.createOffer(formData, this.props.closeModal);
+    ClientActions.fetchOffers();
   },
 
   fieldErrors: function (field) {
