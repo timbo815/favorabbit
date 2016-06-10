@@ -2,7 +2,8 @@ var React = require('react'),
     SessionStore = require('../stores/session_store.js'),
     Modal = require('react-modal'),
     OfferForm = require('./OfferForm.jsx'),
-    RequestApiUtil = require('../util/request_api_util.js');
+    RequestApiUtil = require('../util/request_api_util.js'),
+    UserStore = require('../stores/user_store.js');
 
 var style = {
   overlay : {
@@ -59,12 +60,18 @@ var RequestDetail = React.createClass({
       );
     }
   },
+  renderImage: function () {
+    user = UserStore.findUser(this.props.request.requester_id);
+    return(
+      <img src={user.image_url} className="user-photo"></img>
+    );
+  },
 
   render: function () {
     var currentUser = SessionStore.currentUser();
     return(
     <section className="detail group">
-      <img src={currentUser.image_url} className="user-photo"></img>
+      {this.renderImage()}
       <ul>
         <li><span>Category:</span> {this.props.request.category}</li>
         <li><span>Title:</span> {this.props.request.title}</li>

@@ -32,6 +32,10 @@ UserStore.__onDispatch = function (payload) {
   UserStore.__emitChange();
 };
 
+UserStore.findUser = function (id) {
+  return _doers[id];
+};
+
 UserStore.login = function (user){
 	_currentUser = user;
   _errors = null;

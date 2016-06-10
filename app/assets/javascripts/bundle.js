@@ -35382,7 +35382,8 @@
 	    SessionStore = __webpack_require__(258),
 	    Modal = __webpack_require__(229),
 	    OfferForm = __webpack_require__(290),
-	    RequestApiUtil = __webpack_require__(299);
+	    RequestApiUtil = __webpack_require__(299),
+	    UserStore = __webpack_require__(295);
 	
 	var style = {
 	  overlay: {
@@ -35448,13 +35449,17 @@
 	      );
 	    }
 	  },
+	  renderImage: function () {
+	    user = UserStore.findUser(this.props.request.requester_id);
+	    return React.createElement('img', { src: user.image_url, className: 'user-photo' });
+	  },
 	
 	  render: function () {
 	    var currentUser = SessionStore.currentUser();
 	    return React.createElement(
 	      'section',
 	      { className: 'detail group' },
-	      React.createElement('img', { src: currentUser.image_url, className: 'user-photo' }),
+	      this.renderImage(),
 	      React.createElement(
 	        'ul',
 	        null,
@@ -35599,7 +35604,7 @@
 	      null,
 	      React.createElement(
 	        'section',
-	        { className: 'request-detail' },
+	        { className: 'detail' },
 	        React.createElement(
 	          'ul',
 	          null,
@@ -35639,7 +35644,7 @@
 	      ),
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit },
+	        { className: 'form', nSubmit: this.handleSubmit },
 	        React.createElement(
 	          'label',
 	          null,
@@ -36060,6 +36065,10 @@
 	      break;
 	  }
 	  UserStore.__emitChange();
+	};
+	
+	UserStore.findUser = function (id) {
+	  return _doers[id];
 	};
 	
 	UserStore.login = function (user) {

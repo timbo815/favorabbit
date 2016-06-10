@@ -70,6 +70,7 @@
   width: 620px;
 }
 
+
 .index {
   width: 860px;
   margin: auto;
@@ -101,6 +102,10 @@
   background: white;
   height: 6%;
   margin-top: 35px;
+}
+
+.form {
+  font-family: "Proxima Alt Light";
 }
 
 .title {

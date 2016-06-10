@@ -44,7 +44,7 @@ var OfferForm = React.createClass({
   render: function () {
     return (
       <div>
-        <section className="request-detail">
+        <section className="detail">
           <ul>
             <li>Category: {this.props.request.category}</li>
             <li>{this.props.request.title}</li>
@@ -54,7 +54,7 @@ var OfferForm = React.createClass({
             <li>{this.props.request.time}</li>
           </ul>
         </section>
-        <form onSubmit={this.handleSubmit}>
+        <form className="form" nSubmit={this.handleSubmit}>
           <label>Your Message Here<br/><br/>
             <textarea onChange={this.updateMessage} className="description"/>
             {this.fieldErrors('message')}
