@@ -18,6 +18,10 @@ var _resetRequests = function (requests) {
   });
 };
 
+var _removeRequest = function (request) {
+  delete _requests[request.id];
+};
+
 RequestStore.all = function () {
   return Object.keys(_requests).map(function (id) {
     return _requests[id];

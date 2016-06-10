@@ -38,6 +38,16 @@ var OfferApiUtil = {
         ServerActions.receiveSingleOffer(offer);
       }
     });
+  },
+
+  deleteOffer: function (id) {
+    $.ajax({
+      type: "DELETE",
+      url: "api/offers/" + id,
+      success: function (offer) {
+        ServerActions.deleteOffer(offer);
+      }
+    });
   }
 
 };

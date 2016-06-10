@@ -1,7 +1,8 @@
 var React = require('react'),
     SessionStore = require('../stores/session_store.js'),
     Modal = require('react-modal'),
-    OfferForm = require('./OfferForm.jsx');
+    OfferForm = require('./OfferForm.jsx'),
+    RequestApiUtil = require('../util/request_api_util.js');
 
 var style = {
   overlay : {
@@ -34,7 +35,11 @@ var RequestDetail = React.createClass({
     this.setState({ modalOpen: true });
   },
 
-  renderOffer: function (requester_id) {
+  deleteRequest: function () {
+    RequestApiUtil.deleteRequest(this.props.request.id);
+  },
+
+  renderButton: function (requester_id) {
     if (SessionStore.currentUser().id !== requester_id) {
       return (
         <div>
@@ -48,6 +53,11 @@ var RequestDetail = React.createClass({
         </div>
       );
     }
+      else {
+      return (
+        <button onClick={this.deleteRequest} className="cancel-button">Cancel Request</button>
+      );
+    }
   },
 
   render: function () {
@@ -56,14 +66,14 @@ var RequestDetail = React.createClass({
     <section className="detail group">
       <img src={currentUser.image_url} className="user-photo"></img>
       <ul>
-        <li>Category: {this.props.request.category}</li>
-        <li>Title: {this.props.request.title}</li>
-        <li>Request: {this.props.request.description}</li><br/>
-        <li>Location: {this.props.request.location}</li>
-        <li>Date: {this.props.request.date}</li>
-        <li>Time: {this.props.request.time}</li>
+        <li><span>Category:</span> {this.props.request.category}</li>
+        <li><span>Title:</span> {this.props.request.title}</li>
+        <li><span>Request:</span> {this.props.request.description}</li><br/>
+        <li><span>Location:</span> {this.props.request.location}</li>
+        <li><span>Date:</span> {this.props.request.date}</li>
+        <li><span>Time:</span> {this.props.request.time}</li>
       </ul>
-        {this.renderOffer(this.props.request.requester_id)}
+        {this.renderButton(this.props.request.requester_id)}
     </section>
     );
   }

@@ -20,6 +20,10 @@ var addOffers = function (offers) {
   });
 };
 
+var removeOffer = function (offer) {
+  delete _offers[offer.id];
+};
+
 OfferStore.userOffers = function () {
   return Object.keys(_offers).map(function (id) {
     return _offers[id];
@@ -88,6 +92,10 @@ OfferStore.__onDispatch = function (payload) {
 
     case OfferConstants.RECEIVE_ALL_OFFERS:
     addOffers(payload.offers);
+    break;
+
+    case OfferConstants.REMOVE_OFFER:
+    removeOffer(payload.offer);
     break;
   }
   this.__emitChange();

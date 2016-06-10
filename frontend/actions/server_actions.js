@@ -49,6 +49,13 @@ var ServerActions = {
     });
   },
 
+  deleteOffer: function (offer) {
+    AppDispatcher.dispatch({
+      actionType: OfferConstants.REMOVE_OFFER,
+      offer: offer
+    });
+  },
+
   receiveAllDoers: function (doers) {
     AppDispatcher.dispatch({
       actionType: UserConstants.RECEIVE_ALL_DOERS,

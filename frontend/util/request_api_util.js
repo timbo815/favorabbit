@@ -42,8 +42,8 @@ var RequestApiUtil = {
   deleteRequest: function (id) {
     $.ajax({
       type: "DELETE",
-      url: "api/requests" + id,
-      sucess: function (request) {
+      url: "api/requests/" + id,
+      success: function (request) {
         ServerActions.removeRequest(request);
       }
     });

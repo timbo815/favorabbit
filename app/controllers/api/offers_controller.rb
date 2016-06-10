@@ -28,6 +28,13 @@ class Api::OffersController < ApplicationController
     end
   end
 
+  def destroy
+    @offer = Offer.find(params[:id])
+    @offer.destroy
+    render json: @offer
+  end
+
+
   private
 
   def offer_params

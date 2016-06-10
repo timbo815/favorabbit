@@ -35223,6 +35223,13 @@
 	    });
 	  },
 	
+	  deleteOffer: function (offer) {
+	    AppDispatcher.dispatch({
+	      actionType: OfferConstants.REMOVE_OFFER,
+	      offer: offer
+	    });
+	  },
+	
 	  receiveAllDoers: function (doers) {
 	    AppDispatcher.dispatch({
 	      actionType: UserConstants.RECEIVE_ALL_DOERS,
@@ -35275,7 +35282,8 @@
 
 	var OfferConstants = {
 	  RECEIVE_SINGLE_OFFER: "RECEIVE_SINGLE_OFFER",
-	  RECEIVE_ALL_OFFERS: "RECEIVE_ALL_OFFERS"
+	  RECEIVE_ALL_OFFERS: "RECEIVE_ALL_OFFERS",
+	  REMOVE_OFFER: "REMOVE_OFFER"
 	};
 	
 	module.exports = OfferConstants;
@@ -35373,7 +35381,8 @@
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    Modal = __webpack_require__(229),
-	    OfferForm = __webpack_require__(290);
+	    OfferForm = __webpack_require__(290),
+	    RequestApiUtil = __webpack_require__(299);
 	
 	var style = {
 	  overlay: {
@@ -35408,7 +35417,11 @@
 	    this.setState({ modalOpen: true });
 	  },
 	
-	  renderOffer: function (requester_id) {
+	  deleteRequest: function () {
+	    RequestApiUtil.deleteRequest(this.props.request.id);
+	  },
+	
+	  renderButton: function (requester_id) {
 	    if (SessionStore.currentUser().id !== requester_id) {
 	      return React.createElement(
 	        'div',
@@ -35427,6 +35440,12 @@
 	          React.createElement(OfferForm, { request: this.props.request, closeModal: this.closeModal })
 	        )
 	      );
+	    } else {
+	      return React.createElement(
+	        'button',
+	        { onClick: this.deleteRequest, className: 'cancel-button' },
+	        'Cancel Request'
+	      );
 	    }
 	  },
 	
@@ -35442,42 +35461,72 @@
 	        React.createElement(
 	          'li',
 	          null,
-	          'Category: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Category:'
+	          ),
+	          ' ',
 	          this.props.request.category
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          'Title: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Title:'
+	          ),
+	          ' ',
 	          this.props.request.title
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          'Request: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Request:'
+	          ),
+	          ' ',
 	          this.props.request.description
 	        ),
 	        React.createElement('br', null),
 	        React.createElement(
 	          'li',
 	          null,
-	          'Location: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Location:'
+	          ),
+	          ' ',
 	          this.props.request.location
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          'Date: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Date:'
+	          ),
+	          ' ',
 	          this.props.request.date
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          'Time: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Time:'
+	          ),
+	          ' ',
 	          this.props.request.time
 	        )
 	      ),
-	      this.renderOffer(this.props.request.requester_id)
+	      this.renderButton(this.props.request.requester_id)
 	    );
 	  }
 	});
@@ -35655,6 +35704,16 @@
 	      data: { offer: offerData },
 	      success: function (offer) {
 	        ServerActions.receiveSingleOffer(offer);
+	      }
+	    });
+	  },
+	
+	  deleteOffer: function (id) {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "api/offers/" + id,
+	      success: function (offer) {
+	        ServerActions.deleteOffer(offer);
 	      }
 	    });
 	  }
@@ -35850,7 +35909,7 @@
 	var OfferDetail = React.createClass({
 	  displayName: 'OfferDetail',
 	
-	  renderAcceptButton: function () {
+	  renderButton: function () {
 	    if (this.props.offer.accepted === false && this.props.offer.doer_id !== UserStore.currentUser().id) {
 	      return React.createElement(
 	        'button',
@@ -35858,32 +35917,94 @@
 	        'Accept Offer'
 	      );
 	    }
+	    // else if (this.props.offer.accepted === true && this.props.offer.doer_id !== UserStore.currentUser().id) {
+	    //   return(<button onClick={this.deleteOffer(this.props.offer.id)} id={this.props.offer.id}>Mark as Done</button>);
+	    // }
+	  },
+	
+	  deleteOffer: function (id) {
+	    OfferApiUtil.deleteOffer(id);
 	  },
 	
 	  render: function () {
-	    var request = RequestStore.find(this.props.offer.request_id);
+	    var potentialRequest = RequestStore.find(this.props.offer.request_id);
+	    var request = potentialRequest ? potentialRequest : {};
 	    var userImage = UserStore.doerImage(this.props.offer.doer_id);
 	    return React.createElement(
 	      'section',
 	      { className: 'detail' },
+	      React.createElement('img', { src: userImage, className: 'user-photo' }),
 	      React.createElement(
 	        'ul',
 	        null,
-	        React.createElement('img', { src: userImage, className: 'user-photo' }),
 	        React.createElement(
 	          'li',
 	          null,
-	          'Subject: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Subject:'
+	          ),
+	          ' ',
 	          request.title
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          'Offer: ',
+	          React.createElement(
+	            'span',
+	            null,
+	            'Request Description:'
+	          ),
+	          ' ',
+	          request.description
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            'Location:'
+	          ),
+	          ' ',
+	          request.location
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            'Offer:'
+	          ),
+	          ' ',
 	          this.props.offer.message
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            'Date:'
+	          ),
+	          ' ',
+	          request.date
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            'Time:'
+	          ),
+	          ' ',
+	          request.time
 	        )
 	      ),
-	      this.renderAcceptButton()
+	      this.renderButton()
 	    );
 	  },
 	
@@ -36031,6 +36152,10 @@
 	  requests.forEach(function (request) {
 	    _requests[request.id] = request;
 	  });
+	};
+	
+	var _removeRequest = function (request) {
+	  delete _requests[request.id];
 	};
 	
 	RequestStore.all = function () {
@@ -36199,8 +36324,8 @@
 	  deleteRequest: function (id) {
 	    $.ajax({
 	      type: "DELETE",
-	      url: "api/requests" + id,
-	      sucess: function (request) {
+	      url: "api/requests/" + id,
+	      success: function (request) {
 	        ServerActions.removeRequest(request);
 	      }
 	    });
@@ -36233,6 +36358,10 @@
 	  offers.forEach(function (offer) {
 	    _offers[offer.id] = offer;
 	  });
+	};
+	
+	var removeOffer = function (offer) {
+	  delete _offers[offer.id];
 	};
 	
 	OfferStore.userOffers = function () {
@@ -36303,6 +36432,10 @@
 	
 	    case OfferConstants.RECEIVE_ALL_OFFERS:
 	      addOffers(payload.offers);
+	      break;
+	
+	    case OfferConstants.REMOVE_OFFER:
+	      removeOffer(payload.offer);
 	      break;
 	  }
 	  this.__emitChange();

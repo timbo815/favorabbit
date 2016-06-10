@@ -45,6 +45,10 @@
   box-shadow: 0 10px 6px -6px #777;
 }
 
+.detail span {
+  font-family: "Proxima Alt Semibold";
+}
+
 .empty {
   background: #e2e6e6;
   width: 700px;
@@ -146,6 +150,18 @@
   border-radius: 5px;
   text-align: center;
   padding: 2px;
+}
+
+.cancel-button {
+  color: #1da3bf;
+  border-radius: 10px;
+  border: 1px solid #1da3bf;
+  padding: 15px;
+}
+
+.cancel-button:hover {
+  color: white;
+  background: #1da3bf;
 }
 
 .submit-request {
