@@ -57,11 +57,13 @@ RequestStore.openRequests = function () {
   var requestsWithAcceptedOffers = [];
   otherRequests = this.allOtherRequests();
   otherRequests.forEach(function (request) {
-    request.offers.forEach(function(offer) {
-      if (offer.accepted === true) {
-        requestsWithAcceptedOffers.push(request);
-      }
-    });
+    if (request.offers.length > 0) {
+      request.offers.forEach(function(offer) {
+        if (offer.accepted === true) {
+          requestsWithAcceptedOffers.push(request);
+        }
+      });
+    }
   });
   var openRequests = [];
   for (var i = 0; i < otherRequests.length; i++) {

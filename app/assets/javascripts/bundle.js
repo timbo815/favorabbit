@@ -35450,7 +35450,8 @@
 	    }
 	  },
 	  renderImage: function () {
-	    user = UserStore.findUser(this.props.request.requester_id);
+	    var potentialUser = UserStore.findUser(this.props.request.requester_id);
+	    user = potentialUser ? potentialUser : {};
 	    return React.createElement('img', { src: user.image_url, className: 'user-photo' });
 	  },
 	
@@ -35644,7 +35645,7 @@
 	      ),
 	      React.createElement(
 	        'form',
-	        { className: 'form', nSubmit: this.handleSubmit },
+	        { className: 'form', onSubmit: this.handleSubmit },
 	        React.createElement(
 	          'label',
 	          null,
@@ -36202,11 +36203,13 @@
 	  var requestsWithAcceptedOffers = [];
 	  otherRequests = this.allOtherRequests();
 	  otherRequests.forEach(function (request) {
-	    request.offers.forEach(function (offer) {
-	      if (offer.accepted === true) {
-	        requestsWithAcceptedOffers.push(request);
-	      }
-	    });
+	    if (request.offers.length > 0) {
+	      request.offers.forEach(function (offer) {
+	        if (offer.accepted === true) {
+	          requestsWithAcceptedOffers.push(request);
+	        }
+	      });
+	    }
 	  });
 	  var openRequests = [];
 	  for (var i = 0; i < otherRequests.length; i++) {

@@ -61,7 +61,8 @@ var RequestDetail = React.createClass({
     }
   },
   renderImage: function () {
-    user = UserStore.findUser(this.props.request.requester_id);
+    var potentialUser = UserStore.findUser(this.props.request.requester_id);
+    user = potentialUser ? potentialUser : {};
     return(
       <img src={user.image_url} className="user-photo"></img>
     );
