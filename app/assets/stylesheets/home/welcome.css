@@ -10,9 +10,10 @@
 
 .welcome > h4 {
   font-weight: normal;
-  font-size: 40px;
+  font-size: 36px;
   font-family: "Proxima Alt Semibold";
   width: 800px;
+  height: 100px;
 }
 .welcome-button {
   float:left;
@@ -113,5 +114,5 @@
   width: 35px;
   position: absolute;
   left: 210px;
-  top: 210px;
+  top: 250px;
 }
