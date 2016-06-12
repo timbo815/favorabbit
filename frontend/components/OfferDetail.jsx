@@ -7,15 +7,20 @@ var React = require('react'),
 var OfferDetail = React.createClass({
   renderButton: function () {
     if(this.props.offer.accepted === false && this.props.offer.doer_id !== UserStore.currentUser().id) {
-      return(<button onClick={this.makeBooking} id={this.props.offer.id} className="accept-offer-button">Accept Offer</button>);
+      return(
+      <div>
+        <button onClick={this.makeBooking} id={this.props.offer.id} className="accept-offer-button">Accept Offer</button>
+        <button onClick={this.deleteOffer} id={this.props.offer.id} className="decline-offer-button">Decline Offer</button>
+      </div>);
     }
     // else if (this.props.offer.accepted === true && this.props.offer.doer_id !== UserStore.currentUser().id) {
     //   return(<button onClick={this.deleteOffer(this.props.offer.id)} id={this.props.offer.id}>Mark as Done</button>);
     // }
   },
 
-  deleteOffer: function (id) {
-    OfferApiUtil.deleteOffer(id);
+  deleteOffer: function (e) {
+    e.preventDefault();
+    OfferApiUtil.deleteOffer(e.target.id);
   },
 
   render: function () {

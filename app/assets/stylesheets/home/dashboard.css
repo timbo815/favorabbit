@@ -9,13 +9,15 @@
 }
 
 .tabs {
-  margin: 0 auto;
+  margin-top: 60px;
   width: 920px;
   background: white;
   color: #1da3bf;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom: 1px solid #1da3bf;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .tabs:hover {

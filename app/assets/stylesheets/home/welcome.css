@@ -10,13 +10,14 @@
 
 .welcome > h4 {
   font-weight: normal;
-  font-size: 36px;
-  font-family: "Proxima Alt Semibold";
-  width: 800px;
-  height: 100px;
+  font-size: 50px;
+  font-family: "Proxima Alt Regular";
+  width: 900px;
+  height: 10px;
 }
 .welcome-button {
   float:left;
+  margin-top:40px;
   border: 1px solid #00964b;
   border-radius: 15px;
   padding: 15px;
@@ -37,21 +38,24 @@
 .user-photo {
   border-radius: 50%;
   float: left;
-  margin-top: 20px;
-  margin-right:20px;
-  width: 86px;
-  height: 86px;
+  margin-top: 55px;
+  margin-right: -10px;
+  width: 100px;
+  height: 100px;
 }
 
 .favor-button {
   border: 1px solid #00964b;
   border-radius: 15px;
   padding: 15px;
-  color:  #00964b;
+  color: #00964b;
   font-size: 20px;
   cursor: pointer;
   font-family: "Proxima Alt Regular";
-  float: right;
+  float: left;
+  width: 138px;
+  margin-top: 40px;
+  margin-left: 50px;
 }
 
 .favor-index-heading {
@@ -70,16 +74,16 @@
 
 .react-search{
   border-radius: 4px;
-  width: 480px;
+  width: 721px;
   height: 48px;
-  margin: auto;
+  margin-left: 145px;
   background: white;
   font-size:20px;
   font-family: "Proxima Alt Light";
 }
 
 .react-search__input {
-  width: 460px;
+  width: 721px;
   height:46px;
   text-align: left;
   text-indent: 40px;
@@ -113,6 +117,6 @@
 .search-icon {
   width: 35px;
   position: absolute;
-  left: 210px;
-  top: 250px;
+  left: 145px;
+  top: 196px;
 }

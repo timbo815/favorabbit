@@ -4,24 +4,20 @@ var HowItWorks = React.createClass({
   render: function () {
     return (
       <div className="how-it-works">
-        <h2>How it Works</h2>
+        <h2>How to Get Started</h2>
+        <h3>We're excited to help! Here's how it works:</h3>
           <ul>
             <li>
-              <img src={raised_hand_url} className="raised-hand"/>
-              <h4>Ask a Favor</h4>
-              Choose from a list of popular chores and errands
+            <h4><span className="numbers">1</span>  Ask a favor</h4>
+            <p>Choose from a list of popular chores and errands</p>
             </li>
-            <li className="arrow">⟶</li>
             <li>
-              <img src={handshake_url} className="handshake"/>
-              <h4>Get Matched</h4>
-              Accept offers from other users
+              <h4><span className="numbers">2</span>  Get Matched</h4>
+              <p>Accept offers from other users</p>
             </li>
-            <li className="arrow">⟶</li>
             <li>
-              <img src={helping_hand_url} className="helping-hand"/>
-              <h4>Pay it Forward</h4>
-              Browse open favor requests and help another user out
+              <h4><span className="numbers">3</span>  Pay it Forward</h4>
+              <p>Browse open favor requests and help another user out</p>
             </li>
           </ul>
       </div>

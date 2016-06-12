@@ -202,6 +202,11 @@
 	// shim for using process in browser
 	
 	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it don't break things.
+	var cachedSetTimeout = setTimeout;
+	var cachedClearTimeout = clearTimeout;
+	
 	var queue = [];
 	var draining = false;
 	var currentQueue;
@@ -226,7 +231,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = setTimeout(cleanUpNextTick);
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
 	    draining = true;
 	
 	    var len = queue.length;
@@ -243,7 +248,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    clearTimeout(timeout);
+	    cachedClearTimeout(timeout);
 	}
 	
 	process.nextTick = function (fun) {
@@ -255,7 +260,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
+	        cachedSetTimeout(drainQueue, 0);
 	    }
 	};
 	
@@ -35316,7 +35321,7 @@
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    RequestsIndex = __webpack_require__(288),
-	    Dashboard = __webpack_require__(292),
+	    Dashboard = __webpack_require__(295),
 	    HowItWorks = __webpack_require__(302),
 	    Header = __webpack_require__(303),
 	    Welcome = __webpack_require__(304);
@@ -35382,8 +35387,8 @@
 	    SessionStore = __webpack_require__(258),
 	    Modal = __webpack_require__(229),
 	    OfferForm = __webpack_require__(290),
-	    RequestApiUtil = __webpack_require__(299),
-	    UserStore = __webpack_require__(295);
+	    RequestApiUtil = __webpack_require__(293),
+	    UserStore = __webpack_require__(294);
 	
 	var style = {
 	  overlay: {
@@ -35547,7 +35552,7 @@
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278),
 	    OfferApiUtil = __webpack_require__(291),
-	    ClientActions = __webpack_require__(298);
+	    ClientActions = __webpack_require__(292);
 	
 	var OfferForm = React.createClass({
 	  displayName: 'OfferForm',
@@ -35734,14 +35739,186 @@
 /* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var RequestApiUtil = __webpack_require__(293);
+	var OfferApiUtil = __webpack_require__(291);
+	var UserApiUtil = __webpack_require__(280);
+	
+	var ClientActions = {
+	  fetchRequests: function () {
+	    RequestApiUtil.fetchRequests();
+	  },
+	
+	  fetchOffers: function () {
+	    OfferApiUtil.fetchOffers();
+	  },
+	
+	  fetchDoers: function () {
+	    UserApiUtil.fetchDoers();
+	  }
+	
+	};
+	
+	// fetchBookings: function () {
+	//   BookingApiUtil.fetchBookings();
+	// }
+	
+	module.exports = ClientActions;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(281);
+	var ErrorActions = __webpack_require__(256);
+	
+	var RequestApiUtil = {
+	  fetchRequests: function () {
+	    $.ajax({
+	      url: "api/requests",
+	      success: function (requests) {
+	        ServerActions.receiveAllRequests(requests);
+	      }
+	    });
+	  },
+	
+	  createRequest: function (requestData, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "api/requests",
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	        callback();
+	      },
+	      error: function (xhr) {
+	        console.log("create request error in RequestApiUtil#createRequest");
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("request", errors);
+	      }
+	    });
+	  },
+	
+	  updateRequest: function (requestData) {
+	    $.ajax({
+	      type: "PATCH",
+	      url: "api/requests" + requestData.id,
+	      data: { request: requestData },
+	      success: function (request) {
+	        ServerActions.receiveSingleRequest(request);
+	      }
+	    });
+	  },
+	
+	  deleteRequest: function (id) {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "api/requests/" + id,
+	      success: function (request) {
+	        ServerActions.removeRequest(request);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = RequestApiUtil;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(251);
+	var Store = __webpack_require__(259).Store;
+	
+	var UserStore = new Store(AppDispatcher);
+	
+	var _currentUser, _errors;
+	
+	var _doers = {};
+	
+	var addDoers = function (doers) {
+	  _doers = {};
+	  doers.forEach(function (doer) {
+	    _doers[doer.id] = doer;
+	  });
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case "LOGIN":
+	      UserStore.login(payload.currentUser);
+	      break;
+	    case "LOGOUT":
+	      UserStore.logout();
+	      break;
+	    case "ERROR":
+	      UserStore.setErrors(payload.errors);
+	      break;
+	    case "RECEIVE_ALL_DOERS":
+	      addDoers(payload.doers);
+	      break;
+	  }
+	  UserStore.__emitChange();
+	};
+	
+	UserStore.findUser = function (id) {
+	  return _doers[id];
+	};
+	
+	UserStore.login = function (user) {
+	  _currentUser = user;
+	  _errors = null;
+	};
+	
+	UserStore.logout = function () {
+	  _currentUser = null;
+	  _errors = null;
+	};
+	
+	UserStore.currentUser = function () {
+	  if (_currentUser) {
+	    return $.extend({}, _currentUser);
+	  }
+	};
+	
+	UserStore.userOffers = function () {
+	  var sentUserOffers = [];
+	  for (var i = 0; i < _currentUser.offers.length; i++) {
+	    if (_currentUser.offers[i].accepted === false) {
+	      sentUserOffers.push(_currentUser.offers[i]);
+	    }
+	  }
+	  return sentUserOffers;
+	};
+	
+	UserStore.doerImage = function (id) {
+	  var user = _doers[id];
+	  return user.image_url;
+	};
+	
+	UserStore.setErrors = function (errors) {
+	  _errors = errors;
+	};
+	
+	UserStore.errors = function () {
+	  if (_errors) {
+	    return [].slice.call(_errors);
+	  }
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1),
 	    RequestsIndex = __webpack_require__(288),
-	    OffersIndex = __webpack_require__(293),
-	    ClientActions = __webpack_require__(298),
-	    RequestStore = __webpack_require__(297),
+	    OffersIndex = __webpack_require__(296),
+	    ClientActions = __webpack_require__(292),
+	    RequestStore = __webpack_require__(299),
 	    OfferStore = __webpack_require__(300),
 	    BookingStore = __webpack_require__(301),
-	    UserStore = __webpack_require__(295);
+	    UserStore = __webpack_require__(294);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -35878,11 +36055,11 @@
 	module.exports = Dashboard;
 
 /***/ },
-/* 293 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    OfferDetail = __webpack_require__(294);
+	    OfferDetail = __webpack_require__(297);
 	
 	var OffersIndex = React.createClass({
 	  displayName: 'OffersIndex',
@@ -35906,14 +36083,14 @@
 	module.exports = OffersIndex;
 
 /***/ },
-/* 294 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserStore = __webpack_require__(295),
-	    BookingApiUtil = __webpack_require__(296),
+	    UserStore = __webpack_require__(294),
+	    BookingApiUtil = __webpack_require__(298),
 	    OfferApiUtil = __webpack_require__(291),
-	    RequestStore = __webpack_require__(297);
+	    RequestStore = __webpack_require__(299);
 	
 	var OfferDetail = React.createClass({
 	  displayName: 'OfferDetail',
@@ -35921,9 +36098,18 @@
 	  renderButton: function () {
 	    if (this.props.offer.accepted === false && this.props.offer.doer_id !== UserStore.currentUser().id) {
 	      return React.createElement(
-	        'button',
-	        { onClick: this.makeBooking, id: this.props.offer.id, className: 'accept-offer-button' },
-	        'Accept Offer'
+	        'div',
+	        null,
+	        React.createElement(
+	          'button',
+	          { onClick: this.makeBooking, id: this.props.offer.id, className: 'accept-offer-button' },
+	          'Accept Offer'
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.deleteOffer, id: this.props.offer.id, className: 'decline-offer-button' },
+	          'Decline Offer'
+	        )
 	      );
 	    }
 	    // else if (this.props.offer.accepted === true && this.props.offer.doer_id !== UserStore.currentUser().id) {
@@ -35931,8 +36117,9 @@
 	    // }
 	  },
 	
-	  deleteOffer: function (id) {
-	    OfferApiUtil.deleteOffer(id);
+	  deleteOffer: function (e) {
+	    e.preventDefault();
+	    OfferApiUtil.deleteOffer(e.target.id);
 	  },
 	
 	  render: function () {
@@ -36034,92 +36221,7 @@
 	// <img src={} className="user-photo"></img>
 
 /***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(251);
-	var Store = __webpack_require__(259).Store;
-	
-	var UserStore = new Store(AppDispatcher);
-	
-	var _currentUser, _errors;
-	
-	var _doers = {};
-	
-	var addDoers = function (doers) {
-	  _doers = {};
-	  doers.forEach(function (doer) {
-	    _doers[doer.id] = doer;
-	  });
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case "LOGIN":
-	      UserStore.login(payload.currentUser);
-	      break;
-	    case "LOGOUT":
-	      UserStore.logout();
-	      break;
-	    case "ERROR":
-	      UserStore.setErrors(payload.errors);
-	      break;
-	    case "RECEIVE_ALL_DOERS":
-	      addDoers(payload.doers);
-	      break;
-	  }
-	  UserStore.__emitChange();
-	};
-	
-	UserStore.findUser = function (id) {
-	  return _doers[id];
-	};
-	
-	UserStore.login = function (user) {
-	  _currentUser = user;
-	  _errors = null;
-	};
-	
-	UserStore.logout = function () {
-	  _currentUser = null;
-	  _errors = null;
-	};
-	
-	UserStore.currentUser = function () {
-	  if (_currentUser) {
-	    return $.extend({}, _currentUser);
-	  }
-	};
-	
-	UserStore.userOffers = function () {
-	  var sentUserOffers = [];
-	  for (var i = 0; i < _currentUser.offers.length; i++) {
-	    if (_currentUser.offers[i].accepted === false) {
-	      sentUserOffers.push(_currentUser.offers[i]);
-	    }
-	  }
-	  return sentUserOffers;
-	};
-	
-	UserStore.doerImage = function (id) {
-	  var user = _doers[id];
-	  return user.image_url;
-	};
-	
-	UserStore.setErrors = function (errors) {
-	  _errors = errors;
-	};
-	
-	UserStore.errors = function () {
-	  if (_errors) {
-	    return [].slice.call(_errors);
-	  }
-	};
-	
-	module.exports = UserStore;
-
-/***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports) {
 
 	var BookingApiUtil = {
@@ -36145,7 +36247,7 @@
 	module.exports = BookingApiUtil;
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251),
@@ -36263,93 +36365,6 @@
 	module.exports = RequestStore;
 
 /***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var RequestApiUtil = __webpack_require__(299);
-	var OfferApiUtil = __webpack_require__(291);
-	var UserApiUtil = __webpack_require__(280);
-	
-	var ClientActions = {
-	  fetchRequests: function () {
-	    RequestApiUtil.fetchRequests();
-	  },
-	
-	  fetchOffers: function () {
-	    OfferApiUtil.fetchOffers();
-	  },
-	
-	  fetchDoers: function () {
-	    UserApiUtil.fetchDoers();
-	  }
-	
-	};
-	
-	// fetchBookings: function () {
-	//   BookingApiUtil.fetchBookings();
-	// }
-	
-	module.exports = ClientActions;
-
-/***/ },
-/* 299 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ServerActions = __webpack_require__(281);
-	var ErrorActions = __webpack_require__(256);
-	
-	var RequestApiUtil = {
-	  fetchRequests: function () {
-	    $.ajax({
-	      url: "api/requests",
-	      success: function (requests) {
-	        ServerActions.receiveAllRequests(requests);
-	      }
-	    });
-	  },
-	
-	  createRequest: function (requestData, callback) {
-	    $.ajax({
-	      type: "POST",
-	      url: "api/requests",
-	      data: { request: requestData },
-	      success: function (request) {
-	        ServerActions.receiveSingleRequest(request);
-	        callback();
-	      },
-	      error: function (xhr) {
-	        console.log("create request error in RequestApiUtil#createRequest");
-	        var errors = xhr.responseJSON;
-	        ErrorActions.setErrors("request", errors);
-	      }
-	    });
-	  },
-	
-	  updateRequest: function (requestData) {
-	    $.ajax({
-	      type: "PATCH",
-	      url: "api/requests" + requestData.id,
-	      data: { request: requestData },
-	      success: function (request) {
-	        ServerActions.receiveSingleRequest(request);
-	      }
-	    });
-	  },
-	
-	  deleteRequest: function (id) {
-	    $.ajax({
-	      type: "DELETE",
-	      url: "api/requests/" + id,
-	      success: function (request) {
-	        ServerActions.removeRequest(request);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = RequestApiUtil;
-
-/***/ },
 /* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36357,8 +36372,8 @@
 	var Store = __webpack_require__(259).Store,
 	    OfferConstants = __webpack_require__(284),
 	    SessionStore = __webpack_require__(258),
-	    UserStore = __webpack_require__(295),
-	    RequestStore = __webpack_require__(297);
+	    UserStore = __webpack_require__(294),
+	    RequestStore = __webpack_require__(299);
 	
 	var OfferStore = new Store(AppDispatcher);
 	
@@ -36516,7 +36531,12 @@
 	      React.createElement(
 	        "h2",
 	        null,
-	        "How it Works"
+	        "How to Get Started"
+	      ),
+	      React.createElement(
+	        "h3",
+	        null,
+	        "We're excited to help! Here's how it works:"
 	      ),
 	      React.createElement(
 	        "ul",
@@ -36524,45 +36544,59 @@
 	        React.createElement(
 	          "li",
 	          null,
-	          React.createElement("img", { src: raised_hand_url, className: "raised-hand" }),
 	          React.createElement(
 	            "h4",
 	            null,
-	            "Ask a Favor"
+	            React.createElement(
+	              "span",
+	              { className: "numbers" },
+	              "1"
+	            ),
+	            "  Ask a favor"
 	          ),
-	          "Choose from a list of popular chores and errands"
-	        ),
-	        React.createElement(
-	          "li",
-	          { className: "arrow" },
-	          "⟶"
+	          React.createElement(
+	            "p",
+	            null,
+	            "Choose from a list of popular chores and errands"
+	          )
 	        ),
 	        React.createElement(
 	          "li",
 	          null,
-	          React.createElement("img", { src: handshake_url, className: "handshake" }),
 	          React.createElement(
 	            "h4",
 	            null,
-	            "Get Matched"
+	            React.createElement(
+	              "span",
+	              { className: "numbers" },
+	              "2"
+	            ),
+	            "  Get Matched"
 	          ),
-	          "Accept offers from other users"
-	        ),
-	        React.createElement(
-	          "li",
-	          { className: "arrow" },
-	          "⟶"
+	          React.createElement(
+	            "p",
+	            null,
+	            "Accept offers from other users"
+	          )
 	        ),
 	        React.createElement(
 	          "li",
 	          null,
-	          React.createElement("img", { src: helping_hand_url, className: "helping-hand" }),
 	          React.createElement(
 	            "h4",
 	            null,
-	            "Pay it Forward"
+	            React.createElement(
+	              "span",
+	              { className: "numbers" },
+	              "3"
+	            ),
+	            "  Pay it Forward"
 	          ),
-	          "Browse open favor requests and help another user out"
+	          React.createElement(
+	            "p",
+	            null,
+	            "Browse open favor requests and help another user out"
+	          )
 	        )
 	      )
 	    );
@@ -36637,10 +36671,10 @@
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
-	    RequestStore = __webpack_require__(297),
+	    RequestStore = __webpack_require__(299),
 	    RequestButton = __webpack_require__(305),
 	    FavorButton = __webpack_require__(309),
-	    ClientActions = __webpack_require__(298),
+	    ClientActions = __webpack_require__(292),
 	    SearchBar = __webpack_require__(310),
 	    Modal = __webpack_require__(229),
 	    RequestForm = __webpack_require__(306);
@@ -36798,7 +36832,7 @@
 	var React = __webpack_require__(1),
 	    CategoryStore = __webpack_require__(307),
 	    CategoryApiUtil = __webpack_require__(308),
-	    RequestApiUtil = __webpack_require__(299),
+	    RequestApiUtil = __webpack_require__(293),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278);
 	
