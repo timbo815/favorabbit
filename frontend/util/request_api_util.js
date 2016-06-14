@@ -21,7 +21,6 @@ var RequestApiUtil = {
         callback();
       },
       error: function (xhr) {
-          console.log("create request error in RequestApiUtil#createRequest");
           var errors = xhr.responseJSON;
           ErrorActions.setErrors("request", errors);
         }

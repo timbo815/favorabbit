@@ -1,7 +1,12 @@
+.focused {
+  color: white;
+  background: #1da3bf;
+}
+
 .dashboard {
-  border: solid 1px #cfd2d3;
+  border: solid 1px #1da3bf;
   background: white;
-  width: 920px;
+  width: 925px;
   height: 350px;
   margin: 0 auto;
   font-family: "Proxima Alt Regular";
@@ -10,12 +15,12 @@
 
 .tabs {
   margin-top: 60px;
-  width: 920px;
-  background: white;
+  width: 926px;
+  background: #f5f6f6;;
   color: #1da3bf;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-bottom: 1px solid #1da3bf;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-right: 1px solid #1da3bf;
   margin-left: auto;
   margin-right: auto;
 }
@@ -29,6 +34,15 @@
   width: 230px;
   text-align: center;
   padding: 15px 0;
+  border-top: 1px solid #1da3bf;
+  border-left: 1px solid #1da3bf;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.tabs > li:hover {
+  color: white;
+  background: #1da3bf;
 }
 
 .group:after {

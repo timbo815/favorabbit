@@ -22,7 +22,6 @@ var OfferApiUtil = {
         callback();
       },
       error: function (xhr) {
-        console.log("create offer error in OfferApiUtil#createOffer");
         var errors = xhr.responseJSON;
         ErrorActions.setErrors("offer", errors);
         }

@@ -19,15 +19,6 @@
   width:auto;
 }
 
-/*.header h5 {
-  float:left;
-  font-family: "Proxima Alt Semibold";
-  color:#00964b;
-  font-size: 28px;
-  margin-left: 225px;
-  margin-top: 10px;
-}*/
-
 .header-link {
   float: left;
   display: block;
@@ -47,12 +38,20 @@
   margin-top: 10px;
 }
 
+.favo:hover {
+  cursor: pointer;
+}
+
 .rabbit {
   float:left;
   font-family: "Proxima Alt Semibold";
   color:#00964b;
   font-size: 28px;
   margin-top: 10px;
+}
+
+.rabbit:hover {
+  cursor: pointer;
 }
 
 .success {

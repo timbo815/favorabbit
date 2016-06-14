@@ -85,20 +85,48 @@ var Dashboard = React.createClass({
   },
 
   render: function () {
+    switch (this.state.focused) {
+      case "requests":
+      $(".offers").removeClass("focused");
+      $(".sent-offers").removeClass("focused");
+      $(".bookings").removeClass("focused");
+      $(".requests").addClass("focused");
+      break;
 
+      case "offers":
+      $(".requests").removeClass("focused");
+      $(".sent-offers").removeClass("focused");
+      $(".bookings").removeClass("focused");
+      $(".offers").addClass("focused");
+      break;
+
+      case "sent offers":
+      $(".requests").removeClass("focused");
+      $(".offers").removeClass("focused");
+      $(".bookings").removeClass("focused");
+      $(".sent-offers").addClass("focused");
+      break;
+
+      case "bookings":
+      $(".requests").removeClass("focused");
+      $(".offers").removeClass("focused");
+      $(".sent-offers").removeClass("focused");
+      $(".bookings").addClass("focused");
+      break;
+    }
     return (
       <div>
         <ul className="tabs group">
-          <li onClick={this.handleRequestsClick}>
+          <li onClick={this.handleRequestsClick} className="requests">
             Your Open Requests
           </li>
-          <li onClick={this.handleOffersClick}>
+          <li onClick={this.handleOffersClick} className="offers">
             Offers Received
           </li>
-          <li onClick={this.handleSentOffersClick}>
+          <li onClick={this.handleSentOffersClick} className="sent-offers">
             Offers Sent
           </li>
-          <li onClick={this.handleBookingsClick}>
+          <li onClick={this.handleBookingsClick} className="bookings">
             Bookings
           </li>
         </ul>

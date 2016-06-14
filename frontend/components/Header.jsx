@@ -3,15 +3,20 @@ var React = require('react'),
     Link = require('react-router').Link;
 
 var Header = React.createClass({
-  //
-  // contextTypes: {
-  //   router: React.PropTypes.object.isRequired
-  // },
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
+  redirectHome: function () {
+    this.context.router.push("home");
+  },
 
   render: function () {
     return(
       <header className="header">
-        <img src={logo_url} className="logo"/><h5 className="favo">Favo</h5><h5 className="rabbit">Rabbit</h5>
+        <img src={logo_url} className="logo" onClick={this.redirectHome}/>
+        <h5 className="favo" onClick={this.redirectHome}>Favo</h5><h5 className="rabbit" onClick={this.redirectHome}>Rabbit</h5>
       <ul className="header-links">
         <Link to="/home" className="header-link">Home</Link>
         <Link to="/account" className="header-link">Account</Link>

@@ -11,7 +11,6 @@ var SessionApiUtil = {
         SessionActions.receiveCurrentUser(currentUser);
       },
       error: function (xhr) {
-  			  console.log("Login error in SessionApiUtil#login");
           var errors = xhr.responseJSON;
   	      ErrorActions.setErrors("login", errors);
   			}
@@ -23,11 +22,9 @@ var SessionApiUtil = {
     url: '/api/session',
     type: 'DELETE',
     success: function () {
-      console.log("Logout success (SessionApiUtil#logout)");
       SessionActions.removeCurrentUser();
     },
     error: function () {
-      console.log("Logout error in SessionApiUtil#logout");
     }
   });
   },
@@ -40,7 +37,6 @@ var SessionApiUtil = {
       SessionActions.receiveCurrentUser(currentUser);
     },
     error: function (xhr) {
-      console.log("Error in SessionApiUtil#fetchCurrentUser");
     },
     complete: complete
   });
