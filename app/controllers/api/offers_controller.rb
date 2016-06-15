@@ -10,15 +10,12 @@ class Api::OffersController < ApplicationController
     end
   end
 
-  # def show
-  # end
-  #
+
   def index
     @offers = Offer.all
     render json: @offers
   end
-  # def destroy
-  # end
+
   def update
     @offer = Offer.find(params[:id])
     if @offer.update_attributes(offer_params)
