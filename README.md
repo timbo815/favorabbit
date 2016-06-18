@@ -9,9 +9,16 @@ FavoRabbit is a full-stack web application inspired by TaskRabbit. It utilizes R
 
 ## Screenshots
 
+### Login page
 ![login_screen](app/assets/images/login_screen.png "Login Page")
+
+### Welcome page
 ![welcome_screen](app/assets/images/welcome_screen.png "Welcome Page")
+
+### User Dashboard 
 ![dashboard_screen](app/assets/images/dashboard.png "Dashboard")
+
+### Open Requests Index
 ![request_index](app/assets/images/request_index.png "Request Index")
 
 ## Features & Implementation
