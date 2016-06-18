@@ -8,8 +8,8 @@ var HowItWorks = React.createClass({
         <h3>We're excited to help! Here's how it works:</h3>
           <ul>
             <li>
-            <h4><span className="numbers">1</span>  Ask a favor</h4>
-            <p>Choose from a list of popular chores and errands</p>
+            <h4><span className="numbers">1</span> Ask a favor</h4>
+            <p>Choose from a list of popular request categories</p>
             </li>
             <li>
               <h4><span className="numbers">2</span>  Get Matched</h4>

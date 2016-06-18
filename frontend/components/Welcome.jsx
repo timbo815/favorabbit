@@ -36,8 +36,9 @@ var Welcome = React.createClass({
     this.setState({ modalOpen: false });
   },
 
-  openModal: function () {
-    this.setState({ modalOpen: true });
+  openModal: function (e) {
+    this.setState({ category: e.target.innerHtml });
+    this.setState({ modalOpen: true});
   },
 
   componentDidMount: function () {
@@ -61,14 +62,16 @@ var Welcome = React.createClass({
       "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"];
 
     var currentUser = SessionStore.currentUser();
+    var category = this.state.category;
     return(
       <div className="welcome">
-        <img src={currentUser.image_url} className="user-photo"></img>
+        <img src={currentUser.image_url} className="user-photo-welcome"></img>
         <h4>Welcome to FavoRabbit, {currentUser.username}!</h4>
         <img src={search_icon_url} className="search-icon"/>
         <SearchBar placeholder="What do you need help with?"
                    items={categories}
-                   onClick={this.openModal}/>
+                   onClick={this.openModal}>
+        </SearchBar>
                    <Modal
                      style={style}
                      isOpen={this.state.modalOpen}

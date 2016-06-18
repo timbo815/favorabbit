@@ -10,10 +10,11 @@
 
 .welcome > h4 {
   font-weight: normal;
-  font-size: 50px;
+  font-size: 38px;
   font-family: "Proxima Alt Regular";
-  width: 900px;
+  width: 1000px;
   height: 10px;
+  text-align: left;
 }
 .welcome-button {
   float:left;
@@ -40,6 +41,15 @@
   float: left;
   margin-top: 55px;
   margin-right: -10px;
+  width: 100px;
+  height: 100px;
+}
+
+.user-photo-welcome {
+  border-radius: 50%;
+  float: left;
+  margin-top: 55px;
+  margin-right: 40px;
   width: 100px;
   height: 100px;
 }
@@ -118,5 +128,5 @@
   width: 35px;
   position: absolute;
   left: 145px;
-  top: 196px;
+  top: 165px;
 }
