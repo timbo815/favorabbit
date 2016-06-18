@@ -46,7 +46,7 @@ var OfferForm = React.createClass({
   render: function () {
     return (
       <div>
-        <section className="detail">
+        <section className="detail group">
           <ul>
             <li>Category: {this.props.request.category}</li>
             <li>{this.props.request.title}</li>

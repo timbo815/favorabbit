@@ -35631,7 +35631,7 @@
 	      null,
 	      React.createElement(
 	        'section',
-	        { className: 'detail' },
+	        { className: 'detail group' },
 	        React.createElement(
 	          'ul',
 	          null,

@@ -59,6 +59,7 @@
   font-family: "Proxima Alt Light";
   overflow-wrap: break-word;
   box-shadow: 0 10px 6px -6px #777;
+  position:relative;
 }
 
 .detail span {
