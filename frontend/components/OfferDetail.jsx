@@ -28,7 +28,7 @@ var OfferDetail = React.createClass({
     var request = potentialRequest ? potentialRequest : {};
     var userImage = UserStore.doerImage(this.props.offer.doer_id);
     return (
-      <section className="detail">
+      <section className="detail group">
         <img src={userImage} className='user-photo'/>
         <ul>
           <li><span>Subject:</span> {request.title}</li>

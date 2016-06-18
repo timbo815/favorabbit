@@ -36173,7 +36173,7 @@
 	    var userImage = UserStore.doerImage(this.props.offer.doer_id);
 	    return React.createElement(
 	      'section',
-	      { className: 'detail' },
+	      { className: 'detail group' },
 	      React.createElement('img', { src: userImage, className: 'user-photo' }),
 	      React.createElement(
 	        'ul',
@@ -36898,7 +36898,7 @@
 	      date: "",
 	      time: "",
 	      location: "",
-	      category: category
+	      category: "career"
 	    };
 	  },
 	
