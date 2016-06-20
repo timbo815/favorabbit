@@ -29,7 +29,7 @@ var OfferForm = React.createClass({
       request_id: this.props.request.id
     };
     OfferApiUtil.createOffer(formData, this.props.closeModal);
-    ClientActions.fetchOffers();
+    // ClientActions.fetchOffers();
   },
 
   fieldErrors: function (field) {

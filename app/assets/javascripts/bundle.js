@@ -35199,7 +35199,6 @@
 
 	var AppDispatcher = __webpack_require__(251);
 	var RequestConstants = __webpack_require__(282);
-	var CategoryConstants = __webpack_require__(283);
 	var OfferConstants = __webpack_require__(284);
 	var UserConstants = __webpack_require__(285);
 	var BookingConstants = __webpack_require__(286);
@@ -35223,13 +35222,6 @@
 	    AppDispatcher.dispatch({
 	      actionType: RequestConstants.REMOVE_REQUEST,
 	      request: request
-	    });
-	  },
-	
-	  receiveAllCategories: function (categories) {
-	    AppDispatcher.dispatch({
-	      actionType: CategoryConstants.RECEIVE_ALL_CATEGORIES,
-	      categories: categories
 	    });
 	  },
 	
@@ -35291,16 +35283,7 @@
 	module.exports = RequestConstants;
 
 /***/ },
-/* 283 */
-/***/ function(module, exports) {
-
-	var CategoryConstants = {
-	  RECEIVE_ALL_CATEGORIES: "RECEIVE_ALL_CATEGORIES"
-	};
-	
-	module.exports = CategoryConstants;
-
-/***/ },
+/* 283 */,
 /* 284 */
 /***/ function(module, exports) {
 
@@ -35599,7 +35582,7 @@
 	      request_id: this.props.request.id
 	    };
 	    OfferApiUtil.createOffer(formData, this.props.closeModal);
-	    ClientActions.fetchOffers();
+	    // ClientActions.fetchOffers();
 	  },
 	
 	  fieldErrors: function (field) {
@@ -35773,12 +35756,7 @@
 	  fetchDoers: function () {
 	    UserApiUtil.fetchDoers();
 	  }
-	
 	};
-	
-	// fetchBookings: function () {
-	//   BookingApiUtil.fetchBookings();
-	// }
 	
 	module.exports = ClientActions;
 
@@ -35965,7 +35943,6 @@
 	  },
 	
 	  handleOfferChange: function () {
-	
 	    var bookings = OfferStore.bookings();
 	    var pendingOffers = OfferStore.pendingOffers();
 	    var sentOffers = OfferStore.sentOffers();
@@ -36487,9 +36464,9 @@
 	OfferStore.sentOffers = function () {
 	  var currentUser = UserStore.currentUser();
 	  var sentUserOffers = [];
-	  for (var i = 0; i < currentUser.offers.length; i++) {
-	    if (currentUser.offers[i].accepted === false) {
-	      sentUserOffers.push(currentUser.offers[i]);
+	  for (var key in _offers) {
+	    if (_offers[key].accepted === false && _offers[key].doer_id === currentUser.id) {
+	      sentUserOffers.push(_offers[key]);
 	    }
 	  }
 	  return sentUserOffers;
@@ -36752,6 +36729,7 @@
 	
 	  getInitialState: function () {
 	    return { requests: [], modalOpen: false };
+	    // category: "Career"
 	  },
 	
 	  closeModal: function () {
@@ -36759,7 +36737,7 @@
 	  },
 	
 	  openModal: function (e) {
-	    this.setState({ category: e.target.innerHtml });
+	    // this.setState({ category: e.target.value });
 	    this.setState({ modalOpen: true });
 	  },
 	
@@ -36802,7 +36780,7 @@
 	          style: style,
 	          isOpen: this.state.modalOpen,
 	          onRequestClose: this.closeModal },
-	        React.createElement(RequestForm, { closeModal: this.closeModal })
+	        React.createElement(RequestForm, { closeModal: this.closeModal, category: this.state.category })
 	      ),
 	      React.createElement(RequestButton, null),
 	      React.createElement(FavorButton, { requests: this.state.requests })
@@ -36881,8 +36859,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    CategoryStore = __webpack_require__(307),
-	    CategoryApiUtil = __webpack_require__(308),
 	    RequestApiUtil = __webpack_require__(293),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278);
@@ -36946,13 +36922,6 @@
 	      requester_id: SessionStore.currentUser().id
 	    };
 	    RequestApiUtil.createRequest(formData, this.props.closeModal);
-	    //
-	    // var errors = ErrorStore.formErrors("request");
-	    //
-	    // if (Object.keys(errors).length === 0) {
-	    //
-	    // }
-	    //
 	  },
 	
 	  fieldErrors: function (field) {
@@ -37057,65 +37026,8 @@
 	module.exports = RequestForm;
 
 /***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(251),
-	    Store = __webpack_require__(259).Store,
-	    CategoryConstants = __webpack_require__(283),
-	    CategoryStore = new Store(AppDispatcher);
-	
-	var _categories = [];
-	
-	var addCategories = function (categories) {
-	  _categories = [];
-	  _categories.push(categories);
-	};
-	
-	CategoryStore.all = function () {
-	  return _categories;
-	};
-	
-	CategoryStore.allNames = function () {
-	  var names = [];
-	  for (var key in _categories) {
-	    names.push(_categories[key][key].title);
-	  }
-	  return names;
-	};
-	
-	CategoryStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case CategoryConstants.RECEIVE_ALL_CATEGORIES:
-	      addCategories(payload.categories);
-	      break;
-	  }
-	  this.__emitChange();
-	};
-	
-	module.exports = CategoryStore;
-
-/***/ },
-/* 308 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ServerActions = __webpack_require__(281);
-	
-	var CategoryApiUtil = {
-	  fetchAllCategories: function () {
-	    $.ajax({
-	      url: "api/categories",
-	      success: function (categories) {
-	        ServerActions.receiveAllCategories(categories);
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = CategoryApiUtil;
-
-/***/ },
+/* 307 */,
+/* 308 */,
 /* 309 */
 /***/ function(module, exports, __webpack_require__) {
 

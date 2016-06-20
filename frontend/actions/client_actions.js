@@ -14,12 +14,7 @@ var ClientActions = {
 
   fetchDoers: function () {
     UserApiUtil.fetchDoers();
-  },
-
-  // fetchBookings: function () {
-  //   BookingApiUtil.fetchBookings();
-  // }
-
+  }
 };
 
 module.exports = ClientActions;

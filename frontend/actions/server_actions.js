@@ -1,6 +1,5 @@
 var AppDispatcher = require('../dispatcher/dispatcher');
 var RequestConstants = require('../constants/request_constants');
-var CategoryConstants = require('../constants/category_constants');
 var OfferConstants = require('../constants/offer_constants');
 var UserConstants = require('../constants/user_constants');
 var BookingConstants = require('../constants/booking_constants');
@@ -25,13 +24,6 @@ var ServerActions = {
     AppDispatcher.dispatch({
       actionType: RequestConstants.REMOVE_REQUEST,
       request: request
-    });
-  },
-
-  receiveAllCategories: function (categories) {
-    AppDispatcher.dispatch({
-      actionType: CategoryConstants.RECEIVE_ALL_CATEGORIES,
-      categories: categories
     });
   },
 

@@ -6,7 +6,7 @@
 .dashboard {
   border: solid 1px #1da3bf;
   background: white;
-  width: 924px;
+  width: 925px;
   height: 350px;
   margin: 0 auto;
   font-family: "Proxima Alt Regular";
@@ -15,7 +15,7 @@
 
 .tabs {
   margin-top: 60px;
-  width: 925px;
+  width: 926px;
   background: #f5f6f6;;
   color: #1da3bf;
   border-top-left-radius: 10px;

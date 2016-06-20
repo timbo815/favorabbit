@@ -29,7 +29,8 @@ var style = {
 var Welcome = React.createClass({
 
   getInitialState: function () {
-    return ({ requests: [], modalOpen: false});
+    return ({ requests: [], modalOpen: false });
+    // category: "Career"
   },
 
   closeModal: function () {
@@ -37,7 +38,7 @@ var Welcome = React.createClass({
   },
 
   openModal: function (e) {
-    this.setState({ category: e.target.innerHtml });
+    // this.setState({ category: e.target.value });
     this.setState({ modalOpen: true});
   },
 
@@ -76,7 +77,7 @@ var Welcome = React.createClass({
                      style={style}
                      isOpen={this.state.modalOpen}
                      onRequestClose={this.closeModal}>
-                     <RequestForm closeModal={this.closeModal}/>
+                     <RequestForm closeModal={this.closeModal} category={this.state.category}/>
                    </Modal>
         <RequestButton/>
         <FavorButton requests={this.state.requests}/>

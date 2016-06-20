@@ -72,11 +72,11 @@ OfferStore.pendingOffers = function () {
 OfferStore.sentOffers = function () {
   var currentUser = UserStore.currentUser();
   var sentUserOffers = [];
-    for (var i = 0; i < currentUser.offers.length; i++) {
-      if (currentUser.offers[i].accepted === false) {
-        sentUserOffers.push(currentUser.offers[i]);
-      }
+  for (var key in _offers) {
+    if (_offers[key].accepted === false && _offers[key].doer_id === currentUser.id) {
+      sentUserOffers.push(_offers[key]);
     }
+  }
   return sentUserOffers;
 };
 

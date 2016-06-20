@@ -1,6 +1,4 @@
 var React = require('react'),
-    CategoryStore = require('../stores/category_store.js'),
-    CategoryApiUtil = require('../util/category_api_util.js'),
     RequestApiUtil = require('../util/request_api_util'),
     SessionStore = require('../stores/session_store.js'),
     ErrorStore = require('../stores/error_store.js');
@@ -62,13 +60,6 @@ var RequestForm = React.createClass({
       requester_id: SessionStore.currentUser().id
     };
     RequestApiUtil.createRequest(formData, this.props.closeModal);
-    //
-    // var errors = ErrorStore.formErrors("request");
-    //
-    // if (Object.keys(errors).length === 0) {
-    //
-    // }
-    //
   },
 
   fieldErrors: function (field) {

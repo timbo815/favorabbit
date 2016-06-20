@@ -34,7 +34,6 @@ var Dashboard = React.createClass({
   },
 
   handleOfferChange: function () {
-
     var bookings = OfferStore.bookings();
     var pendingOffers = OfferStore.pendingOffers();
     var sentOffers = OfferStore.sentOffers();
