@@ -19,7 +19,7 @@ class Api::OffersController < ApplicationController
   def update
     @offer = Offer.find(params[:id])
     if @offer.update_attributes(offer_params)
-      render json: @offer
+      render "api/offers/show"
     else
       render json: @offer.errors, status: 422
     end

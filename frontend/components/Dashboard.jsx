@@ -17,7 +17,7 @@ var Dashboard = React.createClass({
   componentDidMount: function () {
     this.requestListener = RequestStore.addListener(this.handleRequestChange);
     this.offerListener = OfferStore.addListener(this.handleOfferChange);
-    this.userOffersListener = UserStore.addListener(this.handleUserOfferChange);
+    // this.userOffersListener = UserStore.addListener(this.handleUserOfferChange);
     ClientActions.fetchRequests();
     ClientActions.fetchOffers();
     ClientActions.fetchDoers();
@@ -43,9 +43,9 @@ var Dashboard = React.createClass({
     this.setState({ sentOffers: sentOffers});
   },
 
-  handleUserOfferChange: function () {
-    this.setState({ sentOffers: UserStore.userOffers() });
-  },
+  // handleUserOfferChange: function () {
+  //   this.setState({ sentOffers: UserStore.userOffers() });
+  // },
 
   renderDashboard: function () {
     var requests = this.state.userRequests;
