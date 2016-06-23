@@ -12,7 +12,6 @@ class Api::OffersController < ApplicationController
 
 
   def index
-    # @offers = Offer.where(doer_id: current_user.id)
     sent_offers = Offer.where(doer_id: current_user.id)
     user_requests = Request.where(requester_id: current_user.id)
     received_offers = []

@@ -7,7 +7,7 @@ var React = require('react'),
 
 var Dashboard = React.createClass({
   getInitialState: function () {
-    return ({ userRequests: [], pendingOffers: [], sentOffers: [], bookings: [],
+    return ({ userRequests: [], offersReceived: [], sentOffers: [], bookings: [],
       focused: "requests"});
   },
 
@@ -40,7 +40,7 @@ var Dashboard = React.createClass({
 
   renderDashboard: function () {
     var requests = this.state.userRequests;
-    var pendingOffers = this.state.pendingOffers;
+    var offersReceived = this.state.offersReceived;
     var bookings = this.state.bookings;
     var sentOffers = this.state.sentOffers;
     switch(this.state.focused) {
@@ -48,7 +48,7 @@ var Dashboard = React.createClass({
       return requests.length < 1 ? <div className="empty">You currently have no open requests</div> : <RequestsIndex requests={requests}/>;
 
       case "offers":
-      return pendingOffers.length < 1 ? <div className="empty">You currently have no pending offers</div> : <OffersIndex offers={pendingOffers}/>;
+      return offersReceived.length < 1 ? <div className="empty">You currently have no pending offers</div> : <OffersIndex offers={offersReceived}/>;
 
       case "bookings":
       return bookings.length < 1 ? <div className="empty">You currently have no bookings</div> : <OffersIndex offers={bookings}/>;

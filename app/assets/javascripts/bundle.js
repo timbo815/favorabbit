@@ -59,7 +59,7 @@
 	    SignUpForm = __webpack_require__(279),
 	    Home = __webpack_require__(286),
 	    OfferForm = __webpack_require__(289),
-	    Account = __webpack_require__(311);
+	    Account = __webpack_require__(310);
 	
 	var routes = React.createElement(
 	  Route,
@@ -35323,10 +35323,10 @@
 	    SessionStore = __webpack_require__(258),
 	    RequestsIndex = __webpack_require__(287),
 	    Dashboard = __webpack_require__(294),
-	    HowItWorks = __webpack_require__(301),
-	    Header = __webpack_require__(302),
-	    Welcome = __webpack_require__(303);
-	PopularCategories = __webpack_require__(310);
+	    HowItWorks = __webpack_require__(300),
+	    Header = __webpack_require__(301),
+	    Welcome = __webpack_require__(302);
+	PopularCategories = __webpack_require__(309);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -35916,7 +35916,7 @@
 	  displayName: 'Dashboard',
 	
 	  getInitialState: function () {
-	    return { userRequests: [], pendingOffers: [], sentOffers: [], bookings: [],
+	    return { userRequests: [], offersReceived: [], sentOffers: [], bookings: [],
 	      focused: "requests" };
 	  },
 	
@@ -35949,7 +35949,7 @@
 	
 	  renderDashboard: function () {
 	    var requests = this.state.userRequests;
-	    var pendingOffers = this.state.pendingOffers;
+	    var offersReceived = this.state.offersReceived;
 	    var bookings = this.state.bookings;
 	    var sentOffers = this.state.sentOffers;
 	    switch (this.state.focused) {
@@ -35961,11 +35961,11 @@
 	        ) : React.createElement(RequestsIndex, { requests: requests });
 	
 	      case "offers":
-	        return pendingOffers.length < 1 ? React.createElement(
+	        return offersReceived.length < 1 ? React.createElement(
 	          'div',
 	          { className: 'empty' },
 	          'You currently have no pending offers'
-	        ) : React.createElement(OffersIndex, { offers: pendingOffers });
+	        ) : React.createElement(OffersIndex, { offers: offersReceived });
 	
 	      case "bookings":
 	        return bookings.length < 1 ? React.createElement(
@@ -36457,8 +36457,7 @@
 	module.exports = OfferStore;
 
 /***/ },
-/* 300 */,
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36548,7 +36547,7 @@
 	module.exports = HowItWorks;
 
 /***/ },
-/* 302 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -36612,18 +36611,18 @@
 	module.exports = Header;
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    RequestStore = __webpack_require__(298),
-	    RequestButton = __webpack_require__(304),
-	    FavorButton = __webpack_require__(306),
+	    RequestButton = __webpack_require__(303),
+	    FavorButton = __webpack_require__(305),
 	    ClientActions = __webpack_require__(291),
-	    SearchBar = __webpack_require__(307),
+	    SearchBar = __webpack_require__(306),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(305);
+	    RequestForm = __webpack_require__(304);
 	
 	var style = {
 	  overlay: {
@@ -36711,12 +36710,12 @@
 	module.exports = Welcome;
 
 /***/ },
-/* 304 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(305);
+	    RequestForm = __webpack_require__(304);
 	
 	var style = {
 	  overlay: {
@@ -36775,7 +36774,7 @@
 	module.exports = RequestButton;
 
 /***/ },
-/* 305 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -36946,7 +36945,7 @@
 	module.exports = RequestForm;
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -37020,18 +37019,18 @@
 	module.exports = FavorButton;
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var _SearchItemInArray = __webpack_require__(308);
+	var _SearchItemInArray = __webpack_require__(307);
 	
 	var _SearchItemInArray2 = _interopRequireDefault(_SearchItemInArray);
 	
-	var _SearchItemInArrayObjects = __webpack_require__(309);
+	var _SearchItemInArrayObjects = __webpack_require__(308);
 	
 	var _SearchItemInArrayObjects2 = _interopRequireDefault(_SearchItemInArrayObjects);
 	
@@ -37196,7 +37195,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37217,7 +37216,7 @@
 	module.exports = SearchItemInArray;
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37238,12 +37237,12 @@
 	module.exports = SearchItemInArrayObjects;
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(305);
+	    RequestForm = __webpack_require__(304);
 	
 	var style = {
 	  overlay: {
@@ -37337,12 +37336,12 @@
 	module.exports = PopularCategories;
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserEditForm = __webpack_require__(312),
-	    Header = __webpack_require__(302);
+	    UserEditForm = __webpack_require__(311),
+	    Header = __webpack_require__(301);
 	
 	var Account = React.createClass({
 	  displayName: 'Account',
@@ -37365,7 +37364,7 @@
 	module.exports = Account;
 
 /***/ },
-/* 312 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
