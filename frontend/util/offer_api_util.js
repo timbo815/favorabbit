@@ -2,7 +2,7 @@ var ServerActions = require('../actions/server_actions.js'),
     ErrorActions = require('../actions/error_actions.js');
 
 var OfferApiUtil = {
-  fetchOffers: function () {
+  fetchOffers: function (id) {
     $.ajax({
       type: "GET",
       url: "api/offers",

@@ -35684,7 +35684,7 @@
 	    ErrorActions = __webpack_require__(256);
 	
 	var OfferApiUtil = {
-	  fetchOffers: function () {
+	  fetchOffers: function (id) {
 	    $.ajax({
 	      type: "GET",
 	      url: "api/offers",
@@ -35748,7 +35748,7 @@
 	    RequestApiUtil.fetchRequests();
 	  },
 	
-	  fetchOffers: function () {
+	  fetchOffers: function (id) {
 	    OfferApiUtil.fetchOffers();
 	  },
 	
@@ -35910,9 +35910,7 @@
 	    OffersIndex = __webpack_require__(295),
 	    ClientActions = __webpack_require__(291),
 	    RequestStore = __webpack_require__(298),
-	    OfferStore = __webpack_require__(299),
-	    BookingStore = __webpack_require__(300),
-	    UserStore = __webpack_require__(293);
+	    OfferStore = __webpack_require__(299);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -35925,7 +35923,6 @@
 	  componentDidMount: function () {
 	    this.requestListener = RequestStore.addListener(this.handleRequestChange);
 	    this.offerListener = OfferStore.addListener(this.handleOfferChange);
-	    // this.userOffersListener = UserStore.addListener(this.handleUserOfferChange);
 	    ClientActions.fetchRequests();
 	    ClientActions.fetchOffers();
 	    ClientActions.fetchDoers();
@@ -35934,7 +35931,6 @@
 	  componentWillUnmount: function () {
 	    this.requestListener.remove();
 	    this.offerListener.remove();
-	    this.userOffersListener.remove();
 	  },
 	
 	  handleRequestChange: function () {
@@ -35943,17 +35939,13 @@
 	
 	  handleOfferChange: function () {
 	    var bookings = OfferStore.bookings();
-	    var pendingOffers = OfferStore.pendingOffers();
+	    var offersReceived = OfferStore.offersReceived();
 	    var sentOffers = OfferStore.sentOffers();
 	
-	    this.setState({ pendingOffers: pendingOffers });
+	    this.setState({ offersReceived: offersReceived });
 	    this.setState({ bookings: bookings });
 	    this.setState({ sentOffers: sentOffers });
 	  },
-	
-	  // handleUserOfferChange: function () {
-	  //   this.setState({ sentOffers: UserStore.userOffers() });
-	  // },
 	
 	  renderDashboard: function () {
 	    var requests = this.state.userRequests;
@@ -36415,49 +36407,24 @@
 	  delete _offers[offer.id];
 	};
 	
-	OfferStore.userOffers = function () {
-	  return Object.keys(_offers).map(function (id) {
-	    return _offers[id];
-	  });
-	};
-	
 	OfferStore.bookings = function () {
-	  var userRequests = RequestStore.userRequests();
-	  var userOffers = [];
-	  for (var i = 0; i < userRequests.length; i++) {
-	    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
-	      userOffers.push(userRequests[i].offers);
+	  var bookings = [];
+	  Object.keys(_offers).forEach(function (id) {
+	    if (_offers[id].accepted === true) {
+	      bookings.push(_offers[id]);
 	    }
-	  }
-	  bookings = [];
-	  for (var i = 0; i < userOffers.length; i++) {
-	    for (var key in userOffers[i]) {
-	      if (userOffers[i][key].accepted === true) {
-	        bookings.push(userOffers[i][key]);
-	      }
-	    }
-	  }
-	
+	  });
 	  return bookings;
 	};
 	
-	OfferStore.pendingOffers = function () {
-	  var userRequests = RequestStore.userRequests();
-	  var userOffers = [];
-	  for (var i = 0; i < userRequests.length; i++) {
-	    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
-	      userOffers.push(userRequests[i].offers);
+	OfferStore.offersReceived = function () {
+	  var offersReceived = [];
+	  Object.keys(_offers).forEach(function (id) {
+	    if (_offers[id].accepted === false) {
+	      offersReceived.push(_offers[id]);
 	    }
-	  }
-	  pendingOffers = [];
-	  for (var i = 0; i < userOffers.length; i++) {
-	    for (var key in userOffers[i]) {
-	      if (userOffers[i][key].accepted === false) {
-	        pendingOffers.push(userOffers[i][key]);
-	      }
-	    }
-	  }
-	  return pendingOffers;
+	  });
+	  return offersReceived;
 	};
 	
 	OfferStore.sentOffers = function () {
@@ -36490,53 +36457,7 @@
 	module.exports = OfferStore;
 
 /***/ },
-/* 300 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(251),
-	    Store = __webpack_require__(259).Store,
-	    BookingConstants = __webpack_require__(285),
-	    BookingStore = new Store(AppDispatcher);
-	
-	var _bookings = {};
-	
-	var addBooking = function (booking) {
-	  _bookings[booking.id] = booking;
-	};
-	
-	var addBookings = function (bookings) {
-	  _bookings = {};
-	  bookings.forEach(function (booking) {
-	    _bookings[booking.id] = booking;
-	  });
-	};
-	//
-	// BookingStore.userBookings = function () {
-	//   var userBookings = [];
-	//   for (var key in _bookings) {
-	//     if (_bookings[key].requester_id === SessionStore.currentUser().id) {
-	//       userBookings.push(_bookings[key]);
-	//     }
-	//   }
-	//   return userBookings;
-	// };
-	
-	BookingStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case BookingConstants.RECEIVE_SINGLE_BOOKING:
-	      addBooking(payload.booking);
-	      break;
-	
-	    case BookingConstants.RECEIVE_ALL_BOOKINGS:
-	      addBookings(bookings);
-	      break;
-	  }
-	  this.__emitChange();
-	};
-	
-	module.exports = BookingStore;
-
-/***/ },
+/* 300 */,
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
 

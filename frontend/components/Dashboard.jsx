@@ -3,10 +3,7 @@ var React = require('react'),
     OffersIndex = require('./OffersIndex'),
     ClientActions = require('../actions/client_actions.js'),
     RequestStore = require('../stores/request_store.js'),
-    OfferStore = require('../stores/offer_store.js'),
-    BookingStore = require('../stores/booking_store.js'),
-    UserStore = require('../stores/user_store.js');
-
+    OfferStore = require('../stores/offer_store.js');
 
 var Dashboard = React.createClass({
   getInitialState: function () {
@@ -17,7 +14,6 @@ var Dashboard = React.createClass({
   componentDidMount: function () {
     this.requestListener = RequestStore.addListener(this.handleRequestChange);
     this.offerListener = OfferStore.addListener(this.handleOfferChange);
-    // this.userOffersListener = UserStore.addListener(this.handleUserOfferChange);
     ClientActions.fetchRequests();
     ClientActions.fetchOffers();
     ClientActions.fetchDoers();
@@ -26,7 +22,6 @@ var Dashboard = React.createClass({
   componentWillUnmount: function () {
     this.requestListener.remove();
     this.offerListener.remove();
-    this.userOffersListener.remove();
   },
 
   handleRequestChange: function () {
@@ -35,17 +30,13 @@ var Dashboard = React.createClass({
 
   handleOfferChange: function () {
     var bookings = OfferStore.bookings();
-    var pendingOffers = OfferStore.pendingOffers();
+    var offersReceived = OfferStore.offersReceived();
     var sentOffers = OfferStore.sentOffers();
 
-    this.setState({ pendingOffers: pendingOffers });
+    this.setState({ offersReceived: offersReceived });
     this.setState({ bookings: bookings});
     this.setState({ sentOffers: sentOffers});
   },
-
-  // handleUserOfferChange: function () {
-  //   this.setState({ sentOffers: UserStore.userOffers() });
-  // },
 
   renderDashboard: function () {
     var requests = this.state.userRequests;

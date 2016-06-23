@@ -24,49 +24,24 @@ var removeOffer = function (offer) {
   delete _offers[offer.id];
 };
 
-OfferStore.userOffers = function () {
-  return Object.keys(_offers).map(function (id) {
-    return _offers[id];
-  });
-};
-
 OfferStore.bookings = function () {
-  var userRequests = RequestStore.userRequests();
-  var userOffers = [];
-  for (var i = 0; i < userRequests.length; i++) {
-    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
-      userOffers.push(userRequests[i].offers);
+  var bookings = [];
+  Object.keys(_offers).forEach(function (id) {
+    if (_offers[id].accepted === true) {
+      bookings.push(_offers[id]);
     }
-  }
-  bookings = [];
-  for (var i = 0; i < userOffers.length; i++) {
-    for (var key in userOffers[i]) {
-      if (userOffers[i][key].accepted === true) {
-        bookings.push(userOffers[i][key]);
-      }
-    }
-  }
-
+  });
   return bookings;
 };
 
-OfferStore.pendingOffers = function () {
-  var userRequests = RequestStore.userRequests();
-  var userOffers = [];
-  for (var i = 0; i < userRequests.length; i++) {
-    if (userRequests[i].offers && userRequests[i].offers.length > 0) {
-      userOffers.push(userRequests[i].offers);
+OfferStore.offersReceived = function () {
+  var offersReceived = [];
+  Object.keys(_offers).forEach(function (id) {
+    if (_offers[id].accepted === false) {
+      offersReceived.push(_offers[id]);
     }
-  }
-  pendingOffers = [];
-  for (var i = 0; i < userOffers.length; i++) {
-    for (var key in userOffers[i]) {
-      if (userOffers[i][key].accepted === false) {
-        pendingOffers.push(userOffers[i][key]);
-      }
-    }
-  }
-  return pendingOffers;
+  });
+  return offersReceived;
 };
 
 OfferStore.sentOffers = function () {

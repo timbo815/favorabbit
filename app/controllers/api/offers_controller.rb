@@ -12,8 +12,15 @@ class Api::OffersController < ApplicationController
 
 
   def index
-    @offers = Offer.all
-    render json: @offers
+    # @offers = Offer.where(doer_id: current_user.id)
+    sent_offers = Offer.where(doer_id: current_user.id)
+    user_requests = Request.where(requester_id: current_user.id)
+    received_offers = []
+    user_requests.each do |request|
+      received_offers.concat(request.offers)
+    end
+    @offers = sent_offers.concat(received_offers)
+    render "api/offers/index"
   end
 
   def update

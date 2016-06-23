@@ -8,7 +8,7 @@ var ClientActions = {
     RequestApiUtil.fetchRequests();
   },
 
-  fetchOffers: function () {
+  fetchOffers: function (id) {
     OfferApiUtil.fetchOffers();
   },
 
