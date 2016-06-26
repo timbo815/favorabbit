@@ -1,6 +1,5 @@
 var React = require('react'),
     UserStore = require('../stores/user_store.js'),
-    BookingApiUtil = require('../util/booking_api_util.js'),
     OfferApiUtil = require('../util/offer_api_util.js'),
     RequestStore = require('../stores/request_store.js');
 

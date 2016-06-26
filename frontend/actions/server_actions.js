@@ -54,20 +54,6 @@ var ServerActions = {
       doers: doers
     });
   },
-
-  receiveSingleBooking: function (booking) {
-    AppDispatcher.dispatch({
-      actionType: BookingConstants.RECEIVE_SINGLE_BOOKING,
-      booking: booking
-    });
-  },
-
-  receiveAllBookings: function (bookings) {
-    AppDispatcher.dispatch({
-      actionType: BookingConstants.RECEIVE_ALL_BOOKINGS,
-      bookings: bookings
-    });
-  }
 };
 
 module.exports = ServerActions;

@@ -35251,20 +35251,6 @@
 	      actionType: UserConstants.RECEIVE_ALL_DOERS,
 	      doers: doers
 	    });
-	  },
-	
-	  receiveSingleBooking: function (booking) {
-	    AppDispatcher.dispatch({
-	      actionType: BookingConstants.RECEIVE_SINGLE_BOOKING,
-	      booking: booking
-	    });
-	  },
-	
-	  receiveAllBookings: function (bookings) {
-	    AppDispatcher.dispatch({
-	      actionType: BookingConstants.RECEIVE_ALL_BOOKINGS,
-	      bookings: bookings
-	    });
 	  }
 	};
 	
@@ -36101,7 +36087,6 @@
 
 	var React = __webpack_require__(1),
 	    UserStore = __webpack_require__(293),
-	    BookingApiUtil = __webpack_require__(297),
 	    OfferApiUtil = __webpack_require__(290),
 	    RequestStore = __webpack_require__(298);
 	
@@ -36234,32 +36219,7 @@
 	// <img src={} className="user-photo"></img>
 
 /***/ },
-/* 297 */
-/***/ function(module, exports) {
-
-	var BookingApiUtil = {
-	  makeBooking: function (offerData) {
-	    $.ajax({
-	      type: "PATCH",
-	      url: "api/offers" + offerData.id,
-	      data: { offer: offerData },
-	      success: function (offer) {}
-	    });
-	  },
-	
-	  fetchBookings: function () {
-	    $.ajax({
-	      url: "api/bookings",
-	      success: function (bookings) {
-	        ServerActions.receiveAllBookings(bookings);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = BookingApiUtil;
-
-/***/ },
+/* 297 */,
 /* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
