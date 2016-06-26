@@ -35201,7 +35201,6 @@
 	var RequestConstants = __webpack_require__(282);
 	var OfferConstants = __webpack_require__(283);
 	var UserConstants = __webpack_require__(284);
-	var BookingConstants = __webpack_require__(285);
 	
 	var ServerActions = {
 	  receiveSingleRequest: function (request) {
@@ -35291,17 +35290,7 @@
 	module.exports = UserConstants;
 
 /***/ },
-/* 285 */
-/***/ function(module, exports) {
-
-	var BookingConstants = {
-	  RECEIVE_SINGLE_BOOKING: "RECEIVE_SINGLE_BOOKING",
-	  RECEIVE_ALL_BOOKINGS: "RECEIVE_ALL_BOOKINGS"
-	};
-	
-	module.exports = BookingConstants;
-
-/***/ },
+/* 285 */,
 /* 286 */
 /***/ function(module, exports, __webpack_require__) {
 

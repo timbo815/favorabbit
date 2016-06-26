@@ -2,7 +2,6 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var RequestConstants = require('../constants/request_constants');
 var OfferConstants = require('../constants/offer_constants');
 var UserConstants = require('../constants/user_constants');
-var BookingConstants = require('../constants/booking_constants');
 
 
 var ServerActions = {
