@@ -37,7 +37,7 @@ OfferStore.bookings = function () {
 OfferStore.offersReceived = function () {
   var offersReceived = [];
   Object.keys(_offers).forEach(function (id) {
-    if (_offers[id].accepted === false) {
+    if (_offers[id].accepted === false && _offers[id].doer_id !== SessionStore.currentUser().id) {
       offersReceived.push(_offers[id]);
     }
   });

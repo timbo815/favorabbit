@@ -12,14 +12,6 @@ var OfferDetail = React.createClass({
         <button onClick={this.deleteOffer} id={this.props.offer.id} className="decline-offer-button">Decline Offer</button>
       </div>);
     }
-    // else if (this.props.offer.accepted === true && this.props.offer.doer_id !== UserStore.currentUser().id) {
-    //   return(<button onClick={this.deleteOffer(this.props.offer.id)} id={this.props.offer.id}>Mark as Done</button>);
-    // }
-  },
-
-  deleteOffer: function (e) {
-    e.preventDefault();
-    OfferApiUtil.deleteOffer(e.target.id);
   },
 
   render: function () {
@@ -55,7 +47,3 @@ var OfferDetail = React.createClass({
 });
 
 module.exports = OfferDetail;
-
-
-
-// <img src={} className="user-photo"></img>

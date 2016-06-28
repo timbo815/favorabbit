@@ -57,9 +57,9 @@
 	    App = __webpack_require__(276),
 	    LoginForm = __webpack_require__(277),
 	    SignUpForm = __webpack_require__(279),
-	    Home = __webpack_require__(286),
-	    OfferForm = __webpack_require__(289),
-	    Account = __webpack_require__(310);
+	    Home = __webpack_require__(285),
+	    OfferForm = __webpack_require__(288),
+	    Account = __webpack_require__(308);
 	
 	var routes = React.createElement(
 	  Route,
@@ -35290,18 +35290,17 @@
 	module.exports = UserConstants;
 
 /***/ },
-/* 285 */,
-/* 286 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
-	    RequestsIndex = __webpack_require__(287),
-	    Dashboard = __webpack_require__(294),
-	    HowItWorks = __webpack_require__(300),
-	    Header = __webpack_require__(301),
-	    Welcome = __webpack_require__(302);
-	PopularCategories = __webpack_require__(309);
+	    RequestsIndex = __webpack_require__(286),
+	    Dashboard = __webpack_require__(293),
+	    HowItWorks = __webpack_require__(298),
+	    Header = __webpack_require__(299),
+	    Welcome = __webpack_require__(300);
+	PopularCategories = __webpack_require__(307);
 	
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -35328,11 +35327,11 @@
 	module.exports = Home;
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    RequestDetail = __webpack_require__(288);
+	    RequestDetail = __webpack_require__(287);
 	
 	var RequestsIndex = React.createClass({
 	  displayName: 'RequestsIndex',
@@ -35356,15 +35355,15 @@
 	module.exports = RequestsIndex;
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    Modal = __webpack_require__(229),
-	    OfferForm = __webpack_require__(289),
-	    RequestApiUtil = __webpack_require__(292),
-	    UserStore = __webpack_require__(293);
+	    OfferForm = __webpack_require__(288),
+	    RequestApiUtil = __webpack_require__(291),
+	    UserStore = __webpack_require__(292);
 	
 	var style = {
 	  overlay: {
@@ -35521,14 +35520,14 @@
 	module.exports = RequestDetail;
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278),
-	    OfferApiUtil = __webpack_require__(290),
-	    ClientActions = __webpack_require__(291);
+	    OfferApiUtil = __webpack_require__(289),
+	    ClientActions = __webpack_require__(290);
 	
 	var OfferForm = React.createClass({
 	  displayName: 'OfferForm',
@@ -35652,7 +35651,7 @@
 	module.exports = OfferForm;
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ServerActions = __webpack_require__(281),
@@ -35711,11 +35710,11 @@
 	module.exports = OfferApiUtil;
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var RequestApiUtil = __webpack_require__(292);
-	var OfferApiUtil = __webpack_require__(290);
+	var RequestApiUtil = __webpack_require__(291);
+	var OfferApiUtil = __webpack_require__(289);
 	var UserApiUtil = __webpack_require__(280);
 	
 	var ClientActions = {
@@ -35735,7 +35734,7 @@
 	module.exports = ClientActions;
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ServerActions = __webpack_require__(281);
@@ -35792,7 +35791,7 @@
 	module.exports = RequestApiUtil;
 
 /***/ },
-/* 293 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251);
@@ -35877,15 +35876,15 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 294 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    RequestsIndex = __webpack_require__(287),
-	    OffersIndex = __webpack_require__(295),
-	    ClientActions = __webpack_require__(291),
-	    RequestStore = __webpack_require__(298),
-	    OfferStore = __webpack_require__(299);
+	    RequestsIndex = __webpack_require__(286),
+	    OffersIndex = __webpack_require__(294),
+	    ClientActions = __webpack_require__(290),
+	    RequestStore = __webpack_require__(296),
+	    OfferStore = __webpack_require__(297);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -36043,11 +36042,11 @@
 	module.exports = Dashboard;
 
 /***/ },
-/* 295 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    OfferDetail = __webpack_require__(296);
+	    OfferDetail = __webpack_require__(295);
 	
 	var OffersIndex = React.createClass({
 	  displayName: 'OffersIndex',
@@ -36071,13 +36070,13 @@
 	module.exports = OffersIndex;
 
 /***/ },
-/* 296 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserStore = __webpack_require__(293),
-	    OfferApiUtil = __webpack_require__(290),
-	    RequestStore = __webpack_require__(298);
+	    UserStore = __webpack_require__(292),
+	    OfferApiUtil = __webpack_require__(289),
+	    RequestStore = __webpack_require__(296);
 	
 	var OfferDetail = React.createClass({
 	  displayName: 'OfferDetail',
@@ -36099,14 +36098,6 @@
 	        )
 	      );
 	    }
-	    // else if (this.props.offer.accepted === true && this.props.offer.doer_id !== UserStore.currentUser().id) {
-	    //   return(<button onClick={this.deleteOffer(this.props.offer.id)} id={this.props.offer.id}>Mark as Done</button>);
-	    // }
-	  },
-	
-	  deleteOffer: function (e) {
-	    e.preventDefault();
-	    OfferApiUtil.deleteOffer(e.target.id);
 	  },
 	
 	  render: function () {
@@ -36204,12 +36195,9 @@
 	});
 	
 	module.exports = OfferDetail;
-	
-	// <img src={} className="user-photo"></img>
 
 /***/ },
-/* 297 */,
-/* 298 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251),
@@ -36327,15 +36315,15 @@
 	module.exports = RequestStore;
 
 /***/ },
-/* 299 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(251);
 	var Store = __webpack_require__(259).Store,
 	    OfferConstants = __webpack_require__(283),
 	    SessionStore = __webpack_require__(258),
-	    UserStore = __webpack_require__(293),
-	    RequestStore = __webpack_require__(298);
+	    UserStore = __webpack_require__(292),
+	    RequestStore = __webpack_require__(296);
 	
 	var OfferStore = new Store(AppDispatcher);
 	
@@ -36369,7 +36357,7 @@
 	OfferStore.offersReceived = function () {
 	  var offersReceived = [];
 	  Object.keys(_offers).forEach(function (id) {
-	    if (_offers[id].accepted === false) {
+	    if (_offers[id].accepted === false && _offers[id].doer_id !== SessionStore.currentUser().id) {
 	      offersReceived.push(_offers[id]);
 	    }
 	  });
@@ -36406,7 +36394,7 @@
 	module.exports = OfferStore;
 
 /***/ },
-/* 300 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36496,7 +36484,7 @@
 	module.exports = HowItWorks;
 
 /***/ },
-/* 301 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -36560,18 +36548,18 @@
 	module.exports = Header;
 
 /***/ },
-/* 302 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    SessionStore = __webpack_require__(258),
-	    RequestStore = __webpack_require__(298),
-	    RequestButton = __webpack_require__(303),
-	    FavorButton = __webpack_require__(305),
-	    ClientActions = __webpack_require__(291),
-	    SearchBar = __webpack_require__(306),
+	    RequestStore = __webpack_require__(296),
+	    RequestButton = __webpack_require__(301),
+	    FavorButton = __webpack_require__(303),
+	    ClientActions = __webpack_require__(290),
+	    SearchBar = __webpack_require__(304),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(304);
+	    RequestForm = __webpack_require__(302);
 	
 	var style = {
 	  overlay: {
@@ -36659,12 +36647,12 @@
 	module.exports = Welcome;
 
 /***/ },
-/* 303 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(304);
+	    RequestForm = __webpack_require__(302);
 	
 	var style = {
 	  overlay: {
@@ -36723,11 +36711,11 @@
 	module.exports = RequestButton;
 
 /***/ },
-/* 304 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    RequestApiUtil = __webpack_require__(292),
+	    RequestApiUtil = __webpack_require__(291),
 	    SessionStore = __webpack_require__(258),
 	    ErrorStore = __webpack_require__(278);
 	
@@ -36894,12 +36882,12 @@
 	module.exports = RequestForm;
 
 /***/ },
-/* 305 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestsIndex = __webpack_require__(287);
+	    RequestsIndex = __webpack_require__(286);
 	
 	var style = {
 	  overlay: {
@@ -36968,18 +36956,18 @@
 	module.exports = FavorButton;
 
 /***/ },
-/* 306 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var _SearchItemInArray = __webpack_require__(307);
+	var _SearchItemInArray = __webpack_require__(305);
 	
 	var _SearchItemInArray2 = _interopRequireDefault(_SearchItemInArray);
 	
-	var _SearchItemInArrayObjects = __webpack_require__(308);
+	var _SearchItemInArrayObjects = __webpack_require__(306);
 	
 	var _SearchItemInArrayObjects2 = _interopRequireDefault(_SearchItemInArrayObjects);
 	
@@ -37144,7 +37132,7 @@
 	module.exports = Search;
 
 /***/ },
-/* 307 */
+/* 305 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37165,7 +37153,7 @@
 	module.exports = SearchItemInArray;
 
 /***/ },
-/* 308 */
+/* 306 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37186,12 +37174,12 @@
 	module.exports = SearchItemInArrayObjects;
 
 /***/ },
-/* 309 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    Modal = __webpack_require__(229),
-	    RequestForm = __webpack_require__(304);
+	    RequestForm = __webpack_require__(302);
 	
 	var style = {
 	  overlay: {
@@ -37285,12 +37273,12 @@
 	module.exports = PopularCategories;
 
 /***/ },
-/* 310 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    UserEditForm = __webpack_require__(311),
-	    Header = __webpack_require__(301);
+	    UserEditForm = __webpack_require__(309),
+	    Header = __webpack_require__(299);
 	
 	var Account = React.createClass({
 	  displayName: 'Account',
@@ -37313,7 +37301,7 @@
 	module.exports = Account;
 
 /***/ },
-/* 311 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
