@@ -37,7 +37,7 @@ SessionStore.__onDispatch = function (payload) {
     break;
 
     case SessionConstants.LOGOUT:
-    _logout(payload,currentUser);
+    _logout(payload.currentUser);
     SessionStore.__emitChange();
     break;
   }

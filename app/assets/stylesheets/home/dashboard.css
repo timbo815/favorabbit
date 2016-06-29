@@ -184,6 +184,7 @@
 .cancel-button:hover {
   color: white;
   background: #1da3bf;
+  cursor: pointer;
 }
 
 .submit-request {
@@ -199,6 +200,7 @@
 .submit-request:hover {
   color: white;
   background: #1da3bf;
+  cursor: pointer;
 }
 .submit-request:focus {
   outline: none;

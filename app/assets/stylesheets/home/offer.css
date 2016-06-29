@@ -12,6 +12,7 @@
 .offer-button:hover {
   color:white;
   background-color: #1da3bf;
+  cursor: pointer;
 }
 
 .offer-button:focus {
@@ -31,6 +32,7 @@
 .accept-offer-button:hover {
   color: white;
   background-color: #1da3bf;
+  cursor: pointer;
 }
 
 .decline-offer-button {
@@ -48,4 +50,5 @@
 .decline-offer-button:hover {
   color: white;
   background-color: #1da3bf;
+  cursor: pointer;
 }
