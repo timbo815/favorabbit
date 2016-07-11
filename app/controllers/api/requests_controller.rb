@@ -10,7 +10,7 @@ class Api::RequestsController < ApplicationController
   end
 
   def index
-    @requests = Request.all
+    @requests = Request.all.includes(:offers)
     render "api/requests/index"
   end
 
