@@ -5,7 +5,6 @@ var React = require('react'),
 
 var RequestForm = React.createClass({
   getInitialState: function () {
-    var category = this.props.category;
     return ({
       title: "",
       description: "",

@@ -1,8 +1,6 @@
 var React = require('react'),
-    SessionStore = require('../stores/session_store.js'),
     ErrorStore = require('../stores/error_store.js'),
-    OfferApiUtil = require('../util/offer_api_util.js'),
-    ClientActions = require('../actions/client_actions.js');
+    OfferApiUtil = require('../util/offer_api_util.js');
 
 
 var OfferForm = React.createClass({

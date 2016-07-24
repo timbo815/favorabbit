@@ -36144,8 +36144,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    SessionStore = __webpack_require__(264),
-	    RequestsIndex = __webpack_require__(292),
 	    Dashboard = __webpack_require__(299),
 	    HowItWorks = __webpack_require__(304),
 	    Header = __webpack_require__(305),
@@ -36286,7 +36284,6 @@
 	  },
 	
 	  render: function () {
-	    var currentUser = SessionStore.currentUser();
 	    return React.createElement(
 	      'section',
 	      { className: 'detail group' },
@@ -36374,10 +36371,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    SessionStore = __webpack_require__(264),
 	    ErrorStore = __webpack_require__(284),
-	    OfferApiUtil = __webpack_require__(295),
-	    ClientActions = __webpack_require__(296);
+	    OfferApiUtil = __webpack_require__(295);
 	
 	var OfferForm = React.createClass({
 	  displayName: 'OfferForm',
@@ -37171,8 +37166,7 @@
 	var Store = __webpack_require__(265).Store,
 	    OfferConstants = __webpack_require__(289),
 	    SessionStore = __webpack_require__(264),
-	    UserStore = __webpack_require__(298),
-	    RequestStore = __webpack_require__(302);
+	    UserStore = __webpack_require__(298);
 	
 	var OfferStore = new Store(AppDispatcher);
 	
@@ -37405,7 +37399,6 @@
 	    RequestStore = __webpack_require__(302),
 	    RequestButton = __webpack_require__(307),
 	    FavorButton = __webpack_require__(309),
-	    ClientActions = __webpack_require__(296),
 	    SearchBar = __webpack_require__(310).default,
 	    Modal = __webpack_require__(235),
 	    RequestForm = __webpack_require__(308);
@@ -37434,7 +37427,6 @@
 	
 	  getInitialState: function () {
 	    return { requests: [], modalOpen: false };
-	    // category: "Career"
 	  },
 	
 	  closeModal: function () {
@@ -37463,7 +37455,7 @@
 	    var categories = ["Career", "Child Care", "Cleaning", "Computer Help", "Cooking", "Delivery", "Design", "Donations", "Education", "Errands", "Furniture Assembly", "General Help", "Handyman", "Hang Pictures", "Heavy Lifting", "Moving Help", "Painting", "Pet Care", "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"];
 	
 	    var currentUser = SessionStore.currentUser();
-	    var category = this.state.category;
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'welcome' },
@@ -37572,7 +37564,6 @@
 	  displayName: 'RequestForm',
 	
 	  getInitialState: function () {
-	    var category = this.props.category;
 	    return {
 	      title: "",
 	      description: "",
@@ -38160,8 +38151,7 @@
 
 	var React = __webpack_require__(1),
 	    UserApiUtil = __webpack_require__(286),
-	    SessionStore = __webpack_require__(264),
-	    Link = __webpack_require__(172).Link;
+	    SessionStore = __webpack_require__(264);
 	
 	var UserEditForm = React.createClass({
 	  displayName: 'UserEditForm',
@@ -38197,10 +38187,6 @@
 	
 	  editSuccess: function () {
 	    this.context.router.push("home");
-	    // $("<div>Successfully updated!</div>").addClass("success").insertBefore(".home");
-	    // window.setTimeout(function() {
-	    //   $(".success").removeClass(".success"), 3000)
-	    // });
 	  },
 	
 	  handleSubmit: function (e) {

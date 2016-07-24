@@ -1,6 +1,4 @@
 var React = require('react'),
-    SessionStore = require('../stores/session_store.js'),
-    RequestsIndex = require('../components/RequestsIndex.jsx'),
     Dashboard = require('../components/Dashboard'),
     HowItWorks = require('./HowItWorks'),
     Header = require('../components/Header'),
