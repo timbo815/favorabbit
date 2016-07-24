@@ -10,5 +10,5 @@ Rails.application.routes.draw do
   end
   root "static_pages#root"
 
-  get '/auth/:provider/callback', to: 'sessions#create'
+  get '/auth/facebook/callback', to: 'api/sessions#oauth'
 end

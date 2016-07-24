@@ -81,13 +81,14 @@ var LoginForm = React.createClass({
         <section>{this.fieldErrors("base")}</section>
         <form onSubmit={this.handleSubmit} className="login-form">
           <img src={logo_url} className="login-logo"/><span className="favo-login">Favo</span><span className="rabbit-login">Rabbit</span>
-          <label for="username" className="username-label">Username</label>
+          <label htmlFor="username" className="username-label">Username</label>
           <input type="text" value={this.state.username} onChange={this.usernameChange} className="username"/>
-          <label for="password" className="password-label">Password</label>
+          <label htmlFor="password" className="password-label">Password</label>
           <input type="password" value={this.state.password} onChange={this.passwordChange} className="password"/>
           <input type="submit" value="Sign In" className="submit-button"/>
           <p>Not a user?<button onClick={this.renderSignUp} className="signup-button">Sign Up</button>
-          Or <button className="signup-button" onClick={this.guestLogin}>Login as guest</button>
+          Or <button className="signup-button" onClick={this.guestLogin}>Login as guest</button><br/><br/>
+          <a className="fb" href="/auth/facebook">Sign in with Facebook</a>
           </p>
         </form>
       </div>

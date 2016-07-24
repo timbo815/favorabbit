@@ -4,7 +4,7 @@ var React = require('react'),
     RequestButton = require('./RequestButton'),
     FavorButton = require('./FavorButton'),
     ClientActions = require('../actions/client_actions.js'),
-    SearchBar = require('react-search'),
+    SearchBar = require('react-search').default,
     Modal = require('react-modal'),
     RequestForm = require('./RequestForm');
 
