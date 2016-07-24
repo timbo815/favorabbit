@@ -35964,13 +35964,13 @@
 	        ),
 	        React.createElement(
 	          'label',
-	          { 'for': 'username', className: 'username-label' },
+	          { htmlFor: 'username', className: 'username-label' },
 	          'Username'
 	        ),
 	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange, className: 'username' }),
 	        React.createElement(
 	          'label',
-	          { 'for': 'password', className: 'password-label' },
+	          { htmlFor: 'password', className: 'password-label' },
 	          'Password'
 	        ),
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange, className: 'password' }),
