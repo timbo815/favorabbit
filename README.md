@@ -1,9 +1,9 @@
 
 #FavoRabbit
 
-[Heroku link][heroku]
+[Live][heroku]
 
-[heroku]: http://www.favorabbit.herokuapp.com
+[heroku]: http://www.favorabbit.com
 
 FavoRabbit is a full-stack web application inspired by TaskRabbit. It utilizes Ruby on Rails on the backend, a PostgreSQL database, and React.js with a Flux architectural framework on the frontend.
 
@@ -15,7 +15,7 @@ FavoRabbit is a full-stack web application inspired by TaskRabbit. It utilizes R
 ### Welcome page
 ![welcome_screen](app/assets/images/welcome_screen.png "Welcome Page")
 
-### User Dashboard 
+### User Dashboard
 ![dashboard_screen](app/assets/images/dashboard.png "Dashboard")
 
 ### Open Requests Index
