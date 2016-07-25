@@ -1,7 +1,6 @@
 var React = require('react'),
     UserApiUtil = require('../util/user_api_util.js'),
-    SessionStore = require('../stores/session_store.js'),
-    Link = require('react-router').Link;
+    SessionStore = require('../stores/session_store.js');
 
 var UserEditForm = React.createClass({
 
@@ -35,10 +34,6 @@ var UserEditForm = React.createClass({
 
   editSuccess:function () {
     this.context.router.push("home");
-    // $("<div>Successfully updated!</div>").addClass("success").insertBefore(".home");
-    // window.setTimeout(function() {
-    //   $(".success").removeClass(".success"), 3000)
-    // });
   },
 
   handleSubmit: function (e) {

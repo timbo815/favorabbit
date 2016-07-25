@@ -69,7 +69,6 @@ var RequestDetail = React.createClass({
   },
 
   render: function () {
-    var currentUser = SessionStore.currentUser();
     return(
     <section className="detail group">
       {this.renderImage()}

@@ -3,7 +3,6 @@ var React = require('react'),
     RequestStore = require('../stores/request_store.js'),
     RequestButton = require('./RequestButton'),
     FavorButton = require('./FavorButton'),
-    ClientActions = require('../actions/client_actions.js'),
     SearchBar = require('react-search'),
     Modal = require('react-modal'),
     RequestForm = require('./RequestForm');
@@ -30,7 +29,6 @@ var Welcome = React.createClass({
 
   getInitialState: function () {
     return ({ requests: [], modalOpen: false });
-    // category: "Career"
   },
 
   closeModal: function () {
@@ -38,7 +36,6 @@ var Welcome = React.createClass({
   },
 
   openModal: function (e) {
-    // this.setState({ category: e.target.value });
     this.setState({ modalOpen: true});
   },
 
@@ -63,7 +60,6 @@ var Welcome = React.createClass({
       "Shopping + Delivery", "Transportation", "TV Mounting", "Yard Work"];
 
     var currentUser = SessionStore.currentUser();
-    var category = this.state.category;
     return(
       <div className="welcome">
         <img src={currentUser.image_url} className="user-photo-welcome"></img>
